@@ -17,8 +17,12 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnMove(InputValue movementValue) {
+        Vector2 movementVector = movementValue.Get<Vector2>();
         this.movementX = movementVector.x;
         this.movementY = movementVector.y;
+
+        print($"moveX: {this.movementX}, moveY: {this.movementY}");
+        // print($"isPressed: {movementValue.isPressed}");
     }
 
     void OnTriggerEnter(Collider other) {
