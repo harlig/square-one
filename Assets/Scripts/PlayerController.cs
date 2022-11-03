@@ -27,7 +27,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _rollSpeed = 5;
     private bool _isMoving;
 
+    // OnMove comes from the InputActions action defined Move
     void OnMove(InputValue movementValue) {
+        print("Move player!");
         Vector2 movementVector = movementValue.Get<Vector2>();
         this.movementX = movementVector.x;
         this.movementY = movementVector.y;
