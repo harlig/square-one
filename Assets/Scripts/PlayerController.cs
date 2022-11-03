@@ -7,8 +7,6 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     private float movementX, movementY;
-    private Vector3 originalPosition;
-    private int count;
 
     // Start is called before the first frame update
     void Start() {
@@ -16,24 +14,46 @@ public class PlayerController : MonoBehaviour
         this.rb = this.GetComponent<Rigidbody>();
     }
 
-    void OnMove(InputValue movementValue) {
-        Vector2 movementVector = movementValue.Get<Vector2>();
-        this.movementX = movementVector.x;
-        this.movementY = movementVector.y;
-
-        print($"moveX: {this.movementX}, moveY: {this.movementY}");
-        // print($"isPressed: {movementValue.isPressed}");
-    }
-
     void OnTriggerEnter(Collider other) {
         // TODO
     }
 
     void FixedUpdate() {
-
+        // this.transform.Translate(this.movementX, 0, this.movementY);
+        if (_isMoving) return;
     }
 
-    void Update() {
+    // ripped this code, rethink it
+    [SerializeField] private float _rollSpeed = 5;
+    private bool _isMoving;
+
+    void OnMove(InputValue movementValue) {
+        Vector2 movementVector = movementValue.Get<Vector2>();
+        this.movementX = movementVector.x;
+        this.movementY = movementVector.y;
+
+        if (this.movementX == -1) Assemble(Vector3.left);
+        else if (this.movementX == 1) Assemble(Vector3.right);
+        else if (this.movementY == 1) Assemble(Vector3.forward);
+        else if (this.movementY == -1) Assemble(Vector3.back);
+ 
+        void Assemble(Vector3 dir) {
+            var anchor = transform.position + (Vector3.down + dir) * 0.5f;
+            var axis = Vector3.Cross(Vector3.up, dir);
+            StartCoroutine(Roll(anchor, axis));
+        }
+    }
+ 
+    private void Update() {
+    }
+ 
+    private IEnumerator Roll(Vector3 anchor, Vector3 axis) {
+        _isMoving = true;
+        for (var i = 0; i < 90 / _rollSpeed; i++) {
+            transform.RotateAround(anchor, axis, _rollSpeed);
+            yield return new WaitForSeconds(0.01f);
+        }
+        _isMoving = false;
     }
 }
 
