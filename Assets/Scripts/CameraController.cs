@@ -34,6 +34,7 @@ public class CameraController : MonoBehaviour
         float moveDirection = movementValue.Get<float>();
 
         Transform transformAround = this.player.transform;
+        print($"transformAround: {transformAround.position.ToString()}");
 
         Vector3 pos = this.transform.position;
         print($"pos: {pos.ToString()}");
@@ -44,8 +45,6 @@ public class CameraController : MonoBehaviour
             if (atBottom(pos)) {
                 print("one");
                 this.transform.Translate(10, 0, 0, transformAround);
-
-                // this.transform.RotateAround(this.player.transform.position, Vector3.left, 90);
             } 
             else if (atRight(pos)) {
                 print("two");
@@ -57,13 +56,13 @@ public class CameraController : MonoBehaviour
                 print("four");
                 this.transform.Translate(0, 0, -10, transformAround);
             }
+            Vector3 rot = this.transform.eulerAngles;
+            this.transform.eulerAngles = new Vector3(rot.x, rot.y - 90, rot.z);
         } else if (moveDirection < 0) {
             print("negative move direction");
             if (atBottom(pos)) {
                 print("one");
                 this.transform.Translate(0, 0, 10, transformAround);
-
-                // this.transform.RotateAround(this.player.transform.position, Vector3.left, 90);
             } 
             else if (atLeft(pos)) {
                 print("two");
@@ -75,7 +74,8 @@ public class CameraController : MonoBehaviour
                 print("four");
                 this.transform.Translate(-10, 0, 0, transformAround);
             }
-            // this.transform.RotateAround(this.player.transform.position, Vector3.left, 90);
+            Vector3 rot = this.transform.eulerAngles;
+            this.transform.eulerAngles = new Vector3(rot.x, rot.y + 90, rot.z);
         }
 
         // this.transform.LookAt(this.player.transform);
