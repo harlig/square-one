@@ -29,11 +29,15 @@ public class PlayerController : MonoBehaviour
 
     // OnMove comes from the InputActions action defined Move
     void OnMove(InputValue movementValue) {
-        print("Move player!");
+        Debug.LogFormat("Trying to move player when _isMoving: {0}", _isMoving);
         Vector2 movementVector = movementValue.Get<Vector2>();
         this.movementX = movementVector.x;
         this.movementY = movementVector.y;
 
+        // TODO: quickly inputting one direction then another causes this input to freeze, need to fix
+        if (_isMoving) return;
+        _isMoving = true;
+        print("Move player!");
         if (this.movementX == -1) Assemble(Vector3.left);
         else if (this.movementX == 1) Assemble(Vector3.right);
         else if (this.movementY == 1) Assemble(Vector3.forward);
@@ -51,7 +55,6 @@ public class PlayerController : MonoBehaviour
     }
  
     private IEnumerator Roll(Vector3 anchor, Vector3 axis) {
-        _isMoving = true;
         for (var i = 0; i < 90 / _rollSpeed; i++) {
             transform.RotateAround(anchor, axis, _rollSpeed);
             yield return new WaitForSeconds(0.01f);
