@@ -1,6 +1,6 @@
 # SquareOne
  
-SquareOne is an isometric puzzle game.
+SquareOne is an isometric puzzle game. This game was built for the [2022 Game Off](https://itch.io/jam/game-off-2022)
 
 ## OmniSharp givin' ya trouble?
 If OmniSharp is being a pain, then it's possible that it's loading a .sln file that's incorrect, and therefore not discovering your .csproj files. When OmniSharp starts up, check the log and ensure it's loading the root .sln file.
