@@ -5,9 +5,11 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-    public GameObject player;
+    public float spd = 0.3f;
 
-    private Vector3 offset;
+    private Vector3 targetEulerAngles;
+    private Quaternion startRotation;
+    private float progress = 0;
 
     void Start()
     {
@@ -19,29 +21,43 @@ public class CameraController : MonoBehaviour
     // OnRotate comes from the InputActions action defined Rotate
     void OnRotate(InputValue movementValue) {
         if (_isRotating) {
-            _isRotating = false;
+            Debug.Log("Tried to call rotate when _isRotating is true");
             return;
         }
 
         _isRotating = true;
         float moveDirection = movementValue.Get<float>();
 
-        Transform transformAround = this.player.transform;
-        Vector3 pos = this.transform.position;
-        Debug.Log($"pos: {pos.ToString()}");
-
         // TODO  doesn't work once player has moved. Should just center on map?
         if (moveDirection > 0) {
             Debug.Log("positive move direction");
             Debug.Log("rotating -90 y");
             Vector3 rot = this.transform.eulerAngles;
-            this.transform.eulerAngles = new Vector3(rot.x, rot.y - 90, rot.z);
+            this.targetEulerAngles = new Vector3(rot.x, rot.y - 90, rot.z);
         } else if (moveDirection < 0) {
             Debug.Log("negative move direction");
             Debug.Log("rotating 90 y");
             Vector3 rot = this.transform.eulerAngles;
-            this.transform.eulerAngles = new Vector3(rot.x, rot.y + 90, rot.z);
+            this.targetEulerAngles = new Vector3(rot.x, rot.y + 90, rot.z);
         }
     }
- 
+
+    public void FixedUpdate() {
+        if (_isRotating) {
+            Rotate();
+        }
+    }
+
+    private void Rotate() {
+        if (progress == 0 && _isRotating) {
+            startRotation = this.transform.rotation;
+        }
+        this.transform.rotation = Quaternion.Lerp(startRotation, Quaternion.Euler(targetEulerAngles), progress);
+        progress += spd*Time.fixedDeltaTime;
+        if (progress >= 1) {
+            _isRotating = false;
+            progress = 0;
+        }
+    }
+
 }

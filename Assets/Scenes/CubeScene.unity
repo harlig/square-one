@@ -559,13 +559,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1293813722184293692, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
         type: 3}
+      propertyPath: spd
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293813722184293692, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
+        type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1831271133}
     - target: {fileID: 1293813722184293692, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
         type: 3}
       propertyPath: CAMERA_MOVE_DIST_X
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1293813722184293692, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
         type: 3}
@@ -575,7 +580,7 @@ PrefabInstance:
     - target: {fileID: 1293813722184293692, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
         type: 3}
       propertyPath: CAMERA_MOVE_DIST_Z
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1293813722184293693, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
         type: 3}
