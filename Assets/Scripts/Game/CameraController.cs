@@ -31,12 +31,10 @@ public class CameraController : MonoBehaviour
         // TODO  doesn't work once player has moved. Should just center on map?
         if (moveDirection > 0) {
             Debug.Log("positive move direction");
-            Debug.Log("rotating -90 y");
             Vector3 rot = this.transform.eulerAngles;
             this.targetEulerAngles = new Vector3(rot.x, rot.y - 90, rot.z);
         } else if (moveDirection < 0) {
             Debug.Log("negative move direction");
-            Debug.Log("rotating 90 y");
             Vector3 rot = this.transform.eulerAngles;
             this.targetEulerAngles = new Vector3(rot.x, rot.y + 90, rot.z);
         }
@@ -49,11 +47,13 @@ public class CameraController : MonoBehaviour
     }
 
     private void Rotate() {
-        if (progress == 0 && _isRotating) {
+        if (progress == 0) {
             startRotation = this.transform.rotation;
         }
         this.transform.rotation = Quaternion.Lerp(startRotation, Quaternion.Euler(targetEulerAngles), progress);
-        progress += spd*Time.fixedDeltaTime;
+
+        // move with frame rate
+        progress += spd * Time.fixedDeltaTime;
         if (progress >= 1) {
             _isRotating = false;
             progress = 0;

@@ -12,14 +12,12 @@ public class MainMenuController : MonoBehaviour
     public void PlayGame() {
         Debug.LogFormat("If play button is not working, is this the correct game level build index: {0}!", this.gameLevelBuildIndex);
         SceneManager.LoadScene(this.gameLevelBuildIndex);
-
     }
 
     public void QuitGame() {
         Application.Quit();
 
         DeselectCurrentlySelectedGameObject();
-
     }
 
     public void DeselectCurrentlySelectedGameObject() {

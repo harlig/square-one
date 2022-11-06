@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
         void Assemble(Vector3 dir) {
             var anchor = transform.position + (Vector3.down + dir) * 0.5f;
             var axis = Vector3.Cross(Vector3.up, dir);
+            // I think I want less of a Roll and more of a fixed one unit movement
             StartCoroutine(Roll(anchor, axis));
         }
     }
