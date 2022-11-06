@@ -9,6 +9,10 @@ public class CameraController : MonoBehaviour
 
     private Vector3 offset;
 
+    public int CAMERA_MOVE_DIST_X = 10;
+    public int CAMERA_MOVE_DIST_Y = 2;
+    public int CAMERA_MOVE_DIST_Z = 10;
+
     void Start()
     {
         // NEED to set this otherwise framerate is uncapped
@@ -27,64 +31,58 @@ public class CameraController : MonoBehaviour
         float moveDirection = movementValue.Get<float>();
 
         Transform transformAround = this.player.transform;
-        print($"transformAround: {transformAround.position.ToString()}");
-
         Vector3 pos = this.transform.position;
-        print($"pos: {pos.ToString()}");
+        Debug.Log($"pos: {pos.ToString()}");
 
         // TODO  doesn't work once player has moved. Should just center on map?
         if (moveDirection > 0) {
-            print("positive move direction");
+            Debug.Log("positive move direction");
             if (atBottom(pos)) {
-                print("one");
-                this.transform.Translate(10, 0, 0, transformAround);
+                Debug.Log("moving 10 x");
+                this.transform.Translate(CAMERA_MOVE_DIST_X, CAMERA_MOVE_DIST_Y, 0, transformAround);
             } 
             else if (atRight(pos)) {
-                print("two");
-                this.transform.Translate(0, 0, 10, transformAround);
+                Debug.Log("moving 10 z");
+                this.transform.Translate(0, CAMERA_MOVE_DIST_Y, CAMERA_MOVE_DIST_Z, transformAround);
             } else if (atTop(pos)) {
-                print("three");
-                this.transform.Translate(-10, 0, 0, transformAround);
+                Debug.Log("moving -10 x");
+                this.transform.Translate(-1 * CAMERA_MOVE_DIST_X, -1 * CAMERA_MOVE_DIST_Y, 0, transformAround);
             } else if (atLeft(pos)) {
-                print("four");
-                this.transform.Translate(0, 0, -10, transformAround);
+                Debug.Log("moving -10 z");
+                this.transform.Translate(0, -1 * CAMERA_MOVE_DIST_Y, -1 * CAMERA_MOVE_DIST_Z, transformAround);
             }
+            Debug.Log("rotating -90 y");
             Vector3 rot = this.transform.eulerAngles;
             this.transform.eulerAngles = new Vector3(rot.x, rot.y - 90, rot.z);
         } else if (moveDirection < 0) {
-            print("negative move direction");
+            Debug.Log("negative move direction");
             if (atBottom(pos)) {
-                print("one");
-                this.transform.Translate(0, 0, 10, transformAround);
+                Debug.Log("moving 10 z");
+                this.transform.Translate(0, CAMERA_MOVE_DIST_Y, CAMERA_MOVE_DIST_Z, transformAround);
             } 
             else if (atLeft(pos)) {
-                print("two");
-                this.transform.Translate(10, 0, 0, transformAround);
+                Debug.Log("moving 10 x");
+                this.transform.Translate(CAMERA_MOVE_DIST_X, CAMERA_MOVE_DIST_Y, 0, transformAround);
             } else if (atTop(pos)) {
-                print("three");
-                this.transform.Translate(0, 0, -10, transformAround);
+                Debug.Log("mmoving -10 z");
+                this.transform.Translate(0, -1 * CAMERA_MOVE_DIST_Y, -1 * CAMERA_MOVE_DIST_Z, transformAround);
             } else if (atRight(pos)) {
-                print("four");
-                this.transform.Translate(-10, 0, 0, transformAround);
+                Debug.Log("moving -10 x");
+                this.transform.Translate(-1 * CAMERA_MOVE_DIST_X, -1 * CAMERA_MOVE_DIST_Y, 0, transformAround);
             }
+            Debug.Log("rotating 90 y");
             Vector3 rot = this.transform.eulerAngles;
             this.transform.eulerAngles = new Vector3(rot.x, rot.y + 90, rot.z);
         }
-
-        // this.transform.LookAt(this.player.transform);
-
 
         bool isEqual(float a, float b, string msg)
         {
             if (Mathf.Abs(a - b) <= 1)
             {
-                print($"a: {a}, b: {b}, true, {msg}");
                 return true;
             }
             else
             {
-                print($"a: {a}, b: {b}, false, {msg}");
-                print($"{b - Mathf.Epsilon} {b + Mathf.Epsilon} {a}");
                 return false;
             }
         }
@@ -94,15 +92,15 @@ public class CameraController : MonoBehaviour
         }
 
         bool atRight(Vector3 post) {
-            return isEqual(pos.x, 10, "at right") && isEqual(pos.z, 0, "at right");
+            return isEqual(pos.x, CAMERA_MOVE_DIST_X, "at right") && isEqual(pos.z, 0, "at right");
         }
 
         bool atTop(Vector3 post) {
-            return isEqual(pos.x, 10, "at top") && isEqual(pos.z, 10, "at top");
+            return isEqual(pos.x, CAMERA_MOVE_DIST_X, "at top") && isEqual(pos.z, CAMERA_MOVE_DIST_Z, "at top");
         }
 
         bool atLeft(Vector3 pos) {
-            return isEqual(pos.x, 0, "at left") && isEqual(pos.z, 10, "at left");
+            return isEqual(pos.x, 0, "at left") && isEqual(pos.z, CAMERA_MOVE_DIST_Z, "at left");
         }
     }
  
