@@ -9,17 +9,10 @@ public class CameraController : MonoBehaviour
 
     private Vector3 offset;
 
-    // Start is called before the first frame update
     void Start()
     {
-        // this.offset = this.transform.position - this.player.transform.position;
-    }
-
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        // this.transform.position = this.player.transform.position + this.offset;
-        
+        // NEED to set this otherwise framerate is uncapped
+        Application.targetFrameRate = 144;
     }
 
     private bool _isRotating = false;
