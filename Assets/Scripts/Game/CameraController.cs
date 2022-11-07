@@ -20,6 +20,11 @@ public class CameraController : MonoBehaviour
     private bool _isRotating = false;
     // OnRotate comes from the InputActions action defined Rotate
     void OnRotate(InputValue movementValue) {
+        if (_isRotating) {
+            Debug.Log("Tried to call rotate when _isRotating is true");
+            return;
+        }
+
         float moveDirection = movementValue.Get<float>();
 
         if (moveDirection > 0) {
@@ -30,10 +35,6 @@ public class CameraController : MonoBehaviour
             Debug.Log("negative move direction");
             Vector3 rot = this.transform.eulerAngles;
             this.targetEulerAngles = new Vector3(rot.x, rot.y + 90, rot.z);
-        }
-        if (_isRotating) {
-            Debug.Log("Tried to call rotate when _isRotating is true");
-            return;
         }
 
         _isRotating = true;
