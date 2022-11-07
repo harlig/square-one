@@ -29,19 +29,25 @@ public class PlayerController : MonoBehaviour
 
     // OnMove comes from the InputActions action defined Move
     void OnMove(InputValue movementValue) {
-        Debug.LogFormat("Trying to move player when _isMoving: {0}", _isMoving);
+        if (_isMoving) return;
+
         Vector2 movementVector = movementValue.Get<Vector2>();
+        if (Mathf.Abs(movementVector.x) != 1.0f && Mathf.Abs(movementVector.y) != 1.0f) return;
         this.movementX = movementVector.x;
         this.movementY = movementVector.y;
 
+
+        Debug.LogFormat("Moving play w this vector: {0}", movementVector);
         // TODO: quickly inputting one direction then another causes this input to freeze, need to fix
-        if (_isMoving) return;
-        _isMoving = true;
-        print("Move player!");
-        if (this.movementX == -1) Assemble(Vector3.left);
-        else if (this.movementX == 1) Assemble(Vector3.right);
-        else if (this.movementY == 1) Assemble(Vector3.forward);
-        else if (this.movementY == -1) Assemble(Vector3.back);
+        if (!_isMoving) {
+            _isMoving = true;
+            if (this.movementX == -1) Assemble(Vector3.left);
+            else if (this.movementX == 1) Assemble(Vector3.right);
+            else if (this.movementY == 1) Assemble(Vector3.forward);
+            else if (this.movementY == -1) Assemble(Vector3.back);
+        } else {
+            return;
+        }
  
         void Assemble(Vector3 dir) {
             var anchor = transform.position + (Vector3.down + dir) * 0.5f;
@@ -57,9 +63,11 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Roll(Vector3 anchor, Vector3 axis) {
         for (var i = 0; i < 90 / _rollSpeed; i++) {
             transform.RotateAround(anchor, axis, _rollSpeed);
-            yield return new WaitForSeconds(0.01f);
+            // yield return new WaitForSeconds(0.01f);
+            yield return null;
         }
         _isMoving = false;
+        yield return null;
     }
 }
 
