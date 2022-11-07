@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private float movementX, movementY;
 
+    public Terrain terrain;
+
     // Start is called before the first frame update
     void Start() {
         // assumes that a Rigidbody exists on this GameObject
@@ -16,11 +18,6 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         // TODO
-    }
-
-    void FixedUpdate() {
-        // this.transform.Translate(this.movementX, 0, this.movementY);
-        if (_isMoving) return;
     }
 
     // ripped this code, rethink it
@@ -54,20 +51,23 @@ public class PlayerController : MonoBehaviour
             var axis = Vector3.Cross(Vector3.up, dir);
             // I think I want less of a Roll and more of a fixed one unit movement
             StartCoroutine(Roll(anchor, axis));
+
+            IEnumerator Roll(Vector3 anchor, Vector3 axis) {
+                for (var i = 0; i < 90 / _rollSpeed; i++) {
+                    transform.RotateAround(anchor, axis, _rollSpeed);
+                    // yield return new WaitForSeconds(0.01f);
+                    yield return null;
+                }
+                _isMoving = false;
+                PaintGround();
+                yield return null;
+            }
         }
     }
- 
-    private void Update() {
-    }
- 
-    private IEnumerator Roll(Vector3 anchor, Vector3 axis) {
-        for (var i = 0; i < 90 / _rollSpeed; i++) {
-            transform.RotateAround(anchor, axis, _rollSpeed);
-            // yield return new WaitForSeconds(0.01f);
-            yield return null;
-        }
-        _isMoving = false;
-        yield return null;
+
+    void PaintGround() {
+        Debug.Log("painting ground");
+        terrain.terrainData.terrainLayers[0].diffuseRemapMax = Color.blue;
     }
 }
 
