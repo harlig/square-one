@@ -2,6 +2,17 @@
  
 SquareOne is an isometric puzzle game. This game was built for the [2022 Game Off](https://itch.io/jam/game-off-2022)
 
+## Ideas
+
+### Level ideas
+
+* Snake
+  * You leave behind a trail and hitting own trail makes you lose level
+
+### Meta ideas
+
+* Shoes on wrong foot
+
 ## Notes
 
 Need assets? Check out https://itch.io/game-assets

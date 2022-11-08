@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundController : MonoBehaviour
+public class PaintController : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,11 +14,5 @@ public class GroundController : MonoBehaviour
     void Update()
     {
         
-    }
-
-    void OnTriggerEnter(Collider other) {
-        Debug.Log("TRIGGER ENTERED");
-        // paint this tile!
-        gameObject.GetComponent<Renderer> ().material.color = Color.red;
     }
 }
