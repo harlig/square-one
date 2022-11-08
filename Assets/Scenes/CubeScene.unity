@@ -316,6 +316,8 @@ MonoBehaviour:
   grid: {fileID: 272909726}
   player: {fileID: 1831271133}
   cameraPivot: {fileID: 1976018790}
+  gridSizeX: 5
+  gridSizeY: 5
 --- !u!4 &677198415
 Transform:
   m_ObjectHideFlags: 0

@@ -6,25 +6,28 @@ public class GridController : MonoBehaviour
 {
     public GameObject tilePrefab;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+    /**
+    * returns grid
+    */
+    public ArrayList SetupGrid(int width, int length) {
+        // TODO stronger type than ArrayLists, gonna suck to work with
+        ArrayList rows = new ArrayList();
 
-    public void SetupGrid(int width, int length) {
         for (int row = 0; row < width; row++) {
+            ArrayList thisRow = new ArrayList();
             GameObject rowObj = new GameObject(string.Format("row{0}", row));
             for (int col = 0; col < length; col++) {
-                GameObject tile = Instantiate(tilePrefab); //string.Format("col{0}", row));
+                GameObject tile = Instantiate(tilePrefab);
                 tile.transform.position = new Vector3(row, 0, col);
+
+                tile.name = string.Format("col{0}", col);
+                tile.transform.parent = rowObj.transform;
+
+                thisRow.Add(tile);
             }
             rowObj.transform.parent = this.transform;
+            rows.Add(thisRow);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return rows;
     }
 }

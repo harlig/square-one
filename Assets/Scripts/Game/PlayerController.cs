@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
 
     public void SpawnPlayer(int row, int col) {
-        this.transform.position = new Vector3(row, 0.5f, col);
+        this.transform.position = new Vector3(row, 1.5f, col);
     }
 
     // Start is called before the first frame update
@@ -71,7 +71,6 @@ public class PlayerController : MonoBehaviour
                 Vector3 pos = this.transform.position;
                 this.transform.position = new Vector3(RoundToNearestHalf(pos.x), RoundToNearestHalf(pos.y), RoundToNearestHalf(pos.z));
                 _isMoving = false;
-                PaintGround();
                 yield return null;
             }
 
@@ -80,10 +79,6 @@ public class PlayerController : MonoBehaviour
 
     float RoundToNearestHalf(float val) {
         return (Mathf.Round(val * 2) / 2.0f);
-    }
-
-    void PaintGround() {
-        Debug.Log("painting ground");
     }
 }
 
