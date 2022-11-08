@@ -18,6 +18,7 @@ public class GroundController : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         Debug.Log("TRIGGER ENTERED");
-        gameObject.GetComponent<Renderer> ().material.color = Color.green;
+        // paint this tile!
+        gameObject.GetComponent<Renderer> ().material.color = Color.red;
     }
 }
