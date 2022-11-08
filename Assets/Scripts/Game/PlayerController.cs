@@ -10,6 +10,11 @@ public class PlayerController : MonoBehaviour
 
     public Terrain terrain;
 
+
+    public void SpawnPlayer(int row, int col) {
+        this.transform.position = new Vector3(row, 0.5f, col);
+    }
+
     // Start is called before the first frame update
     void Start() {
         // assumes that a Rigidbody exists on this GameObject

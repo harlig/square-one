@@ -5,12 +5,19 @@ using UnityEngine;
 public class LevelOneManager : MonoBehaviour
 {
     // register Ground gameObject
+    public GameObject grid;
+    public GameObject player;
+    public GameObject cameraPivot;
 
     // register Player 
 
     // Start is called before the first frame update
     void Start()
     {
+        grid.GetComponent<GridController>().SetupGrid(10, 10);
+        player.GetComponent<PlayerController>().SpawnPlayer(5, 5);
+        cameraPivot.GetComponent<CameraController>().CenterCameraOnOffset(5, 5);
+        player.SetActive(true);
 
         // grid should be cube prefab which has PaintController on it and is collider
 

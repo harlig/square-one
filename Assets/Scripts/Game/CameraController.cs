@@ -17,6 +17,12 @@ public class CameraController : MonoBehaviour
         Application.targetFrameRate = 144;
     }
 
+    public void CenterCameraOnOffset(int x, int z) {
+        Vector3 pos = this.transform.position;
+        this.transform.position = new Vector3(pos.x + x, pos.y, pos.z + z);
+    }
+
+
     private bool _isRotating = false;
     // OnRotate comes from the InputActions action defined Rotate
     void OnRotate(InputValue movementValue) {
