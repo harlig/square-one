@@ -15,4 +15,10 @@ public class GroundController : MonoBehaviour
     {
         
     }
+
+    void OnTriggerEnter(Collider other) {
+        Debug.Log("TRIGGER ENTERED");
+        // paint this tile!
+        gameObject.GetComponent<Renderer> ().material.color = Color.red;
+    }
 }
