@@ -35,7 +35,6 @@ public class PlayerController : MonoBehaviour
 
 
         Debug.LogFormat("Moving play w this vector: {0}", movementVector);
-        // TODO: quickly inputting one direction then another causes this input to freeze, need to fix
         if (!_isMoving) {
             _isMoving = true;
             if (this.movementX == -1) Assemble(Vector3.left);
@@ -62,11 +61,20 @@ public class PlayerController : MonoBehaviour
                     // yield return new WaitForSeconds(0.01f);
                     yield return null;
                 }
+
+
+                Vector3 pos = this.transform.position;
+                this.transform.position = new Vector3(RoundToNearestHalf(pos.x), RoundToNearestHalf(pos.y), RoundToNearestHalf(pos.z));
                 _isMoving = false;
                 PaintGround();
                 yield return null;
             }
+
         }
+    }
+
+    float RoundToNearestHalf(float val) {
+        return (Mathf.Round(val * 2) / 2.0f);
     }
 
     void PaintGround() {
