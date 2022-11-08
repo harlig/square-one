@@ -50,11 +50,15 @@ public class PlayerController : MonoBehaviour
             var anchor = transform.position + (Vector3.down + dir) * 0.5f;
             var axis = Vector3.Cross(Vector3.up, dir);
             // I think I want less of a Roll and more of a fixed one unit movement
+            float rotationRemaining = 90;
+
             StartCoroutine(Roll(anchor, axis));
 
             IEnumerator Roll(Vector3 anchor, Vector3 axis) {
                 for (var i = 0; i < 90 / _rollSpeed; i++) {
-                    transform.RotateAround(anchor, axis, _rollSpeed);
+                    float rotationAngle = Mathf.Min(_rollSpeed, rotationRemaining);
+                    transform.RotateAround(anchor, axis, rotationAngle);
+                    rotationRemaining -= _rollSpeed;
                     // yield return new WaitForSeconds(0.01f);
                     yield return null;
                 }
@@ -67,7 +71,6 @@ public class PlayerController : MonoBehaviour
 
     void PaintGround() {
         Debug.Log("painting ground");
-        terrain.terrainData.terrainLayers[0].diffuseRemapMax = Color.blue;
     }
 }
 
