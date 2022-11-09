@@ -24,11 +24,11 @@ public class LevelOneManager : MonoBehaviour
 
     enum GameState {
         START,
-        GREEN_READY,
+        GREEN_SETUP,
         GREEN_HIT,
-        ORANGE_READY,
-        ORANGE_HIT,
-        BLUE_READY,
+        RED_SETUP,
+        RED_HIT,
+        BLUE_SETUP,
         BLUE_HIT,
         SUCCESS
     };
@@ -56,11 +56,11 @@ public class LevelOneManager : MonoBehaviour
 
         this.gameStateOrder = new List<GameState>();
         gameStateOrder.Add(GameState.START);
-        gameStateOrder.Add(GameState.GREEN_READY);
+        gameStateOrder.Add(GameState.GREEN_SETUP);
         gameStateOrder.Add(GameState.GREEN_HIT);
-        gameStateOrder.Add(GameState.ORANGE_READY);
-        gameStateOrder.Add(GameState.ORANGE_HIT);
-        gameStateOrder.Add(GameState.BLUE_READY);
+        gameStateOrder.Add(GameState.RED_SETUP);
+        gameStateOrder.Add(GameState.RED_HIT);
+        gameStateOrder.Add(GameState.BLUE_SETUP);
         gameStateOrder.Add(GameState.BLUE_HIT);
 
         this.currentGameState = GameState.START;
@@ -83,35 +83,32 @@ public class LevelOneManager : MonoBehaviour
 
     void ManageGameState() {
         Vector2 playerPos = GetRoundedPlayerPosition();
-        Debug.LogFormat("Player pos: {0}", playerPos);
-
+        // Debug.LogFormat("Checking gameState for {0}", this.currentGameState);
         switch (this.currentGameState) {
             case GameState.START:
                 // welcome text or interaction?
-                Debug.Log("We're in start state and transitioning");
-                TransitionState();
-                break;
-            case GameState.GREEN_READY: 
-                Debug.Log("In green ready");
                 if (this.playerController.GetMoveCount() == 1) {
-                    Debug.Log("Transitioning");
-                    this.gridController.PaintTilesAdjacentToLocation(playerPos, Color.green);
                     TransitionState();
                 }
                 break;
+            case GameState.GREEN_SETUP: 
+                this.gridController.PaintTilesAdjacentToLocation(playerPos, Color.green);
+                TransitionState();
+                break;
             case GameState.GREEN_HIT:
-                Debug.Log("In green hit");
+                if (this.gridController.TileColorAtLocation(playerPos) == Color.green) {
+                    TransitionState();
+                }
+                break;
+            case GameState.RED_SETUP:
                 this.gridController.PaintTileAtLocation(1, 1, Color.red);
                 TransitionState();
                 break;
-            case GameState.ORANGE_READY:
-                Debug.Log("In orange ready");
-                if (playerPos.x == 1 && playerPos.y == 1) {
+            case GameState.RED_HIT:
+                if (this.gridController.TileColorAtLocation(playerPos) == Color.red) {
                     TransitionState();
                 }
                 break;
-            case GameState.ORANGE_HIT:
-
             default:
                 // if we're on a green tile and this path hasn't been hit yet, paint an orange and red tile at the nearest corner 
                 // should the line above and below be two different states? like GREEN_HIT and ORANGE_RED_READY

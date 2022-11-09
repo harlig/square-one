@@ -5,16 +5,16 @@ using UnityEngine;
 public class GridController : MonoBehaviour
 {
     public GameObject tilePrefab;
-    private List<List<TileModel>> gridRows;
+    private List<List<TileController>> gridRows;
 
     /**
     * returns grid
     */
     public void SetupGrid(int width, int length) {
-        List<List<TileModel>> rows = new List<List<TileModel>>();
+        List<List<TileController>> rows = new List<List<TileController>>();
 
         for (int row = 0; row < width; row++) {
-            List<TileModel> thisRow = new List<TileModel>();
+            List<TileController> thisRow = new List<TileController>();
             GameObject rowObj = new GameObject(string.Format("row{0}", row));
             for (int col = 0; col < length; col++) {
                 GameObject tile = Instantiate(tilePrefab);
@@ -23,10 +23,10 @@ public class GridController : MonoBehaviour
                 tile.name = string.Format("col{0}", col);
                 tile.transform.parent = rowObj.transform;
 
-                thisRow.Add(new TileModel(tile));
+                thisRow.Add(tile.GetComponent<TileController>());
             }
             rowObj.transform.parent = this.transform;
-            gridRows.Add(thisRow);
+            rows.Add(thisRow);
         }
         this.gridRows = rows;
     }
