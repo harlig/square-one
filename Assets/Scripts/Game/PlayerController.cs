@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
     public Terrain terrain;
+    public TextMeshProUGUI moveCountText;
 
     private Rigidbody rb;
     private float movementX, movementY;
@@ -21,10 +23,15 @@ public class PlayerController : MonoBehaviour
     void Start() {
         // assumes that a Rigidbody exists on this GameObject
         this.rb = this.GetComponent<Rigidbody>();
+        this.SetMoveCountText();
     }
 
     public int GetMoveCount() {
         return this.moveCount;
+    }
+
+    void SetMoveCountText() {
+        this.moveCountText.text = "Turns used: " + this.moveCount.ToString();
     }
 
     // ripped this code, rethink it
@@ -73,6 +80,7 @@ public class PlayerController : MonoBehaviour
                 Vector3 pos = this.transform.position;
                 this.transform.position = new Vector3(RoundToNearestHalf(pos.x), RoundToNearestHalf(pos.y), RoundToNearestHalf(pos.z));
                 this.moveCount++;
+                this.SetMoveCountText();
                 _isMoving = false;
                 yield return null;
             }
