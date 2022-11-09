@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class LevelOneManager : MonoBehaviour
 {
@@ -11,19 +12,42 @@ public class LevelOneManager : MonoBehaviour
     public GameObject player;
     public GameObject cameraPivot;
 
+    public TextMeshProUGUI moveCountText;
+
     private GridController gridController;
     private PlayerController playerController;
     private CameraController cameraController;
 
+    private ArrayList gridRows;
     private bool levelActive;
 
+    private List<GameState> gameStateOrder;
+    private GameState currentGameState;
+
+    enum GameState {
+        START,
+        GREEN_READY,
+        GREEN_HIT,
+        ORANGE_READY,
+        ORANGE_HIT,
+        BLUE_READY,
+        BLUE_HIT,
+        SUCCESS
+    };
+
+    /**
+    Level one is a tile painting level. 
+    When the player moves once, a square one unit away from them turns green.
+    When the player touches the green square, we trigger an orange and red square towards the nearest corner.
+    Touching either results in a blue square back at square one. Touching blue square wins game.
+    */
     void Start()
     {
         this.gridController = grid.GetComponent<GridController>();
         this.playerController = player.GetComponent<PlayerController>();
         this.cameraController = cameraPivot.GetComponent<CameraController>();
 
-        ArrayList gridRows = gridController.SetupGrid(gridSizeX, gridSizeY);
+        this.gridRows = gridController.SetupGrid(gridSizeX, gridSizeY);
 
         this.levelActive = true;
 
@@ -32,32 +56,113 @@ public class LevelOneManager : MonoBehaviour
 
         playerController.SpawnPlayer(playerOffsetX, playerOffsetY);
         cameraController.CenterCameraOnOffset(playerOffsetX, playerOffsetY);
+        this.SetMoveCountText();
+
+        this.gameStateOrder = new List<GameState>();
+        gameStateOrder.Add(GameState.START);
+        gameStateOrder.Add(GameState.GREEN_READY);
+        gameStateOrder.Add(GameState.GREEN_HIT);
+        gameStateOrder.Add(GameState.ORANGE_READY);
+        gameStateOrder.Add(GameState.ORANGE_HIT);
+        gameStateOrder.Add(GameState.BLUE_READY);
+        gameStateOrder.Add(GameState.BLUE_HIT);
+
+        this.currentGameState = GameState.START;
 
         player.SetActive(true);
-
-        // random coloring just to prove I can do it
-        ArrayList row = (ArrayList) gridRows[5];
-        ((GameObject) row[2]).GetComponent<PaintController>().Paint(Color.black);
-        ((GameObject) row[7]).GetComponent<PaintController>().Paint(Color.black);
-
-        row = (ArrayList) gridRows[8]; 
-        ((GameObject) row[0]).GetComponent<PaintController>().Paint(Color.red);
-        ((GameObject) row[5]).GetComponent<PaintController>().Paint(Color.red);
-
-        row = (ArrayList) gridRows[2]; 
-        ((GameObject) row[3]).GetComponent<PaintController>().Paint(Color.yellow);
-        ((GameObject) row[9]).GetComponent<PaintController>().Paint(Color.yellow);
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // TODO: seems poorly optimized to have this here, should be be tied to player OnMove but not sure how
+        // check out Delegates to get a callback from the OnMove thing
+        SetMoveCountText();
+        ManageGameState();
+
         if (this.levelActive && this.playerController.GetMoveCount() >= this.turnLimit) {
             Debug.Log("Game over!");
             this.levelActive = false;
         }
-        // if (PlayerController.transform.localRotation.x == 2 && PlayerController.transnform.location.z == 2) {
-        // PaintController.colorRed(grid[2][2]);
-        // }
+    }
+
+    void ManageGameState() {
+        Vector2 playerPos = GetRoundedPlayerPosition();
+        Debug.LogFormat("Player pos: {0}", playerPos);
+
+        switch (this.currentGameState) {
+            case GameState.START:
+                // welcome text or interaction?
+                Debug.Log("We're in start state and transitioning");
+                TransitionState();
+                break;
+            case GameState.GREEN_READY: 
+                Debug.Log("In green ready");
+                if (this.playerController.GetMoveCount() == 1) {
+                    Debug.Log("Transitioning");
+                    PaintTilesAdjacentToLocation(playerPos, Color.black);
+                    TransitionState();
+                }
+                break;
+            case GameState.GREEN_HIT:
+                Debug.Log("In green hit");
+                PaintTileAtLocation(1, 1, Color.red);
+                break;
+            default:
+                // if we're on a green tile and this path hasn't been hit yet, paint an orange and red tile at the nearest corner 
+                // should the line above and below be two different states? like GREEN_HIT and ORANGE_RED_READY
+                // if I hit an orange or red tile, transition to blue 
+                break;
+        }
+
+        // this method kinda sucks
+        void TransitionState() {
+            int gameStateNdx = gameStateOrder.IndexOf(this.currentGameState);
+            Debug.LogFormat("transitioning state from {0} with gameStateNdx {1} out of {2}", this.currentGameState, gameStateNdx, this.gameStateOrder.Count);
+            if (this.currentGameState == GameState.SUCCESS) {
+                // display message, allow for input? idk. maybe I overengineered this for no reason and we can remove SUCCESS enum, or can just add it into the game state order
+            }
+            else if (gameStateNdx == this.gameStateOrder.Count - 1) {
+                // TODO freeze input or something
+                this.currentGameState = GameState.SUCCESS;
+                Debug.Log("You have won the game!!");
+            } else {
+                this.currentGameState = this.gameStateOrder[gameStateOrder.IndexOf(this.currentGameState)+1];
+            }
+        }
+    }
+
+    Color TileColorAtLocation(Vector2 position) { 
+        return ((GameObject)((ArrayList)this.gridRows[((int)position.x)])[((int)position.y)]).GetComponent<MeshRenderer>().material.color;
+    }
+
+    void PaintTileAtLocation(Vector2 position, Color color) {
+        PaintTileAtLocation(((int)position.x), ((int)position.y), color);
+    }
+
+    void PaintTileAtLocation(int x, int z, Color color) {
+        ((GameObject)((ArrayList)this.gridRows[x])[z]).GetComponent<PaintController>().Paint(color);
+    }
+
+    void PaintTilesAdjacentToLocation(Vector2 position, Color color) {
+        PaintTilesAdjacentToLocation(((int)position.x), ((int)position.y), color);
+    }
+
+    void PaintTilesAdjacentToLocation(int x, int z, Color color) {
+        PaintTileAtLocation(x-1, z, color);
+        PaintTileAtLocation(x+1, z, color);
+        PaintTileAtLocation(x, z-1, color);
+        PaintTileAtLocation(x, z+1, color);
+    }
+
+    bool IsPlayerAtPosition(int x, int z) {
+        return Mathf.RoundToInt(this.player.transform.position.x) == x && Mathf.RoundToInt(this.player.transform.position.z) == z;
+    }
+
+    Vector2 GetRoundedPlayerPosition() {
+        return new Vector2(Mathf.RoundToInt(this.player.transform.position.x), Mathf.RoundToInt(this.player.transform.position.z));
+    }
+
+    void SetMoveCountText() {
+        this.moveCountText.text = $"Turns remaining: {this.turnLimit - this.playerController.GetMoveCount()}";
     }
 }

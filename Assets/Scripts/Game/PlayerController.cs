@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
     public Terrain terrain;
-    public TextMeshProUGUI moveCountText;
 
     private Rigidbody rb;
     private float movementX, movementY;
@@ -15,7 +13,7 @@ public class PlayerController : MonoBehaviour
     private int moveCount;
 
     public void SpawnPlayer(int row, int col) {
-        this.transform.position = new Vector3(row, 1.5f, col);
+        this.transform.localPosition = new Vector3(row, 1.5f, col);
         this.moveCount = 0;
     }
 
@@ -23,15 +21,10 @@ public class PlayerController : MonoBehaviour
     void Start() {
         // assumes that a Rigidbody exists on this GameObject
         this.rb = this.GetComponent<Rigidbody>();
-        this.SetMoveCountText();
     }
 
     public int GetMoveCount() {
         return this.moveCount;
-    }
-
-    void SetMoveCountText() {
-        this.moveCountText.text = "Turns used: " + this.moveCount.ToString();
     }
 
     // ripped this code, rethink it
@@ -60,7 +53,7 @@ public class PlayerController : MonoBehaviour
         }
  
         void Assemble(Vector3 dir) {
-            var anchor = transform.position + (Vector3.down + dir) * 0.5f;
+            var anchor = transform.localPosition + (Vector3.down + dir) * 0.5f;
             var axis = Vector3.Cross(Vector3.up, dir);
             // I think I want less of a Roll and more of a fixed one unit movement
             float rotationRemaining = 90;
@@ -78,9 +71,9 @@ public class PlayerController : MonoBehaviour
 
 
                 Vector3 pos = this.transform.position;
-                this.transform.position = new Vector3(RoundToNearestHalf(pos.x), RoundToNearestHalf(pos.y), RoundToNearestHalf(pos.z));
+                this.rb.velocity = Vector3.zero;
+                this.transform.localPosition = new Vector3(RoundToNearestHalf(pos.x), RoundToNearestHalf(pos.y), RoundToNearestHalf(pos.z));
                 this.moveCount++;
-                this.SetMoveCountText();
                 _isMoving = false;
                 yield return null;
             }

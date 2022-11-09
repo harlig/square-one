@@ -18,7 +18,7 @@ public class GridController : MonoBehaviour
             GameObject rowObj = new GameObject(string.Format("row{0}", row));
             for (int col = 0; col < length; col++) {
                 GameObject tile = Instantiate(tilePrefab);
-                tile.transform.position = new Vector3(row, 0, col);
+                tile.transform.localPosition = new Vector3(row, 0, col);
 
                 tile.name = string.Format("col{0}", col);
                 tile.transform.parent = rowObj.transform;

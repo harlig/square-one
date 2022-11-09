@@ -6,6 +6,10 @@ SquareOne is an isometric puzzle game. This game was built for the [2022 Game Of
 
 ### Level ideas
 
+I'm liking the idea of modules, so like having levels 1-3 build on top of the lighting up tiles mechanic. Could this actually be a legit game and we can make a meme mode in the theme of the cliche? 
+
+Should consider accessibility and write letters or some symbol on tiles to differentiate. 
+
 * Snake
   * You leave behind a trail and hitting own trail makes you lose level
 

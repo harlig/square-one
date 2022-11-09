@@ -313,12 +313,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 805928cd8e54eae4cbe6689082885bef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSizeX: 5
-  gridSizeY: 5
+  gridSizeX: 10
+  gridSizeY: 10
   turnLimit: 20
   grid: {fileID: 272909726}
   player: {fileID: 1831271133}
   cameraPivot: {fileID: 1976018790}
+  moveCountText: {fileID: 1065870632}
 --- !u!4 &677198415
 Transform:
   m_ObjectHideFlags: 0
@@ -419,7 +420,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 20, y: -20}
-  m_SizeDelta: {x: 370.9935, y: 98.5982}
+  m_SizeDelta: {x: 522.1879, y: 109.3978}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1065870632
 MonoBehaviour:
@@ -837,7 +838,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 0}
-  moveCountText: {fileID: 1065870632}
   _rollSpeed: 5
 --- !u!114 &1831271140
 MonoBehaviour:

@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour
 
     public void CenterCameraOnOffset(int x, int z) {
         Vector3 pos = this.transform.position;
-        this.transform.position = new Vector3(pos.x + x, pos.y, pos.z + z);
+        this.transform.localPosition = new Vector3(pos.x + x, pos.y, pos.z + z);
     }
 
 
