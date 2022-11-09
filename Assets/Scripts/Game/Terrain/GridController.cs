@@ -5,11 +5,12 @@ using UnityEngine;
 public class GridController : MonoBehaviour
 {
     public GameObject tilePrefab;
+    private List<List<TileModel>> gridRows;
 
     /**
     * returns grid
     */
-    public List<List<TileModel>> SetupGrid(int width, int length) {
+    public void SetupGrid(int width, int length) {
         List<List<TileModel>> rows = new List<List<TileModel>>();
 
         for (int row = 0; row < width; row++) {
@@ -25,8 +26,32 @@ public class GridController : MonoBehaviour
                 thisRow.Add(new TileModel(tile));
             }
             rowObj.transform.parent = this.transform;
-            rows.Add(thisRow);
+            gridRows.Add(thisRow);
         }
-        return rows;
+        this.gridRows = rows;
     }
+
+    public Color TileColorAtLocation(Vector2 position) { 
+        return this.gridRows[((int)position.x)][((int)position.y)].GetColor();
+    }
+
+    public void PaintTileAtLocation(Vector2 position, Color color) {
+        PaintTileAtLocation(((int)position.x), ((int)position.y), color);
+    }
+
+    public void PaintTileAtLocation(int x, int z, Color color) {
+        this.gridRows[x][z].Paint(color);
+    }
+
+    public void PaintTilesAdjacentToLocation(Vector2 position, Color color) {
+        PaintTilesAdjacentToLocation(((int)position.x), ((int)position.y), color);
+    }
+
+    public void PaintTilesAdjacentToLocation(int x, int z, Color color) {
+        PaintTileAtLocation(x-1, z, color);
+        PaintTileAtLocation(x+1, z, color);
+        PaintTileAtLocation(x, z-1, color);
+        PaintTileAtLocation(x, z+1, color);
+    }
+
 }

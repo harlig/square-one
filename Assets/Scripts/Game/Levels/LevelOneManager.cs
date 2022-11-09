@@ -17,7 +17,6 @@ public class LevelOneManager : MonoBehaviour
     public PlayerController playerController;
     public CameraController cameraController;
 
-    private List<List<TileModel>> gridRows;
     private bool levelActive;
 
     private List<GameState> gameStateOrder;
@@ -44,7 +43,7 @@ public class LevelOneManager : MonoBehaviour
     {
         this.player = this.playerController.gameObject;
 
-        this.gridRows = gridController.SetupGrid(gridSizeX, gridSizeY);
+        gridController.SetupGrid(gridSizeX, gridSizeY);
 
         this.levelActive = true;
 
@@ -96,13 +95,13 @@ public class LevelOneManager : MonoBehaviour
                 Debug.Log("In green ready");
                 if (this.playerController.GetMoveCount() == 1) {
                     Debug.Log("Transitioning");
-                    PaintTilesAdjacentToLocation(playerPos, Color.green);
+                    this.gridController.PaintTilesAdjacentToLocation(playerPos, Color.green);
                     TransitionState();
                 }
                 break;
             case GameState.GREEN_HIT:
                 Debug.Log("In green hit");
-                PaintTileAtLocation(1, 1, Color.red);
+                this.gridController.PaintTileAtLocation(1, 1, Color.red);
                 TransitionState();
                 break;
             case GameState.ORANGE_READY:
@@ -135,29 +134,6 @@ public class LevelOneManager : MonoBehaviour
                 this.currentGameState = this.gameStateOrder[gameStateOrder.IndexOf(this.currentGameState)+1];
             }
         }
-    }
-
-    Color TileColorAtLocation(Vector2 position) { 
-        return this.gridRows[((int)position.x)][((int)position.y)].GetColor();
-    }
-
-    void PaintTileAtLocation(Vector2 position, Color color) {
-        PaintTileAtLocation(((int)position.x), ((int)position.y), color);
-    }
-
-    void PaintTileAtLocation(int x, int z, Color color) {
-        this.gridRows[x][z].Paint(color);
-    }
-
-    void PaintTilesAdjacentToLocation(Vector2 position, Color color) {
-        PaintTilesAdjacentToLocation(((int)position.x), ((int)position.y), color);
-    }
-
-    void PaintTilesAdjacentToLocation(int x, int z, Color color) {
-        PaintTileAtLocation(x-1, z, color);
-        PaintTileAtLocation(x+1, z, color);
-        PaintTileAtLocation(x, z-1, color);
-        PaintTileAtLocation(x, z+1, color);
     }
 
     bool IsPlayerAtPosition(int x, int z) {
