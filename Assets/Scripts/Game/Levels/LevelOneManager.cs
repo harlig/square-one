@@ -17,7 +17,7 @@ public class LevelOneManager : MonoBehaviour
     public PlayerController playerController;
     public CameraController cameraController;
 
-    private ArrayList gridRows;
+    private List<List<TileModel>> gridRows;
     private bool levelActive;
 
     private List<GameState> gameStateOrder;
@@ -138,7 +138,7 @@ public class LevelOneManager : MonoBehaviour
     }
 
     Color TileColorAtLocation(Vector2 position) { 
-        return ((GameObject)((ArrayList)this.gridRows[((int)position.x)])[((int)position.y)]).GetComponent<MeshRenderer>().material.color;
+        return this.gridRows[((int)position.x)][((int)position.y)].GetColor();
     }
 
     void PaintTileAtLocation(Vector2 position, Color color) {
@@ -146,7 +146,7 @@ public class LevelOneManager : MonoBehaviour
     }
 
     void PaintTileAtLocation(int x, int z, Color color) {
-        ((GameObject)((ArrayList)this.gridRows[x])[z]).GetComponent<TileController>().Paint(color);
+        this.gridRows[x][z].Paint(color);
     }
 
     void PaintTilesAdjacentToLocation(Vector2 position, Color color) {

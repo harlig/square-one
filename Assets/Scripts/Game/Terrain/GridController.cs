@@ -9,12 +9,11 @@ public class GridController : MonoBehaviour
     /**
     * returns grid
     */
-    public ArrayList SetupGrid(int width, int length) {
-        // TODO stronger type than ArrayLists, gonna suck to work with
-        ArrayList rows = new ArrayList();
+    public List<List<TileModel>> SetupGrid(int width, int length) {
+        List<List<TileModel>> rows = new List<List<TileModel>>();
 
         for (int row = 0; row < width; row++) {
-            ArrayList thisRow = new ArrayList();
+            List<TileModel> thisRow = new List<TileModel>();
             GameObject rowObj = new GameObject(string.Format("row{0}", row));
             for (int col = 0; col < length; col++) {
                 GameObject tile = Instantiate(tilePrefab);
@@ -23,7 +22,7 @@ public class GridController : MonoBehaviour
                 tile.name = string.Format("col{0}", col);
                 tile.transform.parent = rowObj.transform;
 
-                thisRow.Add(tile);
+                thisRow.Add(new TileModel(tile));
             }
             rowObj.transform.parent = this.transform;
             rows.Add(thisRow);
