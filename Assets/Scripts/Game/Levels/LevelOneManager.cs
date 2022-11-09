@@ -96,19 +96,20 @@ public class LevelOneManager : MonoBehaviour
                 Debug.Log("In green ready");
                 if (this.playerController.GetMoveCount() == 1) {
                     Debug.Log("Transitioning");
-                    PaintTilesAdjacentToLocation(playerPos, Color.black);
+                    PaintTilesAdjacentToLocation(playerPos, Color.green);
                     TransitionState();
                 }
                 break;
             case GameState.GREEN_HIT:
                 Debug.Log("In green hit");
-                if (playerPos.x == 1 && playerPos.y == 1);
                 PaintTileAtLocation(1, 1, Color.red);
                 TransitionState();
                 break;
             case GameState.ORANGE_READY:
                 Debug.Log("In orange ready");
-                PaintTileAtLocation(1, 1, Color.red);
+                if (playerPos.x == 1 && playerPos.y == 1) {
+                    TransitionState();
+                }
                 break;
             case GameState.ORANGE_HIT:
 
@@ -145,7 +146,7 @@ public class LevelOneManager : MonoBehaviour
     }
 
     void PaintTileAtLocation(int x, int z, Color color) {
-        ((GameObject)((ArrayList)this.gridRows[x])[z]).GetComponent<PaintController>().Paint(color);
+        ((GameObject)((ArrayList)this.gridRows[x])[z]).GetComponent<TileController>().Paint(color);
     }
 
     void PaintTilesAdjacentToLocation(Vector2 position, Color color) {
