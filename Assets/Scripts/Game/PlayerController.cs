@@ -5,8 +5,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public Terrain terrain;
-
     private Rigidbody rb;
     private float movementX, movementY;
 
@@ -58,6 +56,7 @@ public class PlayerController : MonoBehaviour
             // I think I want less of a Roll and more of a fixed one unit movement
             float rotationRemaining = 90;
 
+            // TODO different math for tiny player?
             StartCoroutine(Roll(anchor, axis));
 
             IEnumerator Roll(Vector3 anchor, Vector3 axis) {

@@ -8,17 +8,15 @@ public class LevelOneManager : MonoBehaviour
     public int gridSizeX, gridSizeY = 10;
     public int turnLimit = 20;
 
-    public GameObject grid;
-    public GameObject player;
-    public GameObject cameraPivot;
+    private GameObject player;
+    private GameObject cameraPivot;
 
     public TextMeshProUGUI moveCountText;
 
-    private GridController gridController;
-    private PlayerController playerController;
-    private CameraController cameraController;
+    public GridController gridController;
+    public PlayerController playerController;
+    public CameraController cameraController;
 
-    private ArrayList gridRows;
     private bool levelActive;
 
     private List<GameState> gameStateOrder;
@@ -26,11 +24,11 @@ public class LevelOneManager : MonoBehaviour
 
     enum GameState {
         START,
-        GREEN_READY,
+        GREEN_SETUP,
         GREEN_HIT,
-        ORANGE_READY,
-        ORANGE_HIT,
-        BLUE_READY,
+        RED_SETUP,
+        RED_HIT,
+        BLUE_SETUP,
         BLUE_HIT,
         SUCCESS
     };
@@ -43,11 +41,9 @@ public class LevelOneManager : MonoBehaviour
     */
     void Start()
     {
-        this.gridController = grid.GetComponent<GridController>();
-        this.playerController = player.GetComponent<PlayerController>();
-        this.cameraController = cameraPivot.GetComponent<CameraController>();
+        this.player = this.playerController.gameObject;
 
-        this.gridRows = gridController.SetupGrid(gridSizeX, gridSizeY);
+        gridController.SetupGrid(gridSizeX, gridSizeY);
 
         this.levelActive = true;
 
@@ -60,11 +56,11 @@ public class LevelOneManager : MonoBehaviour
 
         this.gameStateOrder = new List<GameState>();
         gameStateOrder.Add(GameState.START);
-        gameStateOrder.Add(GameState.GREEN_READY);
+        gameStateOrder.Add(GameState.GREEN_SETUP);
         gameStateOrder.Add(GameState.GREEN_HIT);
-        gameStateOrder.Add(GameState.ORANGE_READY);
-        gameStateOrder.Add(GameState.ORANGE_HIT);
-        gameStateOrder.Add(GameState.BLUE_READY);
+        gameStateOrder.Add(GameState.RED_SETUP);
+        gameStateOrder.Add(GameState.RED_HIT);
+        gameStateOrder.Add(GameState.BLUE_SETUP);
         gameStateOrder.Add(GameState.BLUE_HIT);
 
         this.currentGameState = GameState.START;
@@ -87,25 +83,31 @@ public class LevelOneManager : MonoBehaviour
 
     void ManageGameState() {
         Vector2 playerPos = GetRoundedPlayerPosition();
-        Debug.LogFormat("Player pos: {0}", playerPos);
-
+        // Debug.LogFormat("Checking gameState for {0}", this.currentGameState);
         switch (this.currentGameState) {
             case GameState.START:
                 // welcome text or interaction?
-                Debug.Log("We're in start state and transitioning");
-                TransitionState();
-                break;
-            case GameState.GREEN_READY: 
-                Debug.Log("In green ready");
                 if (this.playerController.GetMoveCount() == 1) {
-                    Debug.Log("Transitioning");
-                    PaintTilesAdjacentToLocation(playerPos, Color.black);
                     TransitionState();
                 }
                 break;
+            case GameState.GREEN_SETUP: 
+                this.gridController.PaintTilesAdjacentToLocation(playerPos, Color.green);
+                TransitionState();
+                break;
             case GameState.GREEN_HIT:
-                Debug.Log("In green hit");
-                PaintTileAtLocation(1, 1, Color.red);
+                if (this.gridController.TileColorAtLocation(playerPos) == Color.green) {
+                    TransitionState();
+                }
+                break;
+            case GameState.RED_SETUP:
+                this.gridController.PaintTileAtLocation(1, 1, Color.red);
+                TransitionState();
+                break;
+            case GameState.RED_HIT:
+                if (this.gridController.TileColorAtLocation(playerPos) == Color.red) {
+                    TransitionState();
+                }
                 break;
             default:
                 // if we're on a green tile and this path hasn't been hit yet, paint an orange and red tile at the nearest corner 
@@ -129,29 +131,6 @@ public class LevelOneManager : MonoBehaviour
                 this.currentGameState = this.gameStateOrder[gameStateOrder.IndexOf(this.currentGameState)+1];
             }
         }
-    }
-
-    Color TileColorAtLocation(Vector2 position) { 
-        return ((GameObject)((ArrayList)this.gridRows[((int)position.x)])[((int)position.y)]).GetComponent<MeshRenderer>().material.color;
-    }
-
-    void PaintTileAtLocation(Vector2 position, Color color) {
-        PaintTileAtLocation(((int)position.x), ((int)position.y), color);
-    }
-
-    void PaintTileAtLocation(int x, int z, Color color) {
-        ((GameObject)((ArrayList)this.gridRows[x])[z]).GetComponent<PaintController>().Paint(color);
-    }
-
-    void PaintTilesAdjacentToLocation(Vector2 position, Color color) {
-        PaintTilesAdjacentToLocation(((int)position.x), ((int)position.y), color);
-    }
-
-    void PaintTilesAdjacentToLocation(int x, int z, Color color) {
-        PaintTileAtLocation(x-1, z, color);
-        PaintTileAtLocation(x+1, z, color);
-        PaintTileAtLocation(x, z-1, color);
-        PaintTileAtLocation(x, z+1, color);
     }
 
     bool IsPlayerAtPosition(int x, int z) {
