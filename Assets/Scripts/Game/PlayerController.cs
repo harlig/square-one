@@ -5,14 +5,16 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public Terrain terrain;
+
     private Rigidbody rb;
     private float movementX, movementY;
 
-    public Terrain terrain;
-
+    private int moveCount;
 
     public void SpawnPlayer(int row, int col) {
         this.transform.position = new Vector3(row, 1.5f, col);
+        this.moveCount = 0;
     }
 
     // Start is called before the first frame update
@@ -21,8 +23,8 @@ public class PlayerController : MonoBehaviour
         this.rb = this.GetComponent<Rigidbody>();
     }
 
-    void OnTriggerEnter(Collider other) {
-        // TODO
+    public int GetMoveCount() {
+        return this.moveCount;
     }
 
     // ripped this code, rethink it
@@ -39,7 +41,7 @@ public class PlayerController : MonoBehaviour
         this.movementY = movementVector.y;
 
 
-        Debug.LogFormat("Moving play w this vector: {0}", movementVector);
+        Debug.LogFormat("Moving player w this vector: {0}", movementVector);
         if (!_isMoving) {
             _isMoving = true;
             if (this.movementX == -1) Assemble(Vector3.left);
@@ -70,6 +72,7 @@ public class PlayerController : MonoBehaviour
 
                 Vector3 pos = this.transform.position;
                 this.transform.position = new Vector3(RoundToNearestHalf(pos.x), RoundToNearestHalf(pos.y), RoundToNearestHalf(pos.z));
+                this.moveCount++;
                 _isMoving = false;
                 yield return null;
             }

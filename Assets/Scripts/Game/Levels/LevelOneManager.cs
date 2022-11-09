@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelOneManager : MonoBehaviour
 {
     public int gridSizeX, gridSizeY = 10;
+    public int turnLimit = 20;
 
     public GameObject grid;
     public GameObject player;
@@ -14,6 +15,8 @@ public class LevelOneManager : MonoBehaviour
     private PlayerController playerController;
     private CameraController cameraController;
 
+    private bool levelActive;
+
     void Start()
     {
         this.gridController = grid.GetComponent<GridController>();
@@ -22,6 +25,8 @@ public class LevelOneManager : MonoBehaviour
 
         ArrayList gridRows = gridController.SetupGrid(gridSizeX, gridSizeY);
 
+        this.levelActive = true;
+
         int playerOffsetX = gridSizeX/2;
         int playerOffsetY = gridSizeY/2;
 
@@ -29,7 +34,6 @@ public class LevelOneManager : MonoBehaviour
         cameraController.CenterCameraOnOffset(playerOffsetX, playerOffsetY);
 
         player.SetActive(true);
-
 
         // random coloring just to prove I can do it
         ArrayList row = (ArrayList) gridRows[5];
@@ -48,6 +52,10 @@ public class LevelOneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (this.levelActive && this.playerController.GetMoveCount() >= this.turnLimit) {
+            Debug.Log("Game over!");
+            this.levelActive = false;
+        }
         // if (PlayerController.transform.localRotation.x == 2 && PlayerController.transnform.location.z == 2) {
         // PaintController.colorRed(grid[2][2]);
         // }
