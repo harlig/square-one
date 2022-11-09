@@ -8,15 +8,14 @@ public class LevelOneManager : MonoBehaviour
     public int gridSizeX, gridSizeY = 10;
     public int turnLimit = 20;
 
-    public GameObject grid;
-    public GameObject player;
-    public GameObject cameraPivot;
+    private GameObject player;
+    private GameObject cameraPivot;
 
     public TextMeshProUGUI moveCountText;
 
-    private GridController gridController;
-    private PlayerController playerController;
-    private CameraController cameraController;
+    public GridController gridController;
+    public PlayerController playerController;
+    public CameraController cameraController;
 
     private ArrayList gridRows;
     private bool levelActive;
@@ -43,9 +42,7 @@ public class LevelOneManager : MonoBehaviour
     */
     void Start()
     {
-        this.gridController = grid.GetComponent<GridController>();
-        this.playerController = player.GetComponent<PlayerController>();
-        this.cameraController = cameraPivot.GetComponent<CameraController>();
+        this.player = this.playerController.gameObject;
 
         this.gridRows = gridController.SetupGrid(gridSizeX, gridSizeY);
 
@@ -105,8 +102,16 @@ public class LevelOneManager : MonoBehaviour
                 break;
             case GameState.GREEN_HIT:
                 Debug.Log("In green hit");
+                if (playerPos.x == 1 && playerPos.y == 1);
+                PaintTileAtLocation(1, 1, Color.red);
+                TransitionState();
+                break;
+            case GameState.ORANGE_READY:
+                Debug.Log("In orange ready");
                 PaintTileAtLocation(1, 1, Color.red);
                 break;
+            case GameState.ORANGE_HIT:
+
             default:
                 // if we're on a green tile and this path hasn't been hit yet, paint an orange and red tile at the nearest corner 
                 // should the line above and below be two different states? like GREEN_HIT and ORANGE_RED_READY
