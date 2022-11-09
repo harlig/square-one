@@ -316,10 +316,10 @@ MonoBehaviour:
   gridSizeX: 10
   gridSizeY: 10
   turnLimit: 20
-  grid: {fileID: 272909726}
-  player: {fileID: 1831271133}
-  cameraPivot: {fileID: 1976018790}
   moveCountText: {fileID: 1065870632}
+  gridController: {fileID: 272909727}
+  playerController: {fileID: 1831271139}
+  cameraController: {fileID: 1976018791}
 --- !u!4 &677198415
 Transform:
   m_ObjectHideFlags: 0
@@ -837,7 +837,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e53a12d134f5c4f9393316947b7bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrain: {fileID: 0}
   _rollSpeed: 5
 --- !u!114 &1831271140
 MonoBehaviour:
@@ -870,12 +869,18 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!1 &1976018790 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1293813722184293690, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
+--- !u!114 &1976018791 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1293813722184293692, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
     type: 3}
   m_PrefabInstance: {fileID: 1293813721637310305}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bfbc17083a1a8c41b3b11373276187d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1293813721637310305
 PrefabInstance:
   m_ObjectHideFlags: 0
