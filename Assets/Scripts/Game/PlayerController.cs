@@ -31,10 +31,8 @@ public class PlayerController : MonoBehaviour
 
     public void ResetPosition()
     {
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
         transform.localPosition = originalPosition;
-        RotateToNearestRightAngles();
+        ResetPlayerPhysics();
     }
 
     // ripped this code, rethink it
@@ -87,19 +85,24 @@ public class PlayerController : MonoBehaviour
                     yield return null;
                 }
 
-
                 Vector3 pos = transform.position;
-                rb.velocity = Vector3.zero;
-                // transform.localPosition = new Vector3Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
                 transform.localPosition = Vector3Int.RoundToInt(pos);
-                RotateToNearestRightAngles();
-                rb.velocity = Vector3.zero;
+                ResetPlayerPhysics();
+
                 moveCount++;
                 _isMoving = false;
                 yield return null;
             }
 
         }
+    }
+
+    void ResetPlayerPhysics()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        RotateToNearestRightAngles();
+
     }
 
     void RotateToNearestRightAngles()
