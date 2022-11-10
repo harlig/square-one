@@ -30,7 +30,8 @@ public class LevelOneManager : MonoBehaviour
         RED_HIT,
         BLUE_SETUP,
         BLUE_HIT,
-        SUCCESS
+        SUCCESS,
+        FAILED,
     };
 
     /**
@@ -70,20 +71,26 @@ public class LevelOneManager : MonoBehaviour
 
     void Update()
     {
-        // TODO: seems poorly optimized to have this here, should be be tied to player OnMove but not sure how
-        // check out Delegates to get a callback from the OnMove thing
-        SetMoveCountText();
-        ManageGameState();
-
-        if (this.levelActive && this.playerController.GetMoveCount() >= this.turnLimit) {
-            Debug.Log("Game over!");
-            this.levelActive = false;
+        if (this.levelActive)  {
+            SetMoveCountText();
+            ManageGameState();
         }
+
     }
 
     void ManageGameState() {
         Vector2 playerPos = GetRoundedPlayerPosition();
-        // Debug.LogFormat("Checking gameState for {0}", this.currentGameState);
+
+        // failure game states first
+        if (!this.gridController.IsWithinGrid(playerPos)) {
+            Debug.Log("Player has exited map.");
+            this.currentGameState = GameState.FAILED;
+        }
+        if (this.playerController.GetMoveCount() >= this.turnLimit) {
+            Debug.Log("Player exceeded move count");
+            this.currentGameState = GameState.FAILED;
+        }
+
         switch (this.currentGameState) {
             case GameState.START:
                 // welcome text or interaction?
@@ -108,6 +115,10 @@ public class LevelOneManager : MonoBehaviour
                 if (this.gridController.TileColorAtLocation(playerPos) == Color.red) {
                     TransitionState();
                 }
+                break;
+            case GameState.FAILED:
+                Debug.Log("Player has failed.");
+                this.levelActive = false;
                 break;
             default:
                 // if we're on a green tile and this path hasn't been hit yet, paint an orange and red tile at the nearest corner 

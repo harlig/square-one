@@ -18,6 +18,7 @@ Should consider accessibility and write letters or some symbol on tiles to diffe
 
 * Snake
   * You leave behind a trail and hitting own trail makes you lose level
+* This theoretical level has a wall, and rotating the wall into view adds a certain mechanic that aids/allows you to complete the level - Evan Lane (all royalties are awarded to Evan Lane)
 
 ### Meta ideas
 

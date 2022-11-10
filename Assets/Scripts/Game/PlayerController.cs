@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
                 Vector3 pos = this.transform.position;
                 this.rb.velocity = Vector3.zero;
                 this.transform.localPosition = new Vector3(RoundToNearestHalf(pos.x), RoundToNearestHalf(pos.y), RoundToNearestHalf(pos.z));
+                this.rb.velocity = Vector3.zero;
                 this.moveCount++;
                 _isMoving = false;
                 yield return null;

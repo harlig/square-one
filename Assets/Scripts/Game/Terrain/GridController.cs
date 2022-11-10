@@ -54,4 +54,8 @@ public class GridController : MonoBehaviour
         PaintTileAtLocation(x, z+1, color);
     }
 
+    public bool IsWithinGrid(Vector2 position) {
+        return position.x >= 0 && position.x < this.gridRows.Count && position.y >= 0 && position.y < this.gridRows.Count;
+    }
+
 }
