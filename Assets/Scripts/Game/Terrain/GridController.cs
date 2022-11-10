@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,12 +9,12 @@ public class GridController : MonoBehaviour
 
     public void SetupGrid(int width, int length)
     {
-        List<List<TileController>> rows = new List<List<TileController>>();
+        List<List<TileController>> rows = new();
 
         for (int row = 0; row < width; row++)
         {
-            List<TileController> thisRow = new List<TileController>();
-            GameObject rowObj = new GameObject(string.Format("row{0}", row));
+            List<TileController> thisRow = new();
+            GameObject rowObj = new(string.Format("row{0}", row));
             for (int col = 0; col < length; col++)
             {
                 GameObject tile = Instantiate(tilePrefab);
@@ -34,12 +33,12 @@ public class GridController : MonoBehaviour
 
     public Color TileColorAtLocation(Vector2 position)
     {
-        return gridRows[((int)position.x)][((int)position.y)].GetColor();
+        return gridRows[(int)position.x][(int)position.y].GetColor();
     }
 
     public void PaintTileAtLocation(Vector2 position, Color color)
     {
-        PaintTileAtLocation(((int)position.x), ((int)position.y), color);
+        PaintTileAtLocation((int)position.x, (int)position.y, color);
     }
 
     public void PaintTileAtLocation(int x, int z, Color color)
@@ -49,7 +48,7 @@ public class GridController : MonoBehaviour
 
     public void PaintTilesAdjacentToLocation(Vector2 position, Color color)
     {
-        PaintTilesAdjacentToLocation(((int)position.x), ((int)position.y), color);
+        PaintTilesAdjacentToLocation((int)position.x, (int)position.y, color);
     }
 
     public void PaintTilesAdjacentToLocation(int x, int z, Color color)

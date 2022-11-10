@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,7 +28,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // ripped this code, rethink it
-    [SerializeField] private float _rollSpeed = 5;
+    [SerializeField] private readonly float _rollSpeed = 5;
     private bool _isMoving;
 
     // OnMove comes from the InputActions action defined Move
@@ -93,7 +92,7 @@ public class PlayerController : MonoBehaviour
 
     float RoundToNearestHalf(float val)
     {
-        return (Mathf.Round(val * 2) / 2.0f);
+        return Mathf.Round(val * 2) / 2.0f;
     }
 }
 

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,7 +8,7 @@ public class LevelOneManager : MonoBehaviour
     public int turnLimit = 20;
 
     private GameObject player;
-    private GameObject cameraPivot;
+    private readonly GameObject cameraPivot;
 
     public TextMeshProUGUI moveCountText;
 
@@ -56,14 +55,16 @@ public class LevelOneManager : MonoBehaviour
         cameraController.CenterCameraOnOffset(playerOffsetX, playerOffsetY);
         SetMoveCountText();
 
-        gameStateOrder = new List<GameState>();
-        gameStateOrder.Add(GameState.START);
-        gameStateOrder.Add(GameState.GREEN_SETUP);
-        gameStateOrder.Add(GameState.GREEN_HIT);
-        gameStateOrder.Add(GameState.RED_SETUP);
-        gameStateOrder.Add(GameState.RED_HIT);
-        gameStateOrder.Add(GameState.BLUE_SETUP);
-        gameStateOrder.Add(GameState.BLUE_HIT);
+        gameStateOrder = new List<GameState>
+        {
+            GameState.START,
+            GameState.GREEN_SETUP,
+            GameState.GREEN_HIT,
+            GameState.RED_SETUP,
+            GameState.RED_HIT,
+            GameState.BLUE_SETUP,
+            GameState.BLUE_HIT
+        };
 
         currentGameState = GameState.START;
 
@@ -143,7 +144,6 @@ public class LevelOneManager : MonoBehaviour
             Debug.LogFormat("transitioning state from {0} with gameStateNdx {1} out of {2}", currentGameState, gameStateNdx, gameStateOrder.Count);
             else if (gameStateNdx == gameStateOrder.Count - 1)
             {
-                // TODO freeze input or something
                 currentGameState = GameState.SUCCESS;
                 Debug.Log("You have won the game!!");
             }
