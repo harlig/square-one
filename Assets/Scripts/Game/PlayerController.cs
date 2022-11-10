@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
         this.movementY = movementVector.y;
 
 
-        Debug.LogFormat("Moving player w this vector: {0}", movementVector);
+        // Debug.LogFormat("Moving player w this vector: {0}", movementVector);
         if (!_isMoving) {
             _isMoving = true;
             if (this.movementX == -1) Assemble(Vector3.left);
