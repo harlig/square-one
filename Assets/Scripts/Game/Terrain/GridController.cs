@@ -7,6 +7,8 @@ public class GridController : MonoBehaviour
 
     private List<List<TileController>> gridRows;
 
+    private Color startingColor;
+
     public void SetupGrid(int width, int length)
     {
         List<List<TileController>> rows = new();
@@ -24,16 +26,32 @@ public class GridController : MonoBehaviour
                 tile.transform.parent = rowObj.transform;
 
                 thisRow.Add(tile.GetComponent<TileController>());
+
+                if (startingColor == null)
+                {
+                    startingColor = thisRow[0].GetComponent<MeshRenderer>().material.color;
+                }
             }
             rowObj.transform.parent = transform;
             rows.Add(thisRow);
         }
         gridRows = rows;
+
+    }
+
+    private TileController TileAtLocation(Vector2 position)
+    {
+        return gridRows[(int)position.x][(int)position.y];
+    }
+
+    public void ResetTileColorAtLocation(Vector2 position)
+    {
+        PaintTileAtLocation(position, startingColor);
     }
 
     public Color TileColorAtLocation(Vector2 position)
     {
-        return gridRows[(int)position.x][(int)position.y].GetColor();
+        return TileAtLocation(position).GetColor();
     }
 
     public void PaintTileAtLocation(Vector2 position, Color color)

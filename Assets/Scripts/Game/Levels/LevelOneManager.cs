@@ -126,6 +126,16 @@ public class LevelOneManager : MonoBehaviour
                     TransitionState();
                 }
                 break;
+            case GameState.BLUE_SETUP:
+                gridController.PaintTileAtLocation(3, 8, Color.blue);
+                TransitionState();
+                break;
+            case GameState.BLUE_HIT:
+                if (gridController.TileColorAtLocation(playerPos) == Color.red)
+                {
+                    TransitionState();
+                }
+                break;
             case GameState.FAILED:
                 Debug.Log("Player has failed.");
                 levelActive = false;
@@ -142,7 +152,7 @@ public class LevelOneManager : MonoBehaviour
         {
             int gameStateNdx = gameStateOrder.IndexOf(currentGameState);
             Debug.LogFormat("transitioning state from {0} with gameStateNdx {1} out of {2}", currentGameState, gameStateNdx, gameStateOrder.Count);
-            else if (gameStateNdx == gameStateOrder.Count - 1)
+            if (gameStateNdx == gameStateOrder.Count - 1)
             {
                 currentGameState = GameState.SUCCESS;
                 Debug.Log("You have won the game!!");
@@ -152,11 +162,6 @@ public class LevelOneManager : MonoBehaviour
                 currentGameState = gameStateOrder[gameStateOrder.IndexOf(currentGameState) + 1];
             }
         }
-    }
-
-    bool IsPlayerAtPosition(int x, int z)
-    {
-        return Mathf.RoundToInt(player.transform.position.x) == x && Mathf.RoundToInt(player.transform.position.z) == z;
     }
 
     Vector2 GetRoundedPlayerPosition()
