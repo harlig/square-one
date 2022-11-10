@@ -12,20 +12,20 @@ public class PlayerController : MonoBehaviour
 
     public void SpawnPlayer(int row, int col)
     {
-        this.transform.localPosition = new Vector3(row, 1.5f, col);
-        this.moveCount = 0;
+        transform.localPosition = new Vector3(row, 1.5f, col);
+        moveCount = 0;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         // assumes that a Rigidbody exists on this GameObject
-        this.rb = this.GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
 
     public int GetMoveCount()
     {
-        return this.moveCount;
+        return moveCount;
     }
 
     // ripped this code, rethink it
@@ -39,18 +39,18 @@ public class PlayerController : MonoBehaviour
 
         Vector2 movementVector = movementValue.Get<Vector2>();
         if (Mathf.Abs(movementVector.x) != 1.0f && Mathf.Abs(movementVector.y) != 1.0f) return;
-        this.movementX = movementVector.x;
-        this.movementY = movementVector.y;
+        movementX = movementVector.x;
+        movementY = movementVector.y;
 
 
         // Debug.LogFormat("Moving player w this vector: {0}", movementVector);
         if (!_isMoving)
         {
             _isMoving = true;
-            if (this.movementX == -1) Assemble(Vector3.left);
-            else if (this.movementX == 1) Assemble(Vector3.right);
-            else if (this.movementY == 1) Assemble(Vector3.forward);
-            else if (this.movementY == -1) Assemble(Vector3.back);
+            if (movementX == -1) Assemble(Vector3.left);
+            else if (movementX == 1) Assemble(Vector3.right);
+            else if (movementY == 1) Assemble(Vector3.forward);
+            else if (movementY == -1) Assemble(Vector3.back);
         }
         else
         {
@@ -79,11 +79,11 @@ public class PlayerController : MonoBehaviour
                 }
 
 
-                Vector3 pos = this.transform.position;
-                this.rb.velocity = Vector3.zero;
-                this.transform.localPosition = new Vector3(RoundToNearestHalf(pos.x), RoundToNearestHalf(pos.y), RoundToNearestHalf(pos.z));
-                this.rb.velocity = Vector3.zero;
-                this.moveCount++;
+                Vector3 pos = transform.position;
+                rb.velocity = Vector3.zero;
+                transform.localPosition = new Vector3(RoundToNearestHalf(pos.x), RoundToNearestHalf(pos.y), RoundToNearestHalf(pos.z));
+                rb.velocity = Vector3.zero;
+                moveCount++;
                 _isMoving = false;
                 yield return null;
             }

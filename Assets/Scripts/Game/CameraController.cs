@@ -19,8 +19,8 @@ public class CameraController : MonoBehaviour
 
     public void CenterCameraOnOffset(int x, int z)
     {
-        Vector3 pos = this.transform.position;
-        this.transform.localPosition = new Vector3(pos.x + x, pos.y, pos.z + z);
+        Vector3 pos = transform.position;
+        transform.localPosition = new Vector3(pos.x + x, pos.y, pos.z + z);
     }
 
 
@@ -39,14 +39,14 @@ public class CameraController : MonoBehaviour
         if (moveDirection > 0)
         {
             Debug.Log("positive move direction");
-            Vector3 rot = this.transform.eulerAngles;
-            this.targetEulerAngles = new Vector3(rot.x, rot.y - 90, rot.z);
+            Vector3 rot = transform.eulerAngles;
+            targetEulerAngles = new Vector3(rot.x, rot.y - 90, rot.z);
         }
         else if (moveDirection < 0)
         {
             Debug.Log("negative move direction");
-            Vector3 rot = this.transform.eulerAngles;
-            this.targetEulerAngles = new Vector3(rot.x, rot.y + 90, rot.z);
+            Vector3 rot = transform.eulerAngles;
+            targetEulerAngles = new Vector3(rot.x, rot.y + 90, rot.z);
         }
 
         _isRotating = true;
@@ -55,10 +55,10 @@ public class CameraController : MonoBehaviour
 
     private IEnumerator Rotate()
     {
-        startRotation = this.transform.rotation;
+        startRotation = transform.rotation;
         while (_isRotating && progress < 1)
         {
-            this.transform.rotation = Quaternion.Lerp(startRotation, Quaternion.Euler(targetEulerAngles), progress);
+            transform.rotation = Quaternion.Lerp(startRotation, Quaternion.Euler(targetEulerAngles), progress);
 
             // move with frame rate
             progress += spd * Time.fixedDeltaTime;

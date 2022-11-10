@@ -6,17 +6,17 @@ public class TileController : MonoBehaviour
 {
     public GameObject GetTile()
     {
-        return this.gameObject;
+        return gameObject;
     }
 
     public Color GetColor()
     {
-        return this.gameObject.GetComponent<MeshRenderer>().material.color;
+        return gameObject.GetComponent<MeshRenderer>().material.color;
     }
 
     public void Paint(Color color)
     {
         Debug.LogFormat("Painting this tile to color: {0}", color);
-        this.gameObject.GetComponent<MeshRenderer>().material.color = color;
+        gameObject.GetComponent<MeshRenderer>().material.color = color;
     }
 }

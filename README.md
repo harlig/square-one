@@ -6,6 +6,8 @@ SquareOne is an isometric puzzle game. This game was built for the [2022 Game Of
 
 Unity editor version: 2021.3.11f1
 
+Please enable C# auto-formatting in your text editor, and avoid checking in unformatted code.
+
 I added some notes into the help section below if OmniSharp is being a pain (more of a note for myself since I'm new to Unity). 
 
 ## Ideas

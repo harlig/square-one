@@ -26,15 +26,15 @@ public class GridController : MonoBehaviour
 
                 thisRow.Add(tile.GetComponent<TileController>());
             }
-            rowObj.transform.parent = this.transform;
+            rowObj.transform.parent = transform;
             rows.Add(thisRow);
         }
-        this.gridRows = rows;
+        gridRows = rows;
     }
 
     public Color TileColorAtLocation(Vector2 position)
     {
-        return this.gridRows[((int)position.x)][((int)position.y)].GetColor();
+        return gridRows[((int)position.x)][((int)position.y)].GetColor();
     }
 
     public void PaintTileAtLocation(Vector2 position, Color color)
@@ -44,7 +44,7 @@ public class GridController : MonoBehaviour
 
     public void PaintTileAtLocation(int x, int z, Color color)
     {
-        this.gridRows[x][z].Paint(color);
+        gridRows[x][z].Paint(color);
     }
 
     public void PaintTilesAdjacentToLocation(Vector2 position, Color color)
@@ -62,7 +62,7 @@ public class GridController : MonoBehaviour
 
     public bool IsWithinGrid(Vector2 position)
     {
-        return position.x >= 0 && position.x < this.gridRows.Count && position.y >= 0 && position.y < this.gridRows.Count;
+        return position.x >= 0 && position.x < gridRows.Count && position.y >= 0 && position.y < gridRows.Count;
     }
 
 }
