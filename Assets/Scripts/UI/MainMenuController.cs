@@ -9,18 +9,21 @@ public class MainMenuController : MonoBehaviour
     public int gameLevelBuildIndex;
 
 
-    public void PlayGame() {
+    public void PlayGame()
+    {
         Debug.LogFormat("If play button is not working, is this the correct game level build index: {0}!", this.gameLevelBuildIndex);
         SceneManager.LoadScene(this.gameLevelBuildIndex);
     }
 
-    public void QuitGame() {
+    public void QuitGame()
+    {
         Application.Quit();
 
         DeselectCurrentlySelectedGameObject();
     }
 
-    public void DeselectCurrentlySelectedGameObject() {
+    public void DeselectCurrentlySelectedGameObject()
+    {
         GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(null);
     }
 }

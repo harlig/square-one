@@ -17,7 +17,8 @@ public class CameraController : MonoBehaviour
         Application.targetFrameRate = 144;
     }
 
-    public void CenterCameraOnOffset(int x, int z) {
+    public void CenterCameraOnOffset(int x, int z)
+    {
         Vector3 pos = this.transform.position;
         this.transform.localPosition = new Vector3(pos.x + x, pos.y, pos.z + z);
     }
@@ -25,19 +26,24 @@ public class CameraController : MonoBehaviour
 
     private bool _isRotating = false;
     // OnRotate comes from the InputActions action defined Rotate
-    void OnRotate(InputValue movementValue) {
-        if (_isRotating) {
+    void OnRotate(InputValue movementValue)
+    {
+        if (_isRotating)
+        {
             Debug.Log("Tried to call rotate when _isRotating is true");
             return;
         }
 
         float moveDirection = movementValue.Get<float>();
 
-        if (moveDirection > 0) {
+        if (moveDirection > 0)
+        {
             Debug.Log("positive move direction");
             Vector3 rot = this.transform.eulerAngles;
             this.targetEulerAngles = new Vector3(rot.x, rot.y - 90, rot.z);
-        } else if (moveDirection < 0) {
+        }
+        else if (moveDirection < 0)
+        {
             Debug.Log("negative move direction");
             Vector3 rot = this.transform.eulerAngles;
             this.targetEulerAngles = new Vector3(rot.x, rot.y + 90, rot.z);
@@ -47,9 +53,11 @@ public class CameraController : MonoBehaviour
         StartCoroutine(Rotate());
     }
 
-    private IEnumerator Rotate() {
+    private IEnumerator Rotate()
+    {
         startRotation = this.transform.rotation;
-        while (_isRotating && progress < 1) {
+        while (_isRotating && progress < 1)
+        {
             this.transform.rotation = Quaternion.Lerp(startRotation, Quaternion.Euler(targetEulerAngles), progress);
 
             // move with frame rate

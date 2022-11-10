@@ -22,7 +22,8 @@ public class LevelOneManager : MonoBehaviour
     private List<GameState> gameStateOrder;
     private GameState currentGameState;
 
-    enum GameState {
+    enum GameState
+    {
         START,
         GREEN_SETUP,
         GREEN_HIT,
@@ -48,8 +49,8 @@ public class LevelOneManager : MonoBehaviour
 
         this.levelActive = true;
 
-        int playerOffsetX = gridSizeX/2;
-        int playerOffsetY = gridSizeY/2;
+        int playerOffsetX = gridSizeX / 2;
+        int playerOffsetY = gridSizeY / 2;
 
         playerController.SpawnPlayer(playerOffsetX, playerOffsetY);
         cameraController.CenterCameraOnOffset(playerOffsetX, playerOffsetY);
@@ -71,39 +72,46 @@ public class LevelOneManager : MonoBehaviour
 
     void Update()
     {
-        if (this.levelActive)  {
+        if (this.levelActive)
+        {
             SetMoveCountText();
             ManageGameState();
         }
 
     }
 
-    void ManageGameState() {
+    void ManageGameState()
+    {
         Vector2 playerPos = GetRoundedPlayerPosition();
 
         // failure game states first
-        if (!this.gridController.IsWithinGrid(playerPos)) {
+        if (!this.gridController.IsWithinGrid(playerPos))
+        {
             Debug.Log("Player has exited map.");
             this.currentGameState = GameState.FAILED;
         }
-        if (this.playerController.GetMoveCount() >= this.turnLimit) {
+        if (this.playerController.GetMoveCount() >= this.turnLimit)
+        {
             Debug.Log("Player exceeded move count");
             this.currentGameState = GameState.FAILED;
         }
 
-        switch (this.currentGameState) {
+        switch (this.currentGameState)
+        {
             case GameState.START:
                 // welcome text or interaction?
-                if (this.playerController.GetMoveCount() == 1) {
+                if (this.playerController.GetMoveCount() == 1)
+                {
                     TransitionState();
                 }
                 break;
-            case GameState.GREEN_SETUP: 
+            case GameState.GREEN_SETUP:
                 this.gridController.PaintTilesAdjacentToLocation(playerPos, Color.green);
                 TransitionState();
                 break;
             case GameState.GREEN_HIT:
-                if (this.gridController.TileColorAtLocation(playerPos) == Color.green) {
+                if (this.gridController.TileColorAtLocation(playerPos) == Color.green)
+                {
                     TransitionState();
                 }
                 break;
@@ -112,7 +120,8 @@ public class LevelOneManager : MonoBehaviour
                 TransitionState();
                 break;
             case GameState.RED_HIT:
-                if (this.gridController.TileColorAtLocation(playerPos) == Color.red) {
+                if (this.gridController.TileColorAtLocation(playerPos) == Color.red)
+                {
                     TransitionState();
                 }
                 break;
@@ -128,31 +137,39 @@ public class LevelOneManager : MonoBehaviour
         }
 
         // this method kinda sucks
-        void TransitionState() {
+        void TransitionState()
+        {
             int gameStateNdx = gameStateOrder.IndexOf(this.currentGameState);
             Debug.LogFormat("transitioning state from {0} with gameStateNdx {1} out of {2}", this.currentGameState, gameStateNdx, this.gameStateOrder.Count);
-            if (this.currentGameState == GameState.SUCCESS) {
+            if (this.currentGameState == GameState.SUCCESS)
+            {
                 // display message, allow for input? idk. maybe I overengineered this for no reason and we can remove SUCCESS enum, or can just add it into the game state order
             }
-            else if (gameStateNdx == this.gameStateOrder.Count - 1) {
+            else if (gameStateNdx == this.gameStateOrder.Count - 1)
+            {
                 // TODO freeze input or something
                 this.currentGameState = GameState.SUCCESS;
                 Debug.Log("You have won the game!!");
-            } else {
-                this.currentGameState = this.gameStateOrder[gameStateOrder.IndexOf(this.currentGameState)+1];
+            }
+            else
+            {
+                this.currentGameState = this.gameStateOrder[gameStateOrder.IndexOf(this.currentGameState) + 1];
             }
         }
     }
 
-    bool IsPlayerAtPosition(int x, int z) {
+    bool IsPlayerAtPosition(int x, int z)
+    {
         return Mathf.RoundToInt(this.player.transform.position.x) == x && Mathf.RoundToInt(this.player.transform.position.z) == z;
     }
 
-    Vector2 GetRoundedPlayerPosition() {
+    Vector2 GetRoundedPlayerPosition()
+    {
         return new Vector2(Mathf.RoundToInt(this.player.transform.position.x), Mathf.RoundToInt(this.player.transform.position.z));
     }
 
-    void SetMoveCountText() {
+    void SetMoveCountText()
+    {
         this.moveCountText.text = $"Turns remaining: {this.turnLimit - this.playerController.GetMoveCount()}";
     }
 }
