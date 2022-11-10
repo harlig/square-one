@@ -6,12 +6,14 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     private float movementX, movementY;
+    private Vector3 originalPosition;
 
     private int moveCount;
 
     public void SpawnPlayer(int row, int col)
     {
-        transform.localPosition = new Vector3(row, 1.5f, col);
+        originalPosition = new Vector3(row, 1.5f, col);
+        transform.localPosition = originalPosition;
         moveCount = 0;
     }
 
@@ -25,6 +27,14 @@ public class PlayerController : MonoBehaviour
     public int GetMoveCount()
     {
         return moveCount;
+    }
+
+    public void ResetPosition()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        transform.localPosition = originalPosition;
+        RotateToNearestRightAngles();
     }
 
     // ripped this code, rethink it
@@ -80,7 +90,9 @@ public class PlayerController : MonoBehaviour
 
                 Vector3 pos = transform.position;
                 rb.velocity = Vector3.zero;
-                transform.localPosition = new Vector3(RoundToNearestHalf(pos.x), RoundToNearestHalf(pos.y), RoundToNearestHalf(pos.z));
+                // transform.localPosition = new Vector3Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
+                transform.localPosition = Vector3Int.RoundToInt(pos);
+                RotateToNearestRightAngles();
                 rb.velocity = Vector3.zero;
                 moveCount++;
                 _isMoving = false;
@@ -90,9 +102,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    float RoundToNearestHalf(float val)
+    void RotateToNearestRightAngles()
     {
-        return Mathf.Round(val * 2) / 2.0f;
-    }
-}
+        Quaternion roundedRotation = new(ClosestRightAngle(transform.rotation.x), ClosestRightAngle(transform.rotation.y), ClosestRightAngle(transform.rotation.z), transform.rotation.w);
+        transform.rotation = roundedRotation;
 
+        static int ClosestRightAngle(float rotation)
+        {
+            bool isPositive = rotation > 0;
+            return Mathf.RoundToInt(rotation) * 90 * (isPositive ? 1 : -1);
+        }
+    }
+
+}

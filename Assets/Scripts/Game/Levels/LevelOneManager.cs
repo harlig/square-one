@@ -7,14 +7,16 @@ public class LevelOneManager : MonoBehaviour
     public int gridSizeX, gridSizeY = 10;
     public int turnLimit = 20;
 
+    public bool devMode = false;
+
     private GameObject player;
-    private readonly GameObject cameraPivot;
 
     public TextMeshProUGUI moveCountText;
 
     public GridController gridController;
     public PlayerController playerController;
     public CameraController cameraController;
+    public ResetPlaneController resetPlaneController;
 
     private bool levelActive;
 
@@ -63,7 +65,8 @@ public class LevelOneManager : MonoBehaviour
             GameState.RED_SETUP,
             GameState.RED_HIT,
             GameState.BLUE_SETUP,
-            GameState.BLUE_HIT
+            GameState.BLUE_HIT,
+            GameState.SUCCESS
         };
 
         currentGameState = GameState.START;
@@ -78,15 +81,30 @@ public class LevelOneManager : MonoBehaviour
             SetMoveCountText();
             ManageGameState();
         }
+        else
+        {
+            if (currentGameState == GameState.SUCCESS)
+            {
+                Debug.Log("ye boiiiiiiiiiiii");
+            }
+            else if (currentGameState == GameState.FAILED)
+            {
+                Debug.Log("you lost!");
+            }
+
+            // stop input from this script, now we should spawn a NextGamePortal and head there
+            // also spawn a plane below you which can reset you into middle of map if you fall off at this point
+            enabled = false;
+        }
 
     }
 
     void ManageGameState()
     {
-        Vector2 playerPos = GetRoundedPlayerPosition();
+        Vector2Int playerPos = GetRoundedPlayerPosition();
 
-        // failure game states first
-        if (!gridController.IsWithinGrid(playerPos))
+        // allow devMode to not fall out of map
+        if (!devMode && !gridController.IsWithinGrid(playerPos))
         {
             Debug.Log("Player has exited map.");
             currentGameState = GameState.FAILED;
@@ -97,6 +115,7 @@ public class LevelOneManager : MonoBehaviour
             currentGameState = GameState.FAILED;
         }
 
+        // game state handler
         switch (currentGameState)
         {
             case GameState.START:
@@ -131,42 +150,33 @@ public class LevelOneManager : MonoBehaviour
                 TransitionState();
                 break;
             case GameState.BLUE_HIT:
-                if (gridController.TileColorAtLocation(playerPos) == Color.red)
+                if (gridController.TileColorAtLocation(playerPos) == Color.blue)
                 {
                     TransitionState();
                 }
+                break;
+            case GameState.SUCCESS:
+                Debug.Log("Player has won!");
+                levelActive = false;
                 break;
             case GameState.FAILED:
                 Debug.Log("Player has failed.");
                 levelActive = false;
                 break;
             default:
-                // if we're on a green tile and this path hasn't been hit yet, paint an orange and red tile at the nearest corner 
-                // should the line above and below be two different states? like GREEN_HIT and ORANGE_RED_READY
-                // if I hit an orange or red tile, transition to blue 
                 break;
         }
 
-        // this method kinda sucks
         void TransitionState()
         {
-            int gameStateNdx = gameStateOrder.IndexOf(currentGameState);
-            Debug.LogFormat("transitioning state from {0} with gameStateNdx {1} out of {2}", currentGameState, gameStateNdx, gameStateOrder.Count);
-            if (gameStateNdx == gameStateOrder.Count - 1)
-            {
-                currentGameState = GameState.SUCCESS;
-                Debug.Log("You have won the game!!");
-            }
-            else
-            {
-                currentGameState = gameStateOrder[gameStateOrder.IndexOf(currentGameState) + 1];
-            }
+            // could probably use a better data structure as the state machine that allows a failure state as defined by the state machine
+            currentGameState = gameStateOrder[gameStateOrder.IndexOf(currentGameState) + 1];
         }
     }
 
-    Vector2 GetRoundedPlayerPosition()
+    Vector2Int GetRoundedPlayerPosition()
     {
-        return new Vector2(Mathf.RoundToInt(player.transform.position.x), Mathf.RoundToInt(player.transform.position.z));
+        return new Vector2Int(Mathf.RoundToInt(player.transform.position.x), Mathf.RoundToInt(player.transform.position.z));
     }
 
     void SetMoveCountText()

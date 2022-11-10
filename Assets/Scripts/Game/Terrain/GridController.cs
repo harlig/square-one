@@ -39,24 +39,29 @@ public class GridController : MonoBehaviour
 
     }
 
-    private TileController TileAtLocation(Vector2 position)
+    private TileController TileAtLocation(Vector2Int position)
     {
-        return gridRows[(int)position.x][(int)position.y];
+        return gridRows[position.x][position.y];
     }
 
-    public void ResetTileColorAtLocation(Vector2 position)
+    public void ResetTileColorAtLocation(Vector2Int position)
     {
         PaintTileAtLocation(position, startingColor);
     }
 
-    public Color TileColorAtLocation(Vector2 position)
+    public Color? TileColorAtLocation(Vector2Int position)
     {
+        if (!IsWithinGrid(position))
+        {
+            return null;
+        }
+
         return TileAtLocation(position).GetColor();
     }
 
-    public void PaintTileAtLocation(Vector2 position, Color color)
+    public void PaintTileAtLocation(Vector2Int position, Color color)
     {
-        PaintTileAtLocation((int)position.x, (int)position.y, color);
+        PaintTileAtLocation(position.x, position.y, color);
     }
 
     public void PaintTileAtLocation(int x, int z, Color color)
