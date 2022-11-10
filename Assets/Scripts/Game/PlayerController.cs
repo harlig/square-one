@@ -103,18 +103,16 @@ public class PlayerController : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
         RotateToNearestRightAngles();
 
-    }
-
-    void RotateToNearestRightAngles()
-    {
-        Quaternion roundedRotation = new(ClosestRightAngle(transform.rotation.x), ClosestRightAngle(transform.rotation.y), ClosestRightAngle(transform.rotation.z), transform.rotation.w);
-        transform.rotation = roundedRotation;
-
-        static int ClosestRightAngle(float rotation)
+        void RotateToNearestRightAngles()
         {
-            bool isPositive = rotation > 0;
-            return Mathf.RoundToInt(rotation) * 90 * (isPositive ? 1 : -1);
+            Quaternion roundedRotation = new(ClosestRightAngle(transform.rotation.x), ClosestRightAngle(transform.rotation.y), ClosestRightAngle(transform.rotation.z), transform.rotation.w);
+            transform.rotation = roundedRotation;
+
+            static int ClosestRightAngle(float rotation)
+            {
+                bool isPositive = rotation > 0;
+                return Mathf.RoundToInt(rotation) * 90 * (isPositive ? 1 : -1);
+            }
         }
     }
-
 }
