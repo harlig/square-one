@@ -22,6 +22,7 @@ public class LevelOneManager : MonoBehaviour
     public CameraController cameraController;
     public ResetPlaneController resetPlaneController;
 
+    private int turnsLeft;
     private bool levelActive;
 
     private List<GameState> gameStateOrder;
@@ -63,6 +64,7 @@ public class LevelOneManager : MonoBehaviour
 
         playerController.SpawnPlayer(playerOffsetX, playerOffsetY);
         cameraController.CenterCameraOnOffset(playerOffsetX, playerOffsetY);
+        turnsLeft = turnLimit;
         SetMoveCountText();
 
         gameStateOrder = new List<GameState>
@@ -171,6 +173,7 @@ public class LevelOneManager : MonoBehaviour
         void SetTerminalGameState(GameObject textElementToEnable)
         {
             levelActive = false;
+            playerController.StopCountingMoves();
             StartCoroutine(SetElementAfterDelay(textElementToEnable));
 
             IEnumerator SetElementAfterDelay(GameObject element)
@@ -182,7 +185,6 @@ public class LevelOneManager : MonoBehaviour
                 // we count the last move the player makes before entering a terminal game state. Since the player's move isn't counted
                 // until the end of the player move's roll, we can't tell it to stop counting before then. But this is a hack and 
                 // race condition so I'm gonna try to use a delegate
-                playerController.StopCountingMoves();
             }
         }
 
@@ -193,6 +195,24 @@ public class LevelOneManager : MonoBehaviour
         }
     }
 
+    // required naming for events
+    void OnEnable()
+    {
+        PlayerController.OnMoveAction += HandlePlayerMove;
+    }
+
+    // required naming for events
+    void OnDisable()
+    {
+        PlayerController.OnMoveAction -= HandlePlayerMove;
+    }
+
+    void HandlePlayerMove()
+    {
+        Debug.Log("received event");
+        if (levelActive) turnsLeft--;
+    }
+
     Vector2Int GetRoundedPlayerPosition()
     {
         return new Vector2Int(Mathf.RoundToInt(player.transform.position.x), Mathf.RoundToInt(player.transform.position.z));
@@ -200,6 +220,6 @@ public class LevelOneManager : MonoBehaviour
 
     void SetMoveCountText()
     {
-        moveCountText.text = $"Turns remaining: {turnLimit - playerController.GetMoveCount()}";
+        moveCountText.text = $"Turns remaining: {turnsLeft}";
     }
 }

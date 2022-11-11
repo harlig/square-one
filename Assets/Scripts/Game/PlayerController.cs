@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public delegate void MoveAction();
+    public static event MoveAction OnMoveAction;
+
+
     private Rigidbody rb;
     private float movementX, movementY;
     private Vector3 originalPosition;
@@ -54,7 +58,12 @@ public class PlayerController : MonoBehaviour
         // Debug.LogFormat("Moving player w this vector: {0}", movementVector);
         if (!_isMoving)
         {
+            // lock
             _isMoving = true;
+            // call delegate
+            Debug.Log("Calling delegate");
+            OnMoveAction?.Invoke();
+
             if (movementX == -1) Assemble(Vector3.left);
             else if (movementX == 1) Assemble(Vector3.right);
             else if (movementY == 1) Assemble(Vector3.forward);
