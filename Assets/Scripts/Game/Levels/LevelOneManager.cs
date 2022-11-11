@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -13,6 +14,9 @@ public class LevelOneManager : MonoBehaviour
 
     public TextMeshProUGUI moveCountText;
 
+    public GameObject successElements;
+    public GameObject failedElements;
+
     public GridController gridController;
     public PlayerController playerController;
     public CameraController cameraController;
@@ -22,6 +26,8 @@ public class LevelOneManager : MonoBehaviour
 
     private List<GameState> gameStateOrder;
     private GameState currentGameState;
+
+    private Vector2Int squareOne;
 
     enum GameState
     {
@@ -53,6 +59,8 @@ public class LevelOneManager : MonoBehaviour
         int playerOffsetX = gridSizeX / 2;
         int playerOffsetY = gridSizeY / 2;
 
+        squareOne = new(playerOffsetX, playerOffsetY);
+
         playerController.SpawnPlayer(playerOffsetX, playerOffsetY);
         cameraController.CenterCameraOnOffset(playerOffsetX, playerOffsetY);
         SetMoveCountText();
@@ -76,24 +84,13 @@ public class LevelOneManager : MonoBehaviour
 
     void Update()
     {
+        SetMoveCountText();
         if (levelActive)
         {
-            SetMoveCountText();
             ManageGameState();
         }
         else
         {
-            if (currentGameState == GameState.SUCCESS)
-            {
-                Debug.Log("ye boiiiiiiiiiiii");
-            }
-            else if (currentGameState == GameState.FAILED)
-            {
-                Debug.Log("you lost!");
-            }
-
-            // stop input from this script, now we should spawn a NextGamePortal and head there
-            // also spawn a plane below you which can reset you into middle of map if you fall off at this point
             enabled = false;
         }
 
@@ -146,7 +143,8 @@ public class LevelOneManager : MonoBehaviour
                 }
                 break;
             case GameState.BLUE_SETUP:
-                gridController.PaintTileAtLocation(3, 8, Color.blue);
+                // last step is back to square one
+                gridController.PaintTileAtLocation(squareOne.x, squareOne.y, Color.blue);
                 TransitionState();
                 break;
             case GameState.BLUE_HIT:
@@ -157,14 +155,27 @@ public class LevelOneManager : MonoBehaviour
                 break;
             case GameState.SUCCESS:
                 Debug.Log("Player has won!");
+                // set back to square one text
+                // stop input from this script, now we should spawn a NextGamePortal and head there
+                // also spawn a plane below you which can reset you into middle of map if you fall off at this point
+                StartCoroutine(SetElementAfterDelay(successElements));
                 levelActive = false;
                 break;
             case GameState.FAILED:
                 Debug.Log("Player has failed.");
+                StartCoroutine(SetElementAfterDelay(failedElements));
                 levelActive = false;
                 break;
             default:
+                Debug.LogErrorFormat("Encountered unexpected game state: {0}", currentGameState);
                 break;
+        }
+
+        IEnumerator SetElementAfterDelay(GameObject element)
+        {
+            yield return new WaitForSeconds(0.3f);
+            element.SetActive(true);
+            yield return null;
         }
 
         void TransitionState()
