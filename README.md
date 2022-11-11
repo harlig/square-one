@@ -6,7 +6,7 @@ SquareOne is an isometric puzzle game. This game was built for the [2022 Game Of
 
 Here's what it looks like in its current state
 
-[LevelOneDemo.pdf](/ReadMeAssets/Level%20One%20Demo.png)
+![LevelOneDemo.pdf](/ReadMeAssets/Level%20One%20Demo.png)
 
 ## Contributing
 
