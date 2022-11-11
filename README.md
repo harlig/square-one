@@ -8,6 +8,10 @@ Here's what it looks like in its current state
 
 ![LevelOneDemo.pdf](/ReadMeAssets/Level%20One%20Demo.png)
 
+and with using the camera controls to rotate
+
+![LevelOneDemoAltCamera.pdf](/ReadMeAssets/Level%20One%20Demo%20Alt%20Camera%20Angle.png)
+
 ## Contributing
 
 Unity editor version: 2021.3.11f1
