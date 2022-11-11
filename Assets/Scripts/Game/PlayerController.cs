@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private float movementX, movementY;
     private Vector3 originalPosition;
 
+    private bool shouldCountMoves = true;
     private int moveCount;
 
     public void SpawnPlayer(int row, int col)
@@ -89,7 +90,8 @@ public class PlayerController : MonoBehaviour
                 transform.localPosition = Vector3Int.RoundToInt(pos);
                 ResetPlayerPhysics();
 
-                moveCount++;
+                // player should have their move count increased once they've finished moving
+                if (shouldCountMoves) moveCount++;
                 _isMoving = false;
                 yield return null;
             }
@@ -114,5 +116,10 @@ public class PlayerController : MonoBehaviour
                 return Mathf.RoundToInt(rotation) * 90 * (isPositive ? 1 : -1);
             }
         }
+    }
+
+    public void StopCountingMoves()
+    {
+        shouldCountMoves = false;
     }
 }

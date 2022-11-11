@@ -89,11 +89,6 @@ public class LevelOneManager : MonoBehaviour
         {
             ManageGameState();
         }
-        else
-        {
-            enabled = false;
-        }
-
     }
 
     void ManageGameState()
@@ -155,27 +150,40 @@ public class LevelOneManager : MonoBehaviour
                 break;
             case GameState.SUCCESS:
                 Debug.Log("Player has won!");
-                // set back to square one text
-                // stop input from this script, now we should spawn a NextGamePortal and head there
-                // also spawn a plane below you which can reset you into middle of map if you fall off at this point
-                StartCoroutine(SetElementAfterDelay(successElements));
-                levelActive = false;
+                SetTerminalGameState(successElements);
                 break;
             case GameState.FAILED:
                 Debug.Log("Player has failed.");
-                StartCoroutine(SetElementAfterDelay(failedElements));
-                levelActive = false;
+                SetTerminalGameState(failedElements);
                 break;
             default:
                 Debug.LogErrorFormat("Encountered unexpected game state: {0}", currentGameState);
                 break;
         }
 
-        IEnumerator SetElementAfterDelay(GameObject element)
+        /**
+         handles setting the game to SUCCESS or FAILED
+         ideas included below
+        */
+        // set back to square one text
+        // stop input from this script, now we should spawn a NextGamePortal and head there
+        // also spawn a plane below you which can reset you into middle of map if you fall off at this point
+        void SetTerminalGameState(GameObject textElementToEnable)
         {
-            yield return new WaitForSeconds(0.3f);
-            element.SetActive(true);
-            yield return null;
+            levelActive = false;
+            StartCoroutine(SetElementAfterDelay(textElementToEnable));
+
+            IEnumerator SetElementAfterDelay(GameObject element)
+            {
+                yield return new WaitForSeconds(0.3f);
+                element.SetActive(true);
+                yield return null;
+                // I'd like this to be up with setting levelActive, but it has to be at the bottom of this coroutine to guarantee 
+                // we count the last move the player makes before entering a terminal game state. Since the player's move isn't counted
+                // until the end of the player move's roll, we can't tell it to stop counting before then. But this is a hack and 
+                // race condition so I'm gonna try to use a delegate
+                playerController.StopCountingMoves();
+            }
         }
 
         void TransitionState()
