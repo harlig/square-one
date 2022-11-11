@@ -2,6 +2,12 @@
  
 SquareOne is an isometric puzzle game. This game was built for the [2022 Game Off](https://itch.io/jam/game-off-2022)
 
+## Demo
+
+Here's what it looks like in its current state
+
+[LevelOneDemo.pdf](/ReadMeAssets/Level%20One%20Demo.png)
+
 ## Contributing
 
 Unity editor version: 2021.3.11f1
