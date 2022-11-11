@@ -10,8 +10,6 @@ public class LevelOneManager : MonoBehaviour
 
     public bool devMode = false;
 
-    private GameObject player;
-
     public TextMeshProUGUI moveCountText;
 
     public GameObject successElements;
@@ -51,8 +49,6 @@ public class LevelOneManager : MonoBehaviour
     */
     void Start()
     {
-        player = playerController.gameObject;
-
         gridController.SetupGrid(gridSizeX, gridSizeY);
 
         levelActive = true;
@@ -81,7 +77,7 @@ public class LevelOneManager : MonoBehaviour
 
         currentGameState = GameState.START;
 
-        player.SetActive(true);
+        playerController.gameObject.SetActive(true);
     }
 
     void Update()
@@ -93,9 +89,31 @@ public class LevelOneManager : MonoBehaviour
         }
     }
 
+    // required naming for events
+    void OnEnable()
+    {
+        PlayerController.OnMoveAction += HandlePlayerMove;
+    }
+
+    // required naming for events
+    void OnDisable()
+    {
+        PlayerController.OnMoveAction -= HandlePlayerMove;
+    }
+
+    void HandlePlayerMove()
+    {
+        if (levelActive) turnsLeft--;
+    }
+
+    void SetMoveCountText()
+    {
+        moveCountText.text = $"Turns remaining: {turnsLeft}";
+    }
+
     void ManageGameState()
     {
-        Vector2Int playerPos = GetRoundedPlayerPosition();
+        Vector2Int playerPos = playerController.GetRoundedPosition();
 
         // allow devMode to not fall out of map
         if (!devMode && !gridController.IsWithinGrid(playerPos))
@@ -178,13 +196,8 @@ public class LevelOneManager : MonoBehaviour
 
             IEnumerator SetElementAfterDelay(GameObject element)
             {
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(0.2f);
                 element.SetActive(true);
-                yield return null;
-                // I'd like this to be up with setting levelActive, but it has to be at the bottom of this coroutine to guarantee 
-                // we count the last move the player makes before entering a terminal game state. Since the player's move isn't counted
-                // until the end of the player move's roll, we can't tell it to stop counting before then. But this is a hack and 
-                // race condition so I'm gonna try to use a delegate
             }
         }
 
@@ -193,33 +206,5 @@ public class LevelOneManager : MonoBehaviour
             // could probably use a better data structure as the state machine that allows a failure state as defined by the state machine
             currentGameState = gameStateOrder[gameStateOrder.IndexOf(currentGameState) + 1];
         }
-    }
-
-    // required naming for events
-    void OnEnable()
-    {
-        PlayerController.OnMoveAction += HandlePlayerMove;
-    }
-
-    // required naming for events
-    void OnDisable()
-    {
-        PlayerController.OnMoveAction -= HandlePlayerMove;
-    }
-
-    void HandlePlayerMove()
-    {
-        Debug.Log("received event");
-        if (levelActive) turnsLeft--;
-    }
-
-    Vector2Int GetRoundedPlayerPosition()
-    {
-        return new Vector2Int(Mathf.RoundToInt(player.transform.position.x), Mathf.RoundToInt(player.transform.position.z));
-    }
-
-    void SetMoveCountText()
-    {
-        moveCountText.text = $"Turns remaining: {turnsLeft}";
     }
 }

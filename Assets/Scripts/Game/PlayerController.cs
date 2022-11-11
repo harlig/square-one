@@ -61,7 +61,6 @@ public class PlayerController : MonoBehaviour
             // lock
             _isMoving = true;
             // call delegate
-            Debug.Log("Calling delegate");
             OnMoveAction?.Invoke();
 
             if (movementX == -1) Assemble(Vector3.left);
@@ -131,4 +130,10 @@ public class PlayerController : MonoBehaviour
     {
         shouldCountMoves = false;
     }
+
+    public Vector2Int GetRoundedPosition()
+    {
+        return new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
+    }
+
 }
