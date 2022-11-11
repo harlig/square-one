@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class LevelOneManager : MonoBehaviour
 {
+    // TODO turn all publics into SerializedField with getters
     public int gridSizeX, gridSizeY = 10;
     public int turnLimit = 20;
 
