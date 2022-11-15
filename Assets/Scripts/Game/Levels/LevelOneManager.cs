@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class LevelOneManager : MonoBehaviour
 {
+    // [SerializeField] private GameObject playerPrefab;
+
     // TODO turn all publics into SerializedField with getters
     public int gridSizeX, gridSizeY = 10;
     public int turnLimit = 20;
@@ -17,7 +19,6 @@ public class LevelOneManager : MonoBehaviour
     public GameObject failedElements;
 
     public GridController gridController;
-    public PlayerController playerController;
     public CameraController cameraController;
     public ResetPlaneController resetPlaneController;
 
@@ -28,6 +29,8 @@ public class LevelOneManager : MonoBehaviour
     private GameState currentGameState;
 
     private Vector2Int squareOne;
+
+    private PlayerController playerController;
 
     enum GameState
     {
@@ -41,6 +44,14 @@ public class LevelOneManager : MonoBehaviour
         SUCCESS,
         FAILED,
     };
+
+    // instantiations must happen first
+    void Awake()
+    {
+
+        Debug.Log("Spawning player instance");
+        playerController = PlayerController.Instance;
+    }
 
     /**
     Level one is a tile painting level. 

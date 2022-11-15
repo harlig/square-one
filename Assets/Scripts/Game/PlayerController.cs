@@ -4,9 +4,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    // SINGLETON
+    public static PlayerController Instance { get; private set; }
+
     public delegate void MoveAction();
     public static event MoveAction OnMoveAction;
-
 
     private Rigidbody rb;
     private float movementX, movementY;
@@ -14,19 +16,38 @@ public class PlayerController : MonoBehaviour
 
     private bool shouldCountMoves = true;
     private int moveCount;
+    private GameObject playerInstanceGameObject;
 
     public void SpawnPlayer(int row, int col)
     {
-        originalPosition = new Vector3(row, 1.1f, col);
+        originalPosition = new Vector3(row, 1.5f, col);
         transform.localPosition = originalPosition;
         moveCount = 0;
+
+        playerInstanceGameObject = gameObject;
+
+        // playerInstanceGameObject = Instantiate(gameObject, originalPosition, Quaternion.identity);
+        // assumes that a Rigidbody exists on this GameObject
+        rb = playerInstanceGameObject.GetComponent<Rigidbody>();
+    }
+
+    private void Awake()
+    {
+        // If there is an instance, and it's not me, delete myself.
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        // assumes that a Rigidbody exists on this GameObject
-        rb = GetComponent<Rigidbody>();
     }
 
     public int GetMoveCount()
@@ -36,7 +57,7 @@ public class PlayerController : MonoBehaviour
 
     public void ResetPosition()
     {
-        transform.localPosition = originalPosition;
+        playerInstanceGameObject.transform.localPosition = originalPosition;
         ResetPlayerPhysics();
     }
 
@@ -75,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
         void Assemble(Vector3 dir)
         {
-            var anchor = transform.localPosition + (Vector3.down + dir) * 0.5f;
+            var anchor = playerInstanceGameObject.transform.localPosition + (Vector3.down + dir) * 0.5f;
             var axis = Vector3.Cross(Vector3.up, dir);
             // I think I want less of a Roll and more of a fixed one unit movement
             float rotationRemaining = 90;
@@ -88,14 +109,14 @@ public class PlayerController : MonoBehaviour
                 for (var i = 0; i < 90 / _rollSpeed; i++)
                 {
                     float rotationAngle = Mathf.Min(_rollSpeed, rotationRemaining);
-                    transform.RotateAround(anchor, axis, rotationAngle);
+                    playerInstanceGameObject.transform.RotateAround(anchor, axis, rotationAngle);
                     rotationRemaining -= _rollSpeed;
                     // yield return new WaitForSeconds(0.01f);
                     yield return null;
                 }
 
-                Vector3 pos = transform.position;
-                transform.localPosition = Vector3Int.RoundToInt(pos);
+                Vector3 pos = playerInstanceGameObject.transform.position;
+                playerInstanceGameObject.transform.localPosition = Vector3Int.RoundToInt(pos);
                 ResetPlayerPhysics();
 
                 // player should have their move count increased once they've finished moving
@@ -115,8 +136,13 @@ public class PlayerController : MonoBehaviour
 
         void RotateToNearestRightAngles()
         {
-            Quaternion roundedRotation = new(ClosestRightAngle(transform.rotation.x), ClosestRightAngle(transform.rotation.y), ClosestRightAngle(transform.rotation.z), transform.rotation.w);
-            transform.rotation = roundedRotation;
+            Quaternion roundedRotation = new(
+                ClosestRightAngle(playerInstanceGameObject.transform.rotation.x),
+                ClosestRightAngle(playerInstanceGameObject.transform.rotation.y),
+                ClosestRightAngle(playerInstanceGameObject.transform.rotation.z),
+                playerInstanceGameObject.transform.rotation.w);
+
+            playerInstanceGameObject.transform.rotation = roundedRotation;
 
             static int ClosestRightAngle(float rotation)
             {
@@ -133,7 +159,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector2Int GetRoundedPosition()
     {
-        return new Vector2Int(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
+        return new Vector2Int(Mathf.RoundToInt(playerInstanceGameObject.transform.position.x), Mathf.RoundToInt(playerInstanceGameObject.transform.position.z));
     }
 
 }
