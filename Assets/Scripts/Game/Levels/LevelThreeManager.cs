@@ -30,8 +30,9 @@ public class LevelThreeManager : LevelManager
     */
     void Start()
     {
-        gridSizeX = gridSizeY = 10;
-        turnLimit = 20;
+        // comment these out to use editor values
+        gridSizeX = gridSizeY = 13;
+        turnLimit = 70;
 
         gameStateOrder = new List<GameState>
         {
@@ -101,14 +102,14 @@ public class LevelThreeManager : LevelManager
         switch (currentGameState)
         {
             case GameState.START:
-                // welcome text or interaction?
-                if (playerController.GetMoveCount() == 1)
+                // secret location? kinda shitty to make player guess and check
+                if (playerPos.x == 9 && playerPos.y == 9)
                 {
                     TransitionState();
                 }
                 break;
             case GameState.GREEN_SETUP:
-                gridController.PaintTilesAdjacentToLocation(playerPos, Color.green);
+                gridController.PaintTileAtLocation(0, 0, Color.green);
                 TransitionState();
                 break;
             case GameState.GREEN_HIT:
@@ -118,7 +119,7 @@ public class LevelThreeManager : LevelManager
                 }
                 break;
             case GameState.RED_SETUP:
-                gridController.PaintTileAtLocation(1, 1, Color.red);
+                gridController.PaintTileAtLocation(4, gridSizeY - 1, Color.red);
                 TransitionState();
                 break;
             case GameState.RED_HIT:

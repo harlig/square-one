@@ -432,7 +432,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 677198415}
-  - component: {fileID: 677198414}
+  - component: {fileID: 677198416}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -440,28 +440,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &677198414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 677198413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 805928cd8e54eae4cbe6689082885bef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridSizeX: 10
-  gridSizeY: 10
-  turnLimit: 20
-  devMode: 0
-  moveCountText: {fileID: 1065870632}
-  successElements: {fileID: 1823437887}
-  failedElements: {fileID: 355051594}
-  gridController: {fileID: 272909727}
-  cameraController: {fileID: 1976018791}
-  resetPlaneController: {fileID: 873284918}
 --- !u!4 &677198415
 Transform:
   m_ObjectHideFlags: 0
@@ -477,6 +455,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &677198416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677198413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c3776b3e46359f4c83bedb5b35ee801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridController: {fileID: 272909727}
+  playerController: {fileID: 1106754085}
+  cameraController: {fileID: 1976018791}
+  moveCountText: {fileID: 1065870632}
+  gridSizeX: 15
+  gridSizeY: 15
+  turnLimit: 100
+  devMode: 1
+  successElements: {fileID: 1823437887}
+  failedElements: {fileID: 355051594}
 --- !u!1 &791108131
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,18 +612,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 791108131}
   m_CullTransparentMesh: 1
---- !u!114 &873284918 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6268992733907893435, guid: 591ca36c17e836f498e6c78397dba2d3,
-    type: 3}
-  m_PrefabInstance: {fileID: 6268992734646303117}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e6354a8532d14d4ca29d974badec452, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &887262697
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,6 +1126,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065870630}
   m_CullTransparentMesh: 1
+--- !u!114 &1106754085 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3930883601968557274, guid: 57cbc997aff41c740925e4e77ae23aeb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2037969875}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e53a12d134f5c4f9393316947b7bdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1129020168
 GameObject:
   m_ObjectHideFlags: 0
