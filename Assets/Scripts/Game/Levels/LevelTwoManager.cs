@@ -23,12 +23,19 @@ public class LevelTwoManager : LevelManager
 
     void OnPlayerMove()
     {
+        if (!levelActive) return;
+
         turnsLeft--;
         SetMoveCountText();
 
         Vector2Int playerPos = playerController.GetRoundedPosition();
 
         TileController tile = gridController.TileAtLocation(playerPos);
+
+        if (turnsLeft <= 18)
+        {
+            SetTerminalGameState(successElements);
+        }
 
         if (HasTile(tile))
         {
