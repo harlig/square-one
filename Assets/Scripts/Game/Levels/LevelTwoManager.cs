@@ -7,10 +7,13 @@ public class LevelTwoManager : LevelManager
     public GameObject successElements;
     public GameObject failedElements;
 
+    [SerializeField] private int gridSizeX, gridSizeY;
+
     private Dictionary<TileController, bool> paintedTiles;
 
     void Start()
     {
+        SetupLevel(gridSizeX, gridSizeY);
         PlayerController.OnMoveAction += OnPlayerMove;
 
         paintedTiles = new Dictionary<TileController, bool>();

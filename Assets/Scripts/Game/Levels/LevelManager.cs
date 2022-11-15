@@ -9,16 +9,14 @@ public class LevelManager : MonoBehaviour
 
     public CameraController cameraController;
 
-    public int gridSizeX, gridSizeY = 10;
-    public int turnLimit = 20;
-
     public Vector2Int squareOne;
 
+    [SerializeField] protected int turnLimit;
+
     public bool levelActive;
-    // Start is called before the first frame update
-    void Awake() {
+    protected void SetupLevel(int gridSizeX, int gridSizeY)
+    {
         gridController.SetupGrid(gridSizeX, gridSizeY);
-        
 
         int playerOffsetX = gridSizeX / 2;
         int playerOffsetY = gridSizeY / 2;
@@ -46,7 +44,7 @@ public class LevelManager : MonoBehaviour
         playerController.StopCountingMoves();
         StartCoroutine(SetElementAfterDelay(textElementToEnable));
 
-        IEnumerator SetElementAfterDelay(GameObject element)
+        static IEnumerator SetElementAfterDelay(GameObject element)
         {
             yield return new WaitForSeconds(0.2f);
             element.SetActive(true);
