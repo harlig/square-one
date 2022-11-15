@@ -504,11 +504,11 @@ MonoBehaviour:
   gridController: {fileID: 272909727}
   playerController: {fileID: 1831271139}
   cameraController: {fileID: 1976018791}
+  moveCountText: {fileID: 1065870632}
   gridSizeX: 10
   gridSizeY: 10
   turnLimit: 20
-  squareOne: {x: 0, y: 0}
-  levelActive: 0
+  devMode: 0
   successElements: {fileID: 1823437887}
   failedElements: {fileID: 355051594}
 --- !u!1 &791108131

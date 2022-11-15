@@ -3,32 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class LevelOneManager : MonoBehaviour
+public class LevelOneManager : LevelManager
 {
-    // [SerializeField] private GameObject playerPrefab;
-
-    // TODO turn all publics into SerializedField with getters
-    public int gridSizeX, gridSizeY = 10;
-    public int turnLimit = 20;
-
-    public bool devMode = false;
-
-    public TextMeshProUGUI moveCountText;
-
     public GameObject successElements;
     public GameObject failedElements;
 
-    private int turnsLeft;
-    private bool levelActive;
-
     private List<GameState> gameStateOrder;
     private GameState currentGameState;
-
-    private Vector2Int squareOne;
-
-    private static PlayerController playerController;
-    private GridController gridController;
-    private CameraController cameraController;
 
     enum GameState
     {
@@ -51,24 +32,8 @@ public class LevelOneManager : MonoBehaviour
     */
     void Start()
     {
-        // I wish I could instantiate these in Awake but they don't finish instantiating before Start() is called so there's a race condition
-        playerController = (PlayerController)PlayerController.Instance;
-        gridController = (GridController)GridController.Instance;
-        cameraController = (CameraController)CameraController.Instance;
-
-        gridController.SetupGrid(gridSizeX, gridSizeY);
-
-        levelActive = true;
-
-        int playerOffsetX = gridSizeX / 2;
-        int playerOffsetY = gridSizeY / 2;
-
-        squareOne = new(playerOffsetX, playerOffsetY);
-
-        playerController.SpawnPlayer(playerOffsetX, playerOffsetY);
-        cameraController.CenterCameraOnOffset(playerOffsetX, playerOffsetY);
-        turnsLeft = turnLimit;
-        SetMoveCountText();
+        gridSizeX = gridSizeY = 10;
+        turnLimit = 20;
 
         gameStateOrder = new List<GameState>
         {
@@ -81,6 +46,8 @@ public class LevelOneManager : MonoBehaviour
             GameState.BLUE_HIT,
             GameState.SUCCESS
         };
+
+        SetupLevel();
 
         currentGameState = GameState.START;
 
@@ -110,12 +77,10 @@ public class LevelOneManager : MonoBehaviour
 
     void HandlePlayerMove()
     {
-        if (levelActive) turnsLeft--;
-    }
-
-    void SetMoveCountText()
-    {
-        moveCountText.text = $"Turns remaining: {turnsLeft}";
+        if (levelActive)
+        {
+            turnsLeft--;
+        }
     }
 
     void ManageGameState()
@@ -186,26 +151,6 @@ public class LevelOneManager : MonoBehaviour
             default:
                 Debug.LogErrorFormat("Encountered unexpected game state: {0}", currentGameState);
                 break;
-        }
-
-        /**
-         handles setting the game to SUCCESS or FAILED
-         ideas included below
-        */
-        // set back to square one text
-        // stop input from this script, now we should spawn a NextGamePortal and head there
-        // also spawn a plane below you which can reset you into middle of map if you fall off at this point
-        void SetTerminalGameState(GameObject textElementToEnable)
-        {
-            levelActive = false;
-            playerController.StopCountingMoves();
-            StartCoroutine(SetElementAfterDelay(textElementToEnable));
-
-            IEnumerator SetElementAfterDelay(GameObject element)
-            {
-                yield return new WaitForSeconds(0.2f);
-                element.SetActive(true);
-            }
         }
 
         void TransitionState()

@@ -1,21 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public GridController gridController;
-    public PlayerController playerController;
+    [SerializeField] protected GridController gridController;
+    [SerializeField] protected PlayerController playerController;
+    [SerializeField] protected CameraController cameraController;
 
-    public CameraController cameraController;
+    [SerializeField] protected TextMeshProUGUI moveCountText;
 
-    public Vector2Int squareOne;
+    [SerializeField] protected int gridSizeX, gridSizeY, turnLimit;
+    [SerializeField] protected bool devMode = false;
 
-    [SerializeField] protected int turnLimit;
+    protected Vector2Int squareOne;
+    protected bool levelActive;
+    protected int turnsLeft;
 
-    public bool levelActive;
-    protected void SetupLevel(int gridSizeX, int gridSizeY)
+    protected void SetupLevel()
     {
+        playerController = (PlayerController)PlayerController.Instance;
+        gridController = (GridController)GridController.Instance;
+        cameraController = (CameraController)CameraController.Instance;
+
         gridController.SetupGrid(gridSizeX, gridSizeY);
 
         int playerOffsetX = gridSizeX / 2;
@@ -28,6 +36,10 @@ public class LevelManager : MonoBehaviour
 
         squareOne = new(playerOffsetX, playerOffsetY);
 
+        turnsLeft = turnLimit;
+
+        SetMoveCountText();
+
         levelActive = true;
     }
 
@@ -38,7 +50,7 @@ public class LevelManager : MonoBehaviour
     // set back to square one text
     // stop input from this script, now we should spawn a NextGamePortal and head there
     // also spawn a plane below you which can reset you into middle of map if you fall off at this point
-    public void SetTerminalGameState(GameObject textElementToEnable)
+    protected void SetTerminalGameState(GameObject textElementToEnable)
     {
         levelActive = false;
         playerController.StopCountingMoves();
@@ -50,4 +62,10 @@ public class LevelManager : MonoBehaviour
             element.SetActive(true);
         }
     }
+
+    protected void SetMoveCountText()
+    {
+        moveCountText.text = $"Turns remaining: {turnsLeft}";
+    }
+
 }
