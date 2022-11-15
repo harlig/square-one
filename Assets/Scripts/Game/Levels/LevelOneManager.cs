@@ -50,7 +50,7 @@ public class LevelOneManager : MonoBehaviour
     {
 
         Debug.Log("Spawning singleton instances");
-        playerController = PlayerController.Instance;
+        playerController = (PlayerController)PlayerController.Instance;
         gridController = GridController.Instance;
     }
 
