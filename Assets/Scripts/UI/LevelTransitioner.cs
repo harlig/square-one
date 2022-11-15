@@ -12,7 +12,8 @@ public class LevelTransitioner : MonoBehaviour
 
     public void RestartLevel()
     {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+        Debug.Log("Restarting level");
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 
     public void ToMenu()

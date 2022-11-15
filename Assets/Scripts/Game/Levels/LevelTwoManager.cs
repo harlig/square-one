@@ -17,7 +17,7 @@ public class LevelTwoManager : LevelManager
 
         paintedTiles = new Dictionary<TileController, bool>();
         Vector2Int playerPos = playerController.GetRoundedPosition();
-        GetAndPaintTile(playerPos);
+        CheckFailureAndPaintTile(playerPos);
     }
 
     void Destroy()
@@ -27,6 +27,7 @@ public class LevelTwoManager : LevelManager
 
     void OnPlayerMove()
     {
+        // TODO this errors when scene has been restarted -- why?
         Vector2Int playerPos = playerController.GetRoundedPosition();
 
         // once level is done, can still use snake for fun
@@ -45,10 +46,10 @@ public class LevelTwoManager : LevelManager
             SetTerminalGameState(successElements);
         }
 
-        GetAndPaintTile(playerPos);
+        CheckFailureAndPaintTile(playerPos);
     }
 
-    void GetAndPaintTile(Vector2Int playerPos)
+    void CheckFailureAndPaintTile(Vector2Int playerPos)
     {
         TileController tile = gridController.TileAtLocation(playerPos);
 
