@@ -452,16 +452,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 805928cd8e54eae4cbe6689082885bef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridController: {fileID: 272909727}
+  playerController: {fileID: 0}
+  cameraController: {fileID: 1976018791}
+  moveCountText: {fileID: 1065870632}
   gridSizeX: 10
   gridSizeY: 10
   turnLimit: 20
   devMode: 0
-  moveCountText: {fileID: 1065870632}
   successElements: {fileID: 1823437887}
   failedElements: {fileID: 355051594}
-  gridController: {fileID: 272909727}
-  cameraController: {fileID: 1976018791}
-  resetPlaneController: {fileID: 873284918}
 --- !u!4 &677198415
 Transform:
   m_ObjectHideFlags: 0
@@ -612,18 +612,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 791108131}
   m_CullTransparentMesh: 1
---- !u!114 &873284918 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6268992733907893435, guid: 591ca36c17e836f498e6c78397dba2d3,
-    type: 3}
-  m_PrefabInstance: {fileID: 6268992734646303117}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e6354a8532d14d4ca29d974badec452, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &887262697
 GameObject:
   m_ObjectHideFlags: 0
@@ -1526,6 +1514,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3930883601968557272, guid: 57cbc997aff41c740925e4e77ae23aeb,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3930883601968557272, guid: 57cbc997aff41c740925e4e77ae23aeb,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3930883601968557272, guid: 57cbc997aff41c740925e4e77ae23aeb,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3930883601968557272, guid: 57cbc997aff41c740925e4e77ae23aeb,
         type: 3}
