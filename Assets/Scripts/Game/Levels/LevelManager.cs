@@ -55,13 +55,21 @@ public class LevelManager : MonoBehaviour
     // also spawn a plane below you which can reset you into middle of map if you fall off at this point
     protected void SetTerminalGameState(GameObject textElementToEnable)
     {
+        SetTerminalGameState(textElementToEnable, 0.2f);
+    }
+
+    /**
+    handles setting the game to SUCCESS or FAILED with a variable waitDelaySeconds
+    */
+    protected void SetTerminalGameState(GameObject textElementToEnable, float waitDelaySeconds)
+    {
         levelActive = false;
         playerController.StopCountingMoves();
-        StartCoroutine(SetElementAfterDelay(textElementToEnable));
+        StartCoroutine(SetElementAfterDelay(textElementToEnable, waitDelaySeconds));
 
-        static IEnumerator SetElementAfterDelay(GameObject element)
+        static IEnumerator SetElementAfterDelay(GameObject element, float waitDelaySeconds)
         {
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(waitDelaySeconds);
             element.SetActive(true);
         }
     }

@@ -62,13 +62,13 @@ public class LevelThreeManager : LevelManager
     // required naming for events
     void OnEnable()
     {
-        PlayerController.OnMoveAction += HandlePlayerMove;
+        PlayerController.OnMoveStart += HandlePlayerMove;
     }
 
     // required naming for events
     void OnDisable()
     {
-        PlayerController.OnMoveAction -= HandlePlayerMove;
+        PlayerController.OnMoveStart -= HandlePlayerMove;
     }
 
     void HandlePlayerMove()
