@@ -4,7 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private GameObject playerPrefab;
+    // SINGLETON
+    public static PlayerController Instance { get; private set; }
 
     public delegate void MoveAction();
     public static event MoveAction OnMoveAction;
@@ -17,21 +18,31 @@ public class PlayerController : MonoBehaviour
     private int moveCount;
     private GameObject playerInstanceGameObject;
 
-    // instantiations must happen first
-    void Awake()
-    {
-        Debug.Log("Spawning player instance");
-        playerInstanceGameObject = Instantiate(playerPrefab, originalPosition, Quaternion.identity);
-    }
-
     public void SpawnPlayer(int row, int col)
     {
         originalPosition = new Vector3(row, 1.1f, col);
         // transform.localPosition = originalPosition;
         moveCount = 0;
 
+        playerInstanceGameObject = gameObject;
+
+        // playerInstanceGameObject = Instantiate(gameObject, originalPosition, Quaternion.identity);
         // assumes that a Rigidbody exists on this GameObject
         rb = playerInstanceGameObject.GetComponent<Rigidbody>();
+    }
+
+    private void Awake()
+    {
+        // If there is an instance, and it's not me, delete myself.
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
     // Start is called before the first frame update
