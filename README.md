@@ -32,6 +32,10 @@ Should consider accessibility and write letters or some symbol on tiles to diffe
   * You leave behind a trail and hitting own trail makes you lose level
 * This theoretical level has a wall, and rotating the wall into view adds a certain mechanic that aids/allows you to complete the level - Evan Lane (all royalties are awarded to Evan Lane)
 
+* Every time you move, enemy moves or tries to block you. you can use terrain to reroute them
+* terrain
+* objects that move on a schedule and can move you around the map, some levels require usage of those moving objects to push you to complete in level limit
+
 ### Meta ideas
 
 * Shoes on wrong foot
