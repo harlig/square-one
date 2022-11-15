@@ -18,9 +18,6 @@ public class LevelOneManager : MonoBehaviour
     public GameObject successElements;
     public GameObject failedElements;
 
-    public CameraController cameraController;
-    public ResetPlaneController resetPlaneController;
-
     private int turnsLeft;
     private bool levelActive;
 
@@ -29,8 +26,9 @@ public class LevelOneManager : MonoBehaviour
 
     private Vector2Int squareOne;
 
-    private PlayerController playerController;
+    private static PlayerController playerController;
     private GridController gridController;
+    private CameraController cameraController;
 
     enum GameState
     {
@@ -45,15 +43,6 @@ public class LevelOneManager : MonoBehaviour
         FAILED,
     };
 
-    // instantiations must happen first
-    void Awake()
-    {
-
-        Debug.Log("Spawning singleton instances");
-        playerController = (PlayerController)PlayerController.Instance;
-        gridController = (GridController)GridController.Instance;
-    }
-
     /**
     Level one is a tile painting level. 
     When the player moves once, a square one unit away from them turns green.
@@ -62,6 +51,11 @@ public class LevelOneManager : MonoBehaviour
     */
     void Start()
     {
+        // I wish I could instantiate these in Awake but they don't finish instantiating before Start() is called so there's a race condition
+        playerController = (PlayerController)PlayerController.Instance;
+        gridController = (GridController)GridController.Instance;
+        cameraController = (CameraController)CameraController.Instance;
+
         gridController.SetupGrid(gridSizeX, gridSizeY);
 
         levelActive = true;

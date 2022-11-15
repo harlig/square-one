@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ResetPlaneController : MonoBehaviour
+public class ResetPlaneController : Singleton<ResetPlaneController>
 {
     void OnTriggerEnter(Collider other)
     {
