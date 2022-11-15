@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
 
     public void SpawnPlayer(int row, int col)
     {
-        originalPosition = new Vector3(row, 1.5f, col);
+        originalPosition = new Vector3(row, 1.1f, col);
         transform.localPosition = originalPosition;
         moveCount = 0;
     }
