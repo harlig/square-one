@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] protected GameObject successElements;
     [SerializeField] protected GameObject failedElements;
-
+    [SerializeField] protected string nextLevelSceneString;
 
     [SerializeField] protected int gridSizeX, gridSizeY, turnLimit;
     [SerializeField] protected bool devMode = false;
