@@ -39,7 +39,7 @@ public class GridController : Singleton<GridController>
 
     }
 
-    private TileController TileAtLocation(Vector2Int position)
+    public TileController TileAtLocation(Vector2Int position)
     {
         return gridRows[position.x][position.y];
     }
