@@ -3,11 +3,29 @@ using UnityEngine;
 
 public class GridController : MonoBehaviour
 {
+    // SINGLETON
+    public static GridController Instance { get; private set; }
+
     public GameObject tilePrefab;
 
     private List<List<TileController>> gridRows;
 
     private Color startingColor;
+
+    void Awake()
+    {
+        // If there is an instance, and it's not me, delete myself.
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
 
     public void SetupGrid(int width, int length)
     {

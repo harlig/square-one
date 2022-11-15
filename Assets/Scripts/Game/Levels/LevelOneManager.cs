@@ -18,7 +18,6 @@ public class LevelOneManager : MonoBehaviour
     public GameObject successElements;
     public GameObject failedElements;
 
-    public GridController gridController;
     public CameraController cameraController;
     public ResetPlaneController resetPlaneController;
 
@@ -31,6 +30,7 @@ public class LevelOneManager : MonoBehaviour
     private Vector2Int squareOne;
 
     private PlayerController playerController;
+    private GridController gridController;
 
     enum GameState
     {
@@ -49,8 +49,9 @@ public class LevelOneManager : MonoBehaviour
     void Awake()
     {
 
-        Debug.Log("Spawning player instance");
+        Debug.Log("Spawning singleton instances");
         playerController = PlayerController.Instance;
+        gridController = GridController.Instance;
     }
 
     /**

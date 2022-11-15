@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
         rb = playerInstanceGameObject.GetComponent<Rigidbody>();
     }
 
-    private void Awake()
+    void Awake()
     {
         // If there is an instance, and it's not me, delete myself.
 
