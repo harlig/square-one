@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class LevelTwoManager : LevelManager
 {
-    public GameObject successElements;
-    public GameObject failedElements;
-
     private Dictionary<TileController, bool> paintedTiles;
 
     void Start()

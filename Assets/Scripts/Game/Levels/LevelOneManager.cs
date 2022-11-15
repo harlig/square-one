@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class LevelOneManager : LevelManager
 {
-    public GameObject successElements;
-    public GameObject failedElements;
-
     private List<GameState> gameStateOrder;
     private GameState currentGameState;
 

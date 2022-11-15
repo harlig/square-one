@@ -10,6 +10,10 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] protected TextMeshProUGUI moveCountText;
 
+    [SerializeField] protected GameObject successElements;
+    [SerializeField] protected GameObject failedElements;
+
+
     [SerializeField] protected int gridSizeX, gridSizeY, turnLimit;
     [SerializeField] protected bool devMode = false;
 
