@@ -70,7 +70,7 @@ public class LevelFourManager : LevelManager
             Debug.Log("Player has exited map.");
             currentGameState = GameState.FAILED;
         }
-        if (playerController.GetMoveCount() >= devModeTurnLimit)
+        if (playerController.GetMoveCount() >= turnLimit)
         {
             Debug.Log("Player exceeded move count");
             currentGameState = GameState.FAILED;
@@ -97,7 +97,7 @@ public class LevelFourManager : LevelManager
                 }
                 break;
             case GameState.RED_SETUP:
-                gridController.PaintTileAtLocation(4, devModeGridSizeY - 1, Color.red);
+                gridController.PaintTileAtLocation(4, gridSizeY - 1, Color.red);
                 TransitionState();
                 break;
             case GameState.RED_HIT:
