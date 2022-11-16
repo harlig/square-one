@@ -39,12 +39,25 @@ public class GridController : Singleton<GridController>
         gridRows = rows;
     }
 
-    public void AddObstacleAtPosition(int row, int col)
+
+    private GameObject _obstacleGameObject;
+
+    public ObstacleController AddObstacleAtPosition(int row, int col)
     {
-        // make all obstacles just above the floor
+        if (_obstacleGameObject == null)
+        {
+            _obstacleGameObject = new("Obstacles");
+        }
+        // obstacles spawn on top of floor
         ObstacleController obstacle = Instantiate(obstaclePrefab, new Vector3Int(row, 1, col), Quaternion.identity).GetComponent<ObstacleController>();
+        obstacle.SetName($"row{row}col{col}");
+
+        obstacle.transform.parent = _obstacleGameObject.transform;
+
         Debug.LogFormat("Made obstacle: {0}", obstacle);
         obstacle.LogFromObstacle();
+
+        return obstacle;
     }
 
     /**

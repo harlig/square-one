@@ -21,7 +21,7 @@ public class LevelFourManager : LevelManager
 
     void Start()
     {
-        gridSizeX = gridSizeY = 13;
+        gridSizeX = gridSizeY = 11;
         turnLimit = 70;
 
         gameStateOrder = new List<GameState>
@@ -41,7 +41,7 @@ public class LevelFourManager : LevelManager
         gridController.AddObstacleAtPosition(1, 1);
         gridController.AddObstacleAtPosition(gridSizeX - 2, 1);
         gridController.AddObstacleAtPosition(1, gridSizeY - 2);
-        gridController.AddObstacleAtPosition(gridSizeX - 2, gridSizeY - 2);
+        gridController.AddObstacleAtPosition(gridSizeX - 1, gridSizeY - 2);
 
         currentGameState = GameState.START;
 
