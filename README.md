@@ -28,9 +28,7 @@ I'm liking the idea of modules, so like having levels 1-3 build on top of the li
 
 Should consider accessibility and write letters or some symbol on tiles to differentiate. 
 
-* This theoretical level has a wall, and rotating the wall into view adds a certain mechanic that aids/allows you to complete the level - Evan Lane (all royalties are awarded to Evan Lane)
-
-### Obstacle ideas
+### Mechanic ideas
 
 * Snake
   * You leave behind a trail and hitting own trail makes you lose level
@@ -38,6 +36,8 @@ Should consider accessibility and write letters or some symbol on tiles to diffe
 * terrain
 * objects that move on a schedule and can move you around the map, some levels require usage of those moving objects to push you to complete in level limit
 * irrelevant colors
+* This theoretical level has a wall, and rotating the wall into view adds a certain mechanic that aids/allows you to complete the level - Evan Lane (all royalties are awarded to Evan Lane)
+* "off the grid" end up on diagonal grid or something
 
 ### Meta ideas
 

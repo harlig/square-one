@@ -19,7 +19,6 @@ public class TileController : MonoBehaviour
 
     public void Paint(Color color)
     {
-        Debug.LogFormat("Painting this tile to color: {0}", color);
         gameObject.GetComponent<MeshRenderer>().material.color = color;
         IsPainted = true;
     }

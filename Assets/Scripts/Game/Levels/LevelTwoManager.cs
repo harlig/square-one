@@ -13,21 +13,14 @@ public class LevelTwoManager : LevelManager
         turnLimit = 20;
 
         SetupLevel();
-        PlayerController.OnMoveFinish += OnPlayerMove;
 
         paintedTiles = new Dictionary<TileController, bool>();
         Vector2Int playerPos = playerController.GetRoundedPosition();
         CheckFailureAndPaintTile(playerPos);
     }
 
-    void Destroy()
+    override protected void OnPlayerMoveFinish()
     {
-        PlayerController.OnMoveFinish -= OnPlayerMove;
-    }
-
-    void OnPlayerMove()
-    {
-        // TODO this errors when scene has been restarted -- why?
         Vector2Int playerPos = playerController.GetRoundedPosition();
 
         // once level is done, can still use snake for fun

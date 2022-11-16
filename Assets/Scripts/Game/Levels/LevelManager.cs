@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public abstract class LevelManager : MonoBehaviour
 {
     [SerializeField] protected GridController gridController;
     [SerializeField] protected PlayerController playerController;
@@ -78,5 +78,27 @@ public class LevelManager : MonoBehaviour
     {
         moveCountText.text = $"Turns remaining: {turnsLeft}";
     }
+
+    // handle player movement. override in child classes if they want to access these events
+    // prefer to use OnPlayerMoveStart unless you need specific behavior at the end of the movement
+    protected virtual void OnPlayerMoveStart() { }
+    protected virtual void OnPlayerMoveFinish() { }
+
+    // required naming for events
+    void OnEnable()
+    {
+        Debug.Log("Enabling player event");
+        PlayerController.OnMoveStart += OnPlayerMoveStart;
+        PlayerController.OnMoveFinish += OnPlayerMoveFinish;
+    }
+
+    // required naming for events
+    void OnDisable()
+    {
+        Debug.Log("Disabling player event");
+        PlayerController.OnMoveStart -= OnPlayerMoveStart;
+        PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
+    }
+
 
 }

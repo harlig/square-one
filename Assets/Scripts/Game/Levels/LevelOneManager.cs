@@ -58,19 +58,7 @@ public class LevelOneManager : LevelManager
         }
     }
 
-    // required naming for events
-    void OnEnable()
-    {
-        PlayerController.OnMoveStart += HandlePlayerMove;
-    }
-
-    // required naming for events
-    void OnDisable()
-    {
-        PlayerController.OnMoveStart -= HandlePlayerMove;
-    }
-
-    void HandlePlayerMove()
+    override protected void OnPlayerMoveStart()
     {
         if (levelActive)
         {
