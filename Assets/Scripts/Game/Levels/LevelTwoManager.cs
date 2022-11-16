@@ -10,7 +10,7 @@ public class LevelTwoManager : LevelManager
     void Start()
     {
         gridSizeX = gridSizeY = 10;
-        turnLimit = 20;
+        turnLimit = 99;
 
         SetupLevel();
 
