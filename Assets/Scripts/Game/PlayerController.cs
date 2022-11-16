@@ -61,7 +61,6 @@ public class PlayerController : Singleton<PlayerController>
         movementY = movementVector.y;
 
 
-        // Debug.LogFormat("Moving player w this vector: {0}", movementVector);
         if (!_isMoving)
         {
             // lock
@@ -96,6 +95,11 @@ public class PlayerController : Singleton<PlayerController>
                     float rotationAngle = Mathf.Min(_rollSpeed, rotationRemaining);
                     playerInstanceGameObject.transform.RotateAround(anchor, axis, rotationAngle);
                     rotationRemaining -= _rollSpeed;
+
+                    // downwards force disallows wall climbing, constant was chosen because it plays well
+                    // this solution isn't great but seems good enough, feel free to update it to be cleaner
+                    rb.AddForce(Vector3.down * 25, ForceMode.Force);
+
                     // yield return new WaitForSeconds(0.01f);
                     yield return null;
                 }
