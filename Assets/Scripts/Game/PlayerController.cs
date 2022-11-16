@@ -47,7 +47,7 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     // ripped this code, rethink it
-    [SerializeField] private readonly float _rollSpeed = 5;
+    [SerializeField] private readonly float _rollSpeed = 4.4f;
     private bool _isMoving;
 
     // OnMove comes from the InputActions action defined Move

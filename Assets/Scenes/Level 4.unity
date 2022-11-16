@@ -800,6 +800,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grid
       objectReference: {fileID: 0}
+    - target: {fileID: 2676600126780665011, guid: 269f9417c03385a49a3af90daaee9c6a,
+        type: 3}
+      propertyPath: obstaclePrefab
+      value: 
+      objectReference: {fileID: 7530635830996508701, guid: f675280fa843bac44b8f8dfc8d6b1fe4,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 269f9417c03385a49a3af90daaee9c6a, type: 3}
 --- !u!1001 &6268992734646303117

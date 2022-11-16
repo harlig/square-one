@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class GridController : Singleton<GridController>
 {
-    public GameObject tilePrefab;
+    [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private GameObject obstaclePrefab;
 
     private List<List<TileController>> gridRows;
 
@@ -36,7 +37,14 @@ public class GridController : Singleton<GridController>
             rows.Add(thisRow);
         }
         gridRows = rows;
+    }
 
+    public void AddObstacleAtPosition(int row, int col)
+    {
+        // make all obstacles just above the floor
+        ObstacleController obstacle = Instantiate(obstaclePrefab, new Vector3Int(row, 1, col), Quaternion.identity).GetComponent<ObstacleController>();
+        Debug.LogFormat("Made obstacle: {0}", obstacle);
+        obstacle.LogFromObstacle();
     }
 
     /**
