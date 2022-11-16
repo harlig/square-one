@@ -19,12 +19,6 @@ public class LevelFourManager : LevelManager
         FAILED,
     };
 
-    /**
-    Level one is a tile painting level. 
-    When the player moves once, a square one unit away from them turns green.
-    When the player touches the green square, we trigger an orange and red square towards the nearest corner.
-    Touching either results in a blue square back at square one. Touching blue square wins game.
-    */
     void Start()
     {
         gridSizeX = gridSizeY = 13;
