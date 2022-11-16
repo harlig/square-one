@@ -26,7 +26,6 @@ public class PlayerController : Singleton<PlayerController>
 
         playerInstanceGameObject = gameObject;
 
-        // playerInstanceGameObject = Instantiate(gameObject, originalPosition, Quaternion.identity);
         // assumes that a Rigidbody exists on this GameObject
         rb = playerInstanceGameObject.GetComponent<Rigidbody>();
     }
