@@ -27,7 +27,6 @@ public class LevelThreeManager : LevelManager
     */
     void Start()
     {
-        // comment these out to use editor values
         gridSizeX = gridSizeY = 13;
         turnLimit = 70;
 

@@ -12,25 +12,33 @@ public abstract class LevelManager : MonoBehaviour
 
     [SerializeField] protected GameObject successElements;
     [SerializeField] protected GameObject failedElements;
-    [SerializeField] protected string nextLevelSceneString;
 
-    [SerializeField] protected int gridSizeX, gridSizeY, turnLimit;
-    [SerializeField] protected bool devMode = false;
+    protected int gridSizeX, gridSizeY, turnLimit, turnsLeft;
 
     protected Vector2Int squareOne;
     protected bool levelActive;
-    protected int turnsLeft;
+
+    [SerializeField] protected bool devMode = false;
+    [SerializeField] private int devModeGridSizeX, devModeGridSizeY, devModeTurnLimit;
 
     protected void SetupLevel()
     {
+
+        if (devMode)
+        {
+            gridSizeX = devModeGridSizeX;
+            gridSizeY = devModeGridSizeY;
+            turnLimit = devModeTurnLimit;
+        }
+
         playerController = (PlayerController)PlayerController.Instance;
         gridController = (GridController)GridController.Instance;
         cameraController = (CameraController)CameraController.Instance;
 
-        gridController.SetupGrid(gridSizeX, gridSizeY);
+        gridController.SetupGrid(devModeGridSizeX, devModeGridSizeY);
 
-        int playerOffsetX = gridSizeX / 2;
-        int playerOffsetY = gridSizeY / 2;
+        int playerOffsetX = devModeGridSizeX / 2;
+        int playerOffsetY = devModeGridSizeY / 2;
 
         playerController.SpawnPlayer(playerOffsetX, playerOffsetY);
         playerController.gameObject.SetActive(true);
@@ -39,7 +47,7 @@ public abstract class LevelManager : MonoBehaviour
 
         squareOne = new(playerOffsetX, playerOffsetY);
 
-        turnsLeft = turnLimit;
+        turnsLeft = devModeTurnLimit;
 
         SetMoveCountText();
 
