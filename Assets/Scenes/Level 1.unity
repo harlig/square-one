@@ -285,11 +285,10 @@ MonoBehaviour:
   moveCountText: {fileID: 1647855622}
   successElements: {fileID: 1647855621}
   failedElements: {fileID: 1647855620}
-  nextLevelSceneString: 
-  gridSizeX: 10
-  gridSizeY: 10
-  turnLimit: 20
-  devMode: 0
+  DEV_MODE_DO_NOT_USE: 0
+  DEV_MODE_GRID_SIZE_X_DO_NOT_USE: 6
+  DEV_MODE_GRID_SIZE_Y_DO_NOT_USE: 0
+  DEV_MODE_TURN_LIMIT_DO_NOT_USE: 0
 --- !u!4 &677198415
 Transform:
   m_ObjectHideFlags: 0

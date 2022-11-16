@@ -37,7 +37,11 @@ public class LevelFourManager : LevelManager
         };
 
         SetupLevel();
+
         gridController.AddObstacleAtPosition(1, 1);
+        gridController.AddObstacleAtPosition(gridSizeX - 2, 1);
+        gridController.AddObstacleAtPosition(1, gridSizeY - 2);
+        gridController.AddObstacleAtPosition(gridSizeX - 2, gridSizeY - 2);
 
         currentGameState = GameState.START;
 
@@ -66,7 +70,7 @@ public class LevelFourManager : LevelManager
         Vector2Int playerPos = playerController.GetRoundedPosition();
 
         // allow devMode to not fall out of map
-        if (!devMode && !gridController.IsWithinGrid(playerPos))
+        if (!DEV_MODE && !gridController.IsWithinGrid(playerPos))
         {
             Debug.Log("Player has exited map.");
             currentGameState = GameState.FAILED;

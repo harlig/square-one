@@ -18,27 +18,28 @@ public abstract class LevelManager : MonoBehaviour
     protected Vector2Int squareOne;
     protected bool levelActive;
 
-    [SerializeField] protected bool devMode = false;
-    [SerializeField] private int devModeGridSizeX, devModeGridSizeY, devModeTurnLimit;
+    // these flags may be too dangerous, avoid using them
+    [SerializeField] protected bool DEV_MODE = false;
+    [SerializeField] private int DEV_MODE_GRID_SIZE_X, DEV_MODE_GRID_SIZE_Y, DEV_MODE_TURN_LIMIT;
 
     protected void SetupLevel()
     {
 
-        if (devMode)
+        if (DEV_MODE)
         {
-            gridSizeX = devModeGridSizeX;
-            gridSizeY = devModeGridSizeY;
-            turnLimit = devModeTurnLimit;
+            gridSizeX = DEV_MODE_GRID_SIZE_X;
+            gridSizeY = DEV_MODE_GRID_SIZE_Y;
+            turnLimit = DEV_MODE_TURN_LIMIT;
         }
 
         playerController = (PlayerController)PlayerController.Instance;
         gridController = (GridController)GridController.Instance;
         cameraController = (CameraController)CameraController.Instance;
 
-        gridController.SetupGrid(devModeGridSizeX, devModeGridSizeY);
+        gridController.SetupGrid(gridSizeX, gridSizeY);
 
-        int playerOffsetX = devModeGridSizeX / 2;
-        int playerOffsetY = devModeGridSizeY / 2;
+        int playerOffsetX = gridSizeX / 2;
+        int playerOffsetY = gridSizeY / 2;
 
         playerController.SpawnPlayer(playerOffsetX, playerOffsetY);
         playerController.gameObject.SetActive(true);
@@ -47,7 +48,7 @@ public abstract class LevelManager : MonoBehaviour
 
         squareOne = new(playerOffsetX, playerOffsetY);
 
-        turnsLeft = devModeTurnLimit;
+        turnsLeft = turnLimit;
 
         SetMoveCountText();
 
