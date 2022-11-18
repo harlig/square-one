@@ -291,7 +291,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 677198413}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 653acdde50108684cb351101f3c46db1, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c93c9eb7f9bea24ea175a4ae8e93ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gridController: {fileID: 272909727}
@@ -301,9 +301,9 @@ MonoBehaviour:
   successElements: {fileID: 1675783242}
   failedElements: {fileID: 1675783241}
   DEV_MODE: 0
-  DEV_MODE_GRID_SIZE_X: 20
-  DEV_MODE_GRID_SIZE_Y: 20
-  DEV_MODE_TURN_LIMIT: 3
+  DEV_MODE_GRID_SIZE_X: 0
+  DEV_MODE_GRID_SIZE_Y: 0
+  DEV_MODE_TURN_LIMIT: 0
 --- !u!114 &1106754085 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3930883601968557274, guid: 57cbc997aff41c740925e4e77ae23aeb,

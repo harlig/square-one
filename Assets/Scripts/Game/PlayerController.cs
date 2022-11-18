@@ -46,7 +46,7 @@ public class PlayerController : Singleton<PlayerController>
         ResetPlayerPhysics();
     }
 
-    // ripped this code, rethink it
+    // TODO combine this with the code in PlayerController
     [SerializeField] private readonly float _rollSpeed = 4.4f;
     private bool _isMoving;
 
@@ -78,6 +78,8 @@ public class PlayerController : Singleton<PlayerController>
             return;
         }
 
+        // TODO combine this with the code in PlayerController
+        // DON'T UPDATE THIS WITHOUT UPDATING ObstacleController
         void Assemble(Vector3 dir)
         {
             var anchor = playerInstanceGameObject.transform.localPosition + (Vector3.down + dir) * 0.5f;
@@ -115,12 +117,13 @@ public class PlayerController : Singleton<PlayerController>
                 OnMoveFinish?.Invoke();
 
                 _isMoving = false;
-                yield return null;
             }
 
         }
     }
 
+    // TODO combine this with the code in PlayerController
+    // DON'T UPDATE THIS WITHOUT UPDATING ObstacleController
     void ResetPlayerPhysics()
     {
         rb.velocity = Vector3.zero;

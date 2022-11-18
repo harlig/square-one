@@ -10,17 +10,15 @@ public abstract class Singleton<T> : MonoBehaviour
     void Awake()
     {
         // If there is an instance and it's not me, delete myself.
-
         Debug.LogFormat("Spawning instance of {0}", GetType().ToString());
 
         if (Instance != null && Instance != this)
         {
-            Debug.Log("destroy");
+            Debug.LogFormat("destroy {0}", GetType().ToString());
             Destroy(this);
         }
         else
         {
-            Debug.Log("spawn");
             Instance = this;
             // don't destroy on load if we want to persist player instance throughout game
         }
