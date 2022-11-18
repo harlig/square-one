@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// snake
 public class LevelTwoManager : LevelManager
 {
     private Dictionary<TileController, bool> paintedTiles;
@@ -42,6 +43,7 @@ public class LevelTwoManager : LevelManager
         CheckFailureAndPaintTile(playerPos);
     }
 
+    // TODO probably want to use this in other levels, should be a mechanic
     void CheckFailureAndPaintTile(Vector2Int playerPos)
     {
         TileController tile = gridController.TileAtLocation(playerPos);
@@ -63,17 +65,17 @@ public class LevelTwoManager : LevelManager
             paintedTiles.Add(tile, true);
         }
 
+        bool HasTile(TileController tile)
+        {
+            try
+            {
+                return paintedTiles[tile];
+            }
+            catch (KeyNotFoundException)
+            {
+                return false;
+            }
+        }
     }
 
-    private bool HasTile(TileController tile)
-    {
-        try
-        {
-            return paintedTiles[tile];
-        }
-        catch (KeyNotFoundException)
-        {
-            return false;
-        }
-    }
 }

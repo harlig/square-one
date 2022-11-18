@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// easy
 public class LevelOneManager : LevelManager
 {
     private List<GameState> gameStateOrder;

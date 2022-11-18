@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// stationary obstacles 
 public class LevelFourManager : LevelManager
 {
     private List<GameState> gameStateOrder;

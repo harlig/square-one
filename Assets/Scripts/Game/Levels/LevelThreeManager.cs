@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// bigger level, hidden cubes
 public class LevelThreeManager : LevelManager
 {
     private List<GameState> gameStateOrder;
