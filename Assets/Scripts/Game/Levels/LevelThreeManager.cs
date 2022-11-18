@@ -40,8 +40,6 @@ public class LevelThreeManager : LevelManager
         SetupLevel();
 
         currentGameState = GameState.START;
-
-        playerController.gameObject.SetActive(true);
     }
 
     void Update()

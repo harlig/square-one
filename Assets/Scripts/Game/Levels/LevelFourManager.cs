@@ -45,8 +45,6 @@ public class LevelFourManager : LevelManager
         gridController.AddObstacleAtPosition(gridSizeX - 3, gridSizeY - 3);
 
         currentGameState = GameState.START;
-
-        playerController.gameObject.SetActive(true);
     }
 
     void Update()
