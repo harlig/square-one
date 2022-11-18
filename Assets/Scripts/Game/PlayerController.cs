@@ -117,6 +117,7 @@ public class PlayerController : Singleton<PlayerController>
                 OnMoveFinish?.Invoke();
 
                 _isMoving = false;
+                yield return null;
             }
 
         }
