@@ -30,6 +30,8 @@ Should consider accessibility and write letters or some symbol on tiles to diffe
 
 - [x] Snake
    - You leave behind a trail and hitting own trail makes you lose level
+- [ ] Double colored tiles
+   - Like two green tiles and when you hit one, you get a green snake trail, then when you hit the other it stops but persists. Then you hit one of the two red tiles and get a red trail, then hit the second one. If you hit an already painted tile, you lose
 - [x] Static terrain
 - [ ] Dynamic terrain
   - Objects that move on a schedule and can move you around the map
