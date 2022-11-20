@@ -40,12 +40,10 @@ public class LevelFiveManager : LevelManager
         SetupLevel();
 
         ObstacleController obstacle = gridController.AddObstacleAtPosition(2, 2);
-        obstacle.SetPatrolPosition(new Vector2Int(8, 2));
+        obstacle.SetPatrolPosition(new Vector2Int(8, 0));
 
-        // TODO ethan 2-dimensional obstacle movement doesn't work bud :(
-        // that can be level 6 
-        // ObstacleController obstacle2 = gridController.AddObstacleAtPosition(2, 8);
-        // obstacle2.SetPatrolPosition(new Vector2Int(4, 9));
+        ObstacleController obstacle2 = gridController.AddObstacleAtPosition(5, 7);
+        obstacle2.SetPatrolPosition(new Vector2Int(8, 9));
 
         currentGameState = GameState.START;
     }

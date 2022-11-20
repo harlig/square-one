@@ -72,11 +72,11 @@ public class ObstacleController : MonoBehaviour
                     {
                         if (curPosition.y > endPosition.y)
                         {
-                            Assemble(Vector3.forward);
+                            Assemble(Vector3.back);
                         }
                         else
                         {
-                            Assemble(Vector3.back);
+                            Assemble(Vector3.forward);
                         }
                     }
 
