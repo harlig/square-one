@@ -22,9 +22,11 @@ public class ObstacleController : MonoBehaviour
     private Vector2Int spawnPosition;
     private bool _isPatrolling;
 
-    public void SetPatrolPosition(Vector2Int patrolPosition)
+    public void StartPatrolling(Vector2Int patrolPosition)
     {
         spawnPosition = GetPositionAsVector2Int();
+
+        Cube cube = new(this, 1.0f);
 
         StartCoroutine(MoveObstacleOnPatrolCourse(MoveDirection.TOWARDS_PATROL_POSITION));
 
@@ -58,11 +60,11 @@ public class ObstacleController : MonoBehaviour
                 {
                     if (curPosition.x > endPosition.x)
                     {
-                        Assemble(Vector3.left);
+                        cube.Assemble(Vector3.left);
                     }
                     else
                     {
-                        Assemble(Vector3.right);
+                        cube.Assemble(Vector3.right);
                     }
                 }
                 // TODO, add this back in and think of a more explicit solution for when xDiff and yDiff are equivalent
@@ -72,11 +74,11 @@ public class ObstacleController : MonoBehaviour
                     {
                         if (curPosition.y > endPosition.y)
                         {
-                            Assemble(Vector3.back);
+                            cube.Assemble(Vector3.back);
                         }
                         else
                         {
-                            Assemble(Vector3.forward);
+                            cube.Assemble(Vector3.forward);
                         }
                     }
 
@@ -134,71 +136,6 @@ public class ObstacleController : MonoBehaviour
     private Vector2Int GetPositionAsVector2Int()
     {
         return Vector2Int.RoundToInt(new Vector2(transform.position.x, transform.position.z));
-    }
-
-    // TODO combine this with the code in PlayerController
-    // DON'T UPDATE THIS WITHOUT UPDATING PlayerController
-    [SerializeField] private readonly float _rollSpeed = 1.0f;
-    private bool _isRotating;
-
-    void Assemble(Vector3 dir)
-    {
-        if (_isRotating) return;
-
-        // lock
-        _isRotating = true;
-
-        var anchor = gameObject.transform.localPosition + (Vector3.down + dir) * 0.5f;
-        var axis = Vector3.Cross(Vector3.up, dir);
-        // I think I want less of a Roll and more of a fixed one unit movement
-        float rotationRemaining = 90;
-
-        // TODO different math for tiny player?
-        StartCoroutine(Roll(anchor, axis));
-
-        IEnumerator Roll(Vector3 anchor, Vector3 axis)
-        {
-            for (var i = 0; i < 90 / _rollSpeed; i++)
-            {
-                float rotationAngle = Mathf.Min(_rollSpeed, rotationRemaining);
-                gameObject.transform.RotateAround(anchor, axis, rotationAngle);
-                rotationRemaining -= _rollSpeed;
-                yield return null;
-            }
-
-            Vector3 pos = gameObject.transform.position;
-            gameObject.transform.localPosition = Vector3Int.RoundToInt(pos);
-            ResetObstaclePhysics();
-
-            _isRotating = false;
-        }
-
-    }
-
-    // TODO combine this with the code in PlayerController
-    // DON'T UPDATE THIS WITHOUT UPDATING PlayerController
-    void ResetObstaclePhysics()
-    {
-        // rb.velocity = Vector3.zero;
-        // rb.angularVelocity = Vector3.zero;
-        RotateToNearestRightAngles();
-
-        void RotateToNearestRightAngles()
-        {
-            Quaternion roundedRotation = new(
-                ClosestRightAngle(gameObject.transform.rotation.x),
-                ClosestRightAngle(gameObject.transform.rotation.y),
-                ClosestRightAngle(gameObject.transform.rotation.z),
-                gameObject.transform.rotation.w);
-
-            gameObject.transform.rotation = roundedRotation;
-
-            static int ClosestRightAngle(float rotation)
-            {
-                bool isPositive = rotation > 0;
-                return Mathf.RoundToInt(rotation) * 90 * (isPositive ? 1 : -1);
-            }
-        }
     }
 
 }

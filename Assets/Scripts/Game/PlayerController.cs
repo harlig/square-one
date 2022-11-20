@@ -10,13 +10,13 @@ public class PlayerController : Singleton<PlayerController>
     public delegate void MoveFinishAction();
     public static event MoveFinishAction OnMoveFinish;
 
-    private Rigidbody rb;
     private float movementX, movementY;
     private Vector3 originalPosition;
 
     private bool shouldCountMoves = true;
     private int moveCount;
     private GameObject playerInstanceGameObject;
+    private Cube cube;
 
     public void SpawnPlayer(int row, int col)
     {
@@ -26,8 +26,8 @@ public class PlayerController : Singleton<PlayerController>
 
         playerInstanceGameObject = gameObject;
 
-        // assumes that a Rigidbody exists on this GameObject
-        rb = playerInstanceGameObject.GetComponent<Rigidbody>();
+        // defines roll speed and allows to roll
+        cube = new(this, 4.4f);
     }
 
     // Start is called before the first frame update
@@ -43,11 +43,9 @@ public class PlayerController : Singleton<PlayerController>
     public void ResetPosition()
     {
         playerInstanceGameObject.transform.localPosition = originalPosition;
-        ResetPlayerPhysics();
+        cube.ResetPhysics();
     }
 
-    // TODO combine this with the code in PlayerController
-    [SerializeField] private readonly float _rollSpeed = 4.4f;
     private bool _isMoving;
 
     // OnMove comes from the InputActions action defined Move
@@ -68,84 +66,14 @@ public class PlayerController : Singleton<PlayerController>
             // call delegate
             OnMoveStart?.Invoke();
 
-            if (movementX == -1) Assemble(Vector3.left);
-            else if (movementX == 1) Assemble(Vector3.right);
-            else if (movementY == 1) Assemble(Vector3.forward);
-            else if (movementY == -1) Assemble(Vector3.back);
+            if (movementX == -1) cube.Assemble(Vector3.left);
+            else if (movementX == 1) cube.Assemble(Vector3.right);
+            else if (movementY == 1) cube.Assemble(Vector3.forward);
+            else if (movementY == -1) cube.Assemble(Vector3.back);
         }
         else
         {
             return;
-        }
-
-        // TODO combine this with the code in PlayerController
-        // DON'T UPDATE THIS WITHOUT UPDATING ObstacleController
-        void Assemble(Vector3 dir)
-        {
-            var anchor = playerInstanceGameObject.transform.localPosition + (Vector3.down + dir) * 0.5f;
-            var axis = Vector3.Cross(Vector3.up, dir);
-            // I think I want less of a Roll and more of a fixed one unit movement
-            float rotationRemaining = 90;
-
-            // TODO different math for tiny player?
-            StartCoroutine(Roll(anchor, axis));
-
-            IEnumerator Roll(Vector3 anchor, Vector3 axis)
-            {
-                for (var i = 0; i < 90 / _rollSpeed; i++)
-                {
-                    float rotationAngle = Mathf.Min(_rollSpeed, rotationRemaining);
-                    playerInstanceGameObject.transform.RotateAround(anchor, axis, rotationAngle);
-                    rotationRemaining -= _rollSpeed;
-
-                    // downwards force disallows wall climbing, constant was chosen because it plays well
-                    // this solution isn't great but seems good enough, feel free to update it to be cleaner
-                    rb.AddForce(Vector3.down * 25, ForceMode.Force);
-
-                    // yield return new WaitForSeconds(0.01f);
-                    yield return null;
-                }
-
-                Vector3 pos = playerInstanceGameObject.transform.position;
-                playerInstanceGameObject.transform.localPosition = Vector3Int.RoundToInt(pos);
-                ResetPlayerPhysics();
-
-                // player should have their move count increased once they've finished moving
-                if (shouldCountMoves) moveCount++;
-
-                // call delegate
-                OnMoveFinish?.Invoke();
-
-                _isMoving = false;
-                yield return null;
-            }
-
-        }
-    }
-
-    // TODO combine this with the code in PlayerController
-    // DON'T UPDATE THIS WITHOUT UPDATING ObstacleController
-    void ResetPlayerPhysics()
-    {
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        RotateToNearestRightAngles();
-
-        void RotateToNearestRightAngles()
-        {
-            Quaternion roundedRotation = new(
-                ClosestRightAngle(playerInstanceGameObject.transform.rotation.x),
-                ClosestRightAngle(playerInstanceGameObject.transform.rotation.y),
-                ClosestRightAngle(playerInstanceGameObject.transform.rotation.z),
-                playerInstanceGameObject.transform.rotation.w);
-
-            playerInstanceGameObject.transform.rotation = roundedRotation;
-
-            static int ClosestRightAngle(float rotation)
-            {
-                bool isPositive = rotation > 0;
-                return Mathf.RoundToInt(rotation) * 90 * (isPositive ? 1 : -1);
-            }
         }
     }
 
