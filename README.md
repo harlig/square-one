@@ -34,11 +34,11 @@ Should consider accessibility and write letters or some symbol on tiles to diffe
    - Like two green tiles and when you hit one, you get a green snake trail, then when you hit the other it stops but persists. Then you hit one of the two red tiles and get a red trail, then hit the second one. If you hit an already painted tile, you lose
 - [x] Static terrain
 - [ ] Dynamic terrain
-  - Objects that move on a schedule and can move you around the map
-  - Some levels require usage of those moving objects to push you to complete in level limit
+  - [x] Objects that move on a schedule and can move you around the map
+  - [ ] Some levels require usage of those moving objects to push you to complete in level limit
 - [ ] Enemy chase
-  - Every time you move, enemy moves or tries to block you
-  - Can use terrain to reroute them
+  - [ ] Every time you move, enemy moves or tries to block you
+  - [ ] Can use terrain to reroute them
 - [ ] Irrelevant colors
 - [ ] Wall (similar to dynamic terrain?)
   - This theoretical level has a wall, and rotating the wall into view adds a certain mechanic that aids/allows you to complete the level - Evan Lane (all royalties are awarded to Evan Lane)
