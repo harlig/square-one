@@ -26,7 +26,7 @@ public class ObstacleController : MonoBehaviour
     {
         spawnPosition = GetPositionAsVector2Int();
 
-        Cube cube = new(this, 1.0f);
+        Cube cube = new(this, 1.0f, () => { }, () => { });
 
         StartCoroutine(MoveObstacleOnPatrolCourse(MoveDirection.TOWARDS_PATROL_POSITION));
 

@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Cube
@@ -8,25 +8,20 @@ public class Cube
     private readonly MonoBehaviour _mb;
     private readonly float _rollSpeed = 1.0f;
 
-    public Cube(MonoBehaviour _mb)
-    {
-        this._mb = _mb;
-    }
+    private readonly Action _beforeRoll;
+    private readonly Action _afterRoll;
 
-    public Cube(MonoBehaviour _mb, float rollSpeed)
+    public Cube(MonoBehaviour mb, float rollSpeed, Action beforeRoll, Action afterRoll)
     {
-        this._mb = _mb;
+        _mb = mb;
         _rollSpeed = rollSpeed;
+        _beforeRoll = beforeRoll;
+        _afterRoll = afterRoll;
     }
 
     protected Rigidbody rb;
 
     private bool _isRotating;
-
-    delegate void BeforeRollAction();
-    private event BeforeRollAction BeforeRoll;
-    delegate void AfterRollAction();
-    private event AfterRollAction AfterRoll;
 
     public void Assemble(Vector3 dir)
     {
@@ -35,8 +30,7 @@ public class Cube
         // lock
         _isRotating = true;
 
-        // call delegate
-        BeforeRoll?.Invoke();
+        _beforeRoll.Invoke();
 
         if (rb == null)
         {
@@ -71,8 +65,7 @@ public class Cube
             _mb.gameObject.transform.localPosition = Vector3Int.RoundToInt(pos);
             ResetPhysics();
 
-            // call delegate
-            AfterRoll?.Invoke();
+            _afterRoll?.Invoke();
 
             _isRotating = false;
         }
