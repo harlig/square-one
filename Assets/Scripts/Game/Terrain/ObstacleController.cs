@@ -138,7 +138,7 @@ public class ObstacleController : MonoBehaviour
 
     // TODO combine this with the code in PlayerController
     // DON'T UPDATE THIS WITHOUT UPDATING PlayerController
-    [SerializeField] private float _rollSpeed = 1.0f;
+    [SerializeField] private readonly float _rollSpeed = 1.0f;
     private bool _isRotating;
 
     void Assemble(Vector3 dir)
