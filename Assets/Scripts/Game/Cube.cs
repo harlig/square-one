@@ -23,12 +23,20 @@ public class Cube
 
     private bool _isRotating;
 
+    delegate void BeforeRollAction();
+    private event BeforeRollAction BeforeRoll;
+    delegate void AfterRollAction();
+    private event AfterRollAction AfterRoll;
+
     public void Assemble(Vector3 dir)
     {
         if (_isRotating) return;
 
         // lock
         _isRotating = true;
+
+        // call delegate
+        BeforeRoll?.Invoke();
 
         if (rb == null)
         {
@@ -62,6 +70,9 @@ public class Cube
             Vector3 pos = _mb.gameObject.transform.position;
             _mb.gameObject.transform.localPosition = Vector3Int.RoundToInt(pos);
             ResetPhysics();
+
+            // call delegate
+            AfterRoll?.Invoke();
 
             _isRotating = false;
         }
