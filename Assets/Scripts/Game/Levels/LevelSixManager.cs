@@ -45,6 +45,9 @@ public class LevelSixManager : LevelManager
         ObstacleController obstacle2 = gridController.AddObstacleAtPosition(5, 7);
         obstacle2.StartPatrolling(new Vector2Int(8, 9));
 
+        ObstacleController obstacle3 = gridController.AddObstacleAtPosition(1, 10);
+        obstacle3.StartPatrolling(new Vector2Int(0, 1));
+
         currentGameState = GameState.START;
     }
 
