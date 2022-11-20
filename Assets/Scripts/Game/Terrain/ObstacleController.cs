@@ -21,7 +21,7 @@ public class ObstacleController : MonoBehaviour
 
     private Vector2Int spawnPosition;
     private bool _isPatrolling;
-    private Cube _cube;
+    private Cube Cube { get; set; }
 
     public void StartPatrolling(Vector2Int patrolPosition)
     {
@@ -49,39 +49,12 @@ public class ObstacleController : MonoBehaviour
 
             _isPatrolling = true;
             StartCoroutine(ChangePatrolDirectionWhenDonePatrolling(moveDirection));
+
             Vector2Int curPosition = GetPositionAsVector2Int();
-            int xDiff = Mathf.Abs(curPosition.x - endPosition.x);
-            int yDiff = Mathf.Abs(curPosition.y - endPosition.y);
+            MoveTowardsPosition(out int xDiff, out int yDiff, curPosition, endPosition);
+
             while (xDiff != 0 || yDiff != 0)
             {
-                // if bigger x deficit, move that way first
-                if (xDiff > yDiff)
-                {
-                    if (curPosition.x > endPosition.x)
-                    {
-                        _cube.MoveInDirectionIfNotMoving(Vector3.left);
-                    }
-                    else
-                    {
-                        _cube.MoveInDirectionIfNotMoving(Vector3.right);
-                    }
-                }
-                // TODO, add this back in and think of a more explicit solution for when xDiff and yDiff are equivalent
-                // else if (xDiff < yDiff)
-                else
-                {
-                    {
-                        if (curPosition.y > endPosition.y)
-                        {
-                            _cube.MoveInDirectionIfNotMoving(Vector3.back);
-                        }
-                        else
-                        {
-                            _cube.MoveInDirectionIfNotMoving(Vector3.forward);
-                        }
-                    }
-
-                }
                 // should maybe wait a second or two? we need to let the obstacle finish rolling too?
                 yield return null;
 
@@ -98,8 +71,7 @@ public class ObstacleController : MonoBehaviour
                 {
                     curPosition = GetPositionAsVector2Int();
                 }
-                xDiff = Mathf.Abs(curPosition.x - endPosition.x);
-                yDiff = Mathf.Abs(curPosition.y - endPosition.y);
+                MoveTowardsPosition(out xDiff, out yDiff, curPosition, endPosition);
             }
             _isPatrolling = false;
             Debug.Log("Done patrolling");
@@ -132,12 +104,50 @@ public class ObstacleController : MonoBehaviour
         }
     }
 
+    void MoveTowardsPosition(out int xDiff, out int yDiff, Vector2Int curPosition, Vector2Int endPosition)
+    {
+        xDiff = Mathf.Abs(curPosition.x - endPosition.x);
+        yDiff = Mathf.Abs(curPosition.y - endPosition.y);
+
+        if (xDiff == 0 && yDiff == 0) return;
+
+        // if bigger x deficit, move that way first
+        if (xDiff > yDiff)
+        {
+            if (curPosition.x > endPosition.x)
+            {
+                Cube.MoveInDirectionIfNotMoving(Vector3.left);
+            }
+            else
+            {
+                Cube.MoveInDirectionIfNotMoving(Vector3.right);
+            }
+        }
+        // TODO, add this back in and think of a more explicit solution for when xDiff and yDiff are equivalent
+        // else if (xDiff < yDiff)
+        else
+        {
+            {
+                if (curPosition.y > endPosition.y)
+                {
+                    Cube.MoveInDirectionIfNotMoving(Vector3.back);
+                }
+                else
+                {
+                    Cube.MoveInDirectionIfNotMoving(Vector3.forward);
+                }
+            }
+
+        }
+    }
+
     void OnPlayerMoveFinish()
     {
-        Debug.Log("Obstacle knows about player movement");
         if (_moveTowardsPlayer)
         {
+            Debug.Log("Moving towards player");
             // move one unit torwads player's position
+            MoveTowardsPosition(out _, out _, GetPositionAsVector2Int(), _playerController.GetRoundedPosition());
 
         }
     }
@@ -145,7 +155,7 @@ public class ObstacleController : MonoBehaviour
     void Awake()
     {
         // no need for any before/after roll actions right now
-        _cube = new(this, 1.0f, () => { }, () => { });
+        Cube = new(this, 1.0f, () => { }, () => { });
     }
 
     // must be done at object enable time
@@ -162,10 +172,13 @@ public class ObstacleController : MonoBehaviour
     }
 
     private bool _moveTowardsPlayer = false;
+    private PlayerController _playerController;
 
-    public void MoveTowards()
+    public void MoveTowardsPlayer(PlayerController playerController)
     {
+        Cube.SetRollSpeed(playerController.Cube.GetRollSpeed());
         _moveTowardsPlayer = true;
+        _playerController = playerController;
     }
 
     private Vector2Int GetPositionAsVector2Int()

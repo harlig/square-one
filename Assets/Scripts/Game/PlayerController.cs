@@ -16,7 +16,8 @@ public class PlayerController : Singleton<PlayerController>
     private bool shouldCountMoves = true;
     private int moveCount;
     private GameObject playerInstanceGameObject;
-    private Cube cube;
+    // TODO probably shouldn't be public hmm
+    public Cube Cube { get; set; }
 
     public void SpawnPlayer(int row, int col)
     {
@@ -27,7 +28,7 @@ public class PlayerController : Singleton<PlayerController>
         playerInstanceGameObject = gameObject;
 
         // defines roll speed and allows to roll
-        cube = new(this, 3.0f, BeforeRollActions(), AfterRollActions());
+        Cube = new(this, 3.0f, BeforeRollActions(), AfterRollActions());
     }
 
     public int GetMoveCount()
@@ -38,7 +39,7 @@ public class PlayerController : Singleton<PlayerController>
     public void ResetPosition()
     {
         playerInstanceGameObject.transform.localPosition = originalPosition;
-        cube.ResetPhysics();
+        Cube.ResetPhysics();
     }
 
     Action BeforeRollActions()
@@ -73,10 +74,10 @@ public class PlayerController : Singleton<PlayerController>
         float movementX = movementVector.x;
         float movementY = movementVector.y;
 
-        if (movementX == -1) cube.MoveInDirectionIfNotMoving(Vector3.left);
-        else if (movementX == 1) cube.MoveInDirectionIfNotMoving(Vector3.right);
-        else if (movementY == 1) cube.MoveInDirectionIfNotMoving(Vector3.forward);
-        else if (movementY == -1) cube.MoveInDirectionIfNotMoving(Vector3.back);
+        if (movementX == -1) Cube.MoveInDirectionIfNotMoving(Vector3.left);
+        else if (movementX == 1) Cube.MoveInDirectionIfNotMoving(Vector3.right);
+        else if (movementY == 1) Cube.MoveInDirectionIfNotMoving(Vector3.forward);
+        else if (movementY == -1) Cube.MoveInDirectionIfNotMoving(Vector3.back);
 
         // TODO player can float by constant input, how to disallow? prev solution below
 

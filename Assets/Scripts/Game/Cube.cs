@@ -6,7 +6,17 @@ public class Cube
 {
     // TODO ethan this seems super dangerous but I can't think of better solution for now
     private readonly MonoBehaviour _mb;
-    private readonly float _rollSpeed = 1.0f;
+    private float _rollSpeed = 1.0f;
+
+    public float GetRollSpeed()
+    {
+        return _rollSpeed;
+    }
+
+    public void SetRollSpeed(float rollSpeed)
+    {
+        _rollSpeed = rollSpeed;
+    }
 
     private readonly Action _beforeRoll;
     private readonly Action _afterRoll;

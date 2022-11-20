@@ -40,8 +40,7 @@ public class LevelSevenManager : LevelManager
         SetupLevel();
 
         ObstacleController obstacle = gridController.AddObstacleAtPosition(2, 1);
-        // need constant access to player location
-        // obstacle.MoveTowards(transform)
+        obstacle.MoveTowardsPlayer(playerController);
 
         currentGameState = GameState.START;
     }
