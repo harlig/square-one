@@ -53,11 +53,6 @@ public class Cube
                 float rotationAngle = Mathf.Min(_rollSpeed, rotationRemaining);
                 _mb.gameObject.transform.RotateAround(anchor, axis, rotationAngle);
                 rotationRemaining -= _rollSpeed;
-
-                // downwards force disallows wall climbing, constant was chosen because it plays well
-                // this solution isn't great but seems good enough, feel free to update it to be cleaner
-                rb.AddForce(Vector3.down * 25, ForceMode.Force);
-
                 yield return null;
             }
 

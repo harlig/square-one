@@ -77,6 +77,13 @@ public class PlayerController : Singleton<PlayerController>
         else if (movementX == 1) cube.MoveInDirectionIfNotMoving(Vector3.right);
         else if (movementY == 1) cube.MoveInDirectionIfNotMoving(Vector3.forward);
         else if (movementY == -1) cube.MoveInDirectionIfNotMoving(Vector3.back);
+
+        // TODO player can float by constant input, how to disallow? prev solution below
+
+        // downwards force disallows wall climbing, constant was chosen because it plays well
+        // this solution isn't great but seems good enough, feel free to update it to be cleaner
+        // rb.AddForce(Vector3.down * 25, ForceMode.Force);
+
     }
 
     public void StopCountingMoves()
