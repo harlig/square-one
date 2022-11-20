@@ -26,11 +26,12 @@ public class ObstacleController : MonoBehaviour
     {
         spawnPosition = GetPositionAsVector2Int();
 
+        // no need for any before/after roll actions right now
         Cube cube = new(this, 1.0f, () => { }, () => { });
 
         StartCoroutine(MoveObstacleOnPatrolCourse(MoveDirection.TOWARDS_PATROL_POSITION));
 
-        // this is bound to cause index errors but I can't be bothered to deal with that right now
+        // this is bound to go out of the map but I can't be bothered to deal with that right now
         IEnumerator MoveObstacleOnPatrolCourse(MoveDirection moveDirection)
         {
             Debug.LogFormat("Moving obstacle in this direction: {0}", moveDirection);
