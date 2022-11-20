@@ -23,7 +23,7 @@ public class Cube
 
     private bool _isRotating;
 
-    public void Assemble(Vector3 dir)
+    public void MoveInDirectionIfNotMoving(Vector3 dir)
     {
         if (_isRotating) return;
 
@@ -67,6 +67,7 @@ public class Cube
 
             _afterRoll?.Invoke();
 
+            // lock
             _isRotating = false;
         }
 

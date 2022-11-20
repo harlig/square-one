@@ -61,11 +61,11 @@ public class ObstacleController : MonoBehaviour
                 {
                     if (curPosition.x > endPosition.x)
                     {
-                        cube.Assemble(Vector3.left);
+                        cube.MoveInDirectionIfNotMoving(Vector3.left);
                     }
                     else
                     {
-                        cube.Assemble(Vector3.right);
+                        cube.MoveInDirectionIfNotMoving(Vector3.right);
                     }
                 }
                 // TODO, add this back in and think of a more explicit solution for when xDiff and yDiff are equivalent
@@ -75,11 +75,11 @@ public class ObstacleController : MonoBehaviour
                     {
                         if (curPosition.y > endPosition.y)
                         {
-                            cube.Assemble(Vector3.back);
+                            cube.MoveInDirectionIfNotMoving(Vector3.back);
                         }
                         else
                         {
-                            cube.Assemble(Vector3.forward);
+                            cube.MoveInDirectionIfNotMoving(Vector3.forward);
                         }
                     }
 
