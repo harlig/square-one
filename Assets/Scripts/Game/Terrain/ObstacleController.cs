@@ -21,13 +21,11 @@ public class ObstacleController : MonoBehaviour
 
     private Vector2Int spawnPosition;
     private bool _isPatrolling;
+    private Cube _cube;
 
     public void StartPatrolling(Vector2Int patrolPosition)
     {
         spawnPosition = GetPositionAsVector2Int();
-
-        // no need for any before/after roll actions right now
-        Cube cube = new(this, 1.0f, () => { }, () => { });
 
         StartCoroutine(MoveObstacleOnPatrolCourse(MoveDirection.TOWARDS_PATROL_POSITION));
 
@@ -61,11 +59,11 @@ public class ObstacleController : MonoBehaviour
                 {
                     if (curPosition.x > endPosition.x)
                     {
-                        cube.MoveInDirectionIfNotMoving(Vector3.left);
+                        _cube.MoveInDirectionIfNotMoving(Vector3.left);
                     }
                     else
                     {
-                        cube.MoveInDirectionIfNotMoving(Vector3.right);
+                        _cube.MoveInDirectionIfNotMoving(Vector3.right);
                     }
                 }
                 // TODO, add this back in and think of a more explicit solution for when xDiff and yDiff are equivalent
@@ -75,11 +73,11 @@ public class ObstacleController : MonoBehaviour
                     {
                         if (curPosition.y > endPosition.y)
                         {
-                            cube.MoveInDirectionIfNotMoving(Vector3.back);
+                            _cube.MoveInDirectionIfNotMoving(Vector3.back);
                         }
                         else
                         {
-                            cube.MoveInDirectionIfNotMoving(Vector3.forward);
+                            _cube.MoveInDirectionIfNotMoving(Vector3.forward);
                         }
                     }
 
@@ -132,6 +130,42 @@ public class ObstacleController : MonoBehaviour
             }
 
         }
+    }
+
+    void OnPlayerMoveFinish()
+    {
+        Debug.Log("Obstacle knows about player movement");
+        if (_moveTowardsPlayer)
+        {
+            // move one unit torwads player's position
+
+        }
+    }
+
+    void Awake()
+    {
+        // no need for any before/after roll actions right now
+        _cube = new(this, 1.0f, () => { }, () => { });
+    }
+
+    // must be done at object enable time
+    void OnEnable()
+    {
+        PlayerController.OnMoveFinish += OnPlayerMoveFinish;
+
+    }
+
+    // make sure to deregister at disable time
+    void OnDisable()
+    {
+        PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
+    }
+
+    private bool _moveTowardsPlayer = false;
+
+    public void MoveTowards()
+    {
+        _moveTowardsPlayer = true;
     }
 
     private Vector2Int GetPositionAsVector2Int()

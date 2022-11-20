@@ -93,7 +93,7 @@ public abstract class LevelManager : MonoBehaviour
     protected virtual void OnPlayerMoveStart() { }
     protected virtual void OnPlayerMoveFinish() { }
 
-    // required naming for events
+    // must be done at object enable time
     void OnEnable()
     {
         Debug.Log("Enabling player event");
@@ -101,7 +101,7 @@ public abstract class LevelManager : MonoBehaviour
         PlayerController.OnMoveFinish += OnPlayerMoveFinish;
     }
 
-    // required naming for events
+    // make sure to deregister at disable time
     void OnDisable()
     {
         Debug.Log("Disabling player event");
