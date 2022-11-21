@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -45,7 +46,7 @@ public class ObstacleController : MonoBehaviour
             }
             else
             {
-                throw new System.Exception("Unexpected move direction!");
+                throw new Exception("Unexpected move direction!");
             }
 
             _isPatrolling = true;
@@ -99,7 +100,7 @@ public class ObstacleController : MonoBehaviour
             }
             else
             {
-                throw new System.Exception("Unexpected move direction!");
+                throw new Exception("Unexpected move direction!");
             }
 
         }
