@@ -87,9 +87,20 @@ public class Cube
     {
         Vector3 currentPos = _mb.gameObject.transform.position;
         Vector3 targetPos = _mb.gameObject.transform.position + dir;
-        Debug.LogFormat("Sliding to here: {0} {1}!", currentPos, targetPos);
-        _mb.gameObject.transform.position = Vector3.Lerp(currentPos, targetPos, _rollSpeed);
-        yield return null;
+
+        int numSteps = 20;
+        for (var i = 0; i < numSteps; i++)
+        {
+            _mb.gameObject.transform.position = Vector3.Lerp(currentPos, targetPos, 1.0f / numSteps * i);
+            yield return null;
+        }
+
+        Vector3 pos = _mb.gameObject.transform.position;
+        _mb.gameObject.transform.localPosition = Vector3Int.RoundToInt(pos);
+        ResetPhysics();
+        _afterRoll?.Invoke();
+        // lock
+        _isRotating = false;
     }
 
     IEnumerator Roll(Vector3 anchor, Vector3 axis, float rotationRemaining)
