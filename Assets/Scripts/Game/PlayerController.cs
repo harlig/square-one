@@ -51,6 +51,8 @@ public class PlayerController : Singleton<PlayerController>
         };
     }
 
+    // TODO the player could keep track of its location post-movement, so like the player can use it
+    // to detemrine what tile on it's on, and it won't be "on" a tile until the movement finishes
     Action AfterRollActions()
     {
         return () =>
