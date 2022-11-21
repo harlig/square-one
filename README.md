@@ -37,13 +37,16 @@ Should consider accessibility and write letters or some symbol on tiles to diffe
   - [x] Objects that move on a schedule and can move you around the map
   - [ ] Some levels require usage of those moving objects to push you to complete in level limit
 - [ ] Enemy chase
-  - [ ] Every time you move, enemy moves or tries to block you
+  - [x] Every time you move, enemy moves or tries to block you
   - [ ] Can use terrain to reroute them
+  - [ ] Can hit certain tiles to disable them
 - [ ] Irrelevant colors
 - [ ] Wall (similar to dynamic terrain?)
   - This theoretical level has a wall, and rotating the wall into view adds a certain mechanic that aids/allows you to complete the level - Evan Lane (all royalties are awarded to Evan Lane)
 - [ ] Off the grid
   - end up on diagonal grid
+- [ ] Ice
+  - Tiles that make you slide until you hit end of ice path
 
 ## Meta ideas
 
