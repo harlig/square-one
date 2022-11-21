@@ -1,15 +1,10 @@
 using UnityEngine;
 
-public class TileController : MonoBehaviour
+public class PaintTile : TileController
 {
     public bool IsPainted
     {
         get; private set;
-    }
-
-    public GameObject GetTile()
-    {
-        return gameObject;
     }
 
     public Color GetColor()

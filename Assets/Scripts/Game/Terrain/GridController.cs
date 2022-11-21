@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GridController : Singleton<GridController>
 {
-    [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private GameObject paintTilePrefab;
     [SerializeField] private GameObject obstaclePrefab;
 
     private List<List<TileController>> gridRows;
@@ -20,7 +20,7 @@ public class GridController : Singleton<GridController>
             GameObject rowObj = new(string.Format("row{0}", row));
             for (int col = 0; col < length; col++)
             {
-                GameObject tile = Instantiate(tilePrefab);
+                GameObject tile = Instantiate(paintTilePrefab);
                 tile.transform.localPosition = new Vector3(row, 0, col);
 
                 tile.name = string.Format("col{0}", col);
@@ -60,6 +60,11 @@ public class GridController : Singleton<GridController>
         return obstacle;
     }
 
+    public TileController TileAtLocation(int x, int y)
+    {
+        return TileAtLocation(new Vector2Int(x, y));
+    }
+
     /**
     * Get Tile at Vector2Int position. Returns null if position is not within grid.
     */
@@ -83,8 +88,13 @@ public class GridController : Singleton<GridController>
         {
             return null;
         }
+        if (TileAtLocation(position) is not PaintTile)
+        {
+            Debug.Log("Tile color at location returned a non-paint tile!");
+            return null;
+        }
 
-        return TileAtLocation(position).GetColor();
+        return ((PaintTile)TileAtLocation(position)).GetColor();
     }
 
     public void PaintTileAtLocation(Vector2Int position, Color color)
@@ -94,8 +104,16 @@ public class GridController : Singleton<GridController>
 
     public void PaintTileAtLocation(int x, int z, Color color)
     {
-        if (IsWithinGrid(x, z))
-            gridRows[x][z].Paint(color);
+        if (!IsWithinGrid(x, z))
+        {
+            return;
+        }
+        if (TileAtLocation(x, z) is not PaintTile)
+        {
+            Debug.Log("Paint tile at location returned a non-paint tile!");
+            return;
+        }
+        ((PaintTile)gridRows[x][z]).Paint(color);
     }
 
     public void PaintTilesAdjacentToLocation(Vector2 position, Color color)
