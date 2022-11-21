@@ -47,6 +47,10 @@ Should consider accessibility and write letters or some symbol on tiles to diffe
   - end up on diagonal grid
 - [ ] Ice
   - Tiles that make you slide until you hit end of ice path
+- [ ] Traps
+  - Tiles that knock you away from next waypoint or something
+- [ ] Portal
+  - Tiles that teleport you across the map, think going from one corner to another in the board game Clue
 
 ## Meta ideas
 
