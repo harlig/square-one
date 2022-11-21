@@ -25,17 +25,10 @@ public class GridController : Singleton<GridController>
             for (int col = 0; col < length; col++)
             {
                 GameObject tile;
-                if (row == width - 1 && col == width - 1)
-                {
-                    tile = Instantiate(iceTilePrefab);
-                }
-                else
-                {
-                    tile = Instantiate(paintTilePrefab);
-                }
-                tile.transform.localPosition = new Vector3(row, 0, col);
 
-                tile.name = string.Format("col{0}", col);
+                tile = Instantiate(paintTilePrefab);
+                tile.transform.localPosition = new Vector3(row, 0, col);
+                tile.name = string.Format("col{0} - Paint", col);
                 tile.transform.parent = rowObj.transform;
 
                 thisRow.Add(tile.GetComponent<TileController>());
@@ -52,6 +45,22 @@ public class GridController : Singleton<GridController>
         gridRows = rows;
     }
 
+    public void SpawnIceTile(int row, int col)
+    {
+        if (IsWithinGrid(row, col))
+        {
+            Debug.LogFormat("Destroying tile at this location: {0}, {1}", row, col);
+            TileAtLocation(row, col).GetTile().SetActive(false);
+            Transform parent = transform.GetChild(row).transform;
+
+            GameObject tile = Instantiate(iceTilePrefab);
+            tile.transform.localPosition = new Vector3(row, 0, col);
+            tile.name = string.Format("col{0} - Ice", col);
+            tile.transform.parent = parent;
+
+            gridRows[row][col] = tile.GetComponent<TileController>();
+        }
+    }
 
     private GameObject _obstacleGameObject;
 

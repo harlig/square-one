@@ -39,6 +39,8 @@ public class LevelEightManager : LevelManager
 
         SetupLevel();
 
+        gridController.SpawnIceTile(4, 4);
+
         currentGameState = GameState.START;
     }
 
