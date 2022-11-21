@@ -47,6 +47,10 @@ public class LevelEightManager : LevelManager
         IceTile iceTile2 = (IceTile)gridController.TileAtLocation(3, 4);
         iceTile2.WhenSteppedOn += OnIceTileSteppedOn;
 
+        gridController.SpawnIceTile(4, 5);
+        IceTile iceTile3 = (IceTile)gridController.TileAtLocation(4, 5);
+        iceTile3.WhenSteppedOn += OnIceTileSteppedOn;
+
         currentGameState = GameState.START;
     }
 
