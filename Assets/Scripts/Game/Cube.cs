@@ -37,9 +37,19 @@ public class Cube
     {
         if (_isRotating) return;
 
+        DoRotation(dir);
+    }
+
+    public void ForceMoveInDirection(Vector3 dir)
+    {
+        Debug.LogFormat("FORCE MOVING when _isRotating is: {0}", _isRotating);
+        DoRotation(dir);
+    }
+
+    private void DoRotation(Vector3 dir)
+    {
         // lock
         _isRotating = true;
-
         _beforeRoll.Invoke();
 
         if (rb == null)
@@ -75,7 +85,6 @@ public class Cube
             // lock
             _isRotating = false;
         }
-
     }
 
     public void ResetPhysics()

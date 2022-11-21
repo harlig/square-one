@@ -101,7 +101,16 @@ public class PlayerController : Singleton<PlayerController>
         // downwards force disallows wall climbing, constant was chosen because it plays well
         // this solution isn't great but seems good enough, feel free to update it to be cleaner
         // rb.AddForce(Vector3.down * 25, ForceMode.Force);
+    }
 
+    public void DisableInput()
+    {
+        GetComponent<InputAction>().Disable();
+    }
+
+    public void EnableInput()
+    {
+        GetComponent<InputAction>().Enable();
     }
 
     public void StopCountingMoves()

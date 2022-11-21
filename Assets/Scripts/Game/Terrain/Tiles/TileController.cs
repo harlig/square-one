@@ -6,4 +6,9 @@ public class TileController : MonoBehaviour
     {
         return gameObject;
     }
+
+    protected Vector2Int GetPosition()
+    {
+        return new Vector2Int(Mathf.RoundToInt(gameObject.transform.position.x), Mathf.RoundToInt(gameObject.transform.position.z));
+    }
 }

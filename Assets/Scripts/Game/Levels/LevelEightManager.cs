@@ -40,8 +40,23 @@ public class LevelEightManager : LevelManager
         SetupLevel();
 
         gridController.SpawnIceTile(4, 4);
+        IceTile iceTile = (IceTile)gridController.TileAtLocation(4, 4);
+        iceTile.WhenSteppedOn += OnIceTileSteppedOn;
+
+        gridController.SpawnIceTile(3, 4);
+        IceTile iceTile2 = (IceTile)gridController.TileAtLocation(3, 4);
+        iceTile2.WhenSteppedOn += OnIceTileSteppedOn;
 
         currentGameState = GameState.START;
+    }
+
+    void OnIceTileSteppedOn(Vector3Int direction)
+    {
+        Debug.LogFormat("I'm a level and my ice tile has been stepped on. Send them in this direction: {0}!", direction);
+        if (levelActive)
+        {
+            playerController.Cube.ForceMoveInDirection(direction);
+        }
     }
 
     void Update()
