@@ -142,7 +142,7 @@ public class ObstacleController : MonoBehaviour
         }
     }
 
-    void OnPlayerMoveFinish()
+    void OnPlayerMoveFinish(Vector2Int playerPosition)
     {
         if (_moveTowardsPlayer)
         {

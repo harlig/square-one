@@ -51,7 +51,7 @@ public class LevelThreeManager : LevelManager
         }
     }
 
-    override protected void OnPlayerMoveStart()
+    override protected void OnPlayerMoveStart(Vector2Int playerPosition)
     {
         if (levelActive)
         {

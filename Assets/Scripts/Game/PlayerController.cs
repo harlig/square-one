@@ -5,10 +5,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : Singleton<PlayerController>
 {
-    public delegate void MoveStartAction();
+    // currentPosition here is before player moves
+    public delegate void MoveStartAction(Vector2Int currentPosition);
     public static event MoveStartAction OnMoveStart;
 
-    public delegate void MoveFinishAction();
+    // currentPosition here is after player moves
+    public delegate void MoveFinishAction(Vector2Int currentPosition);
     public static event MoveFinishAction OnMoveFinish;
 
     private Vector3 originalPosition;
@@ -49,7 +51,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         return () =>
         {
-            OnMoveStart?.Invoke();
+            OnMoveStart?.Invoke(currentPosition);
             _isMoving = true;
         };
     }
@@ -60,9 +62,10 @@ public class PlayerController : Singleton<PlayerController>
         {
             // player should have their move count increased once they've finished moving
             if (shouldCountMoves) moveCount++;
-            OnMoveFinish?.Invoke();
             _isMoving = false;
+
             currentPosition = GetRawCurrentPosition();
+            OnMoveFinish?.Invoke(currentPosition);
         };
     }
 

@@ -18,7 +18,7 @@ public class LevelTwoManager : LevelManager
         paintedTiles = new Dictionary<TileController, bool>();
     }
 
-    override protected void OnPlayerMoveFinish()
+    override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {
         Vector2Int playerPos = playerController.GetCurrentPosition();
 
