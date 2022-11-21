@@ -113,6 +113,11 @@ public class PlayerController : Singleton<PlayerController>
         GetComponent<InputAction>().Enable();
     }
 
+    public bool ShouldCountMoves()
+    {
+        return shouldCountMoves;
+    }
+
     public void StopCountingMoves()
     {
         shouldCountMoves = false;
@@ -126,4 +131,22 @@ public class PlayerController : Singleton<PlayerController>
         return currentPosition;
     }
 
+    // TODO need to do something like this to stop player movement and wait for it to finish
+    public void ForceMoveInDirection(Vector3 direction)
+    {
+        StopCountingMoves();
+        OnMoveFinish += StartCountingMovesAndDeregisterOnMoveFinish;
+        Cube.ForceMoveInDirection(direction);
+    }
+
+    private void StartCountingMovesAndDeregisterOnMoveFinish(Vector2Int pos)
+    {
+        StartCountingMoves();
+        OnMoveFinish -= StartCountingMovesAndDeregisterOnMoveFinish;
+    }
+
+    private void StartCountingMoves()
+    {
+        shouldCountMoves = true;
+    }
 }

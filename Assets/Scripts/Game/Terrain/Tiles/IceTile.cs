@@ -45,7 +45,6 @@ public class IceTile : TileController
 
         if (playerPosition == GetPosition())
         {
-            // TODO how to not count this as player turn when this is called?
             WhenSteppedOn?.Invoke(direction);
         }
     }

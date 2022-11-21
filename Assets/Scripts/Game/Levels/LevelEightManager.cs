@@ -74,7 +74,7 @@ public class LevelEightManager : LevelManager
         Debug.LogFormat("I'm a level and my ice tile has been stepped on. Send them in this direction: {0}!", direction);
         if (levelActive)
         {
-            playerController.Cube.ForceMoveInDirection(direction);
+            playerController.ForceMoveInDirection(direction);
         }
     }
 
@@ -89,7 +89,7 @@ public class LevelEightManager : LevelManager
 
     override protected void OnPlayerMoveStart(Vector2Int playerPosition)
     {
-        if (levelActive)
+        if (levelActive && playerController.ShouldCountMoves())
         {
             turnsLeft--;
         }
