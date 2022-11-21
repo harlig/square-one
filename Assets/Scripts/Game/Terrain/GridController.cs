@@ -4,6 +4,7 @@ using UnityEngine;
 public class GridController : Singleton<GridController>
 {
     [SerializeField] private GameObject paintTilePrefab;
+    [SerializeField] private GameObject iceTilePrefab;
     [SerializeField] private GameObject obstaclePrefab;
 
     private List<List<TileController>> gridRows;
@@ -20,7 +21,15 @@ public class GridController : Singleton<GridController>
             GameObject rowObj = new(string.Format("row{0}", row));
             for (int col = 0; col < length; col++)
             {
-                GameObject tile = Instantiate(paintTilePrefab);
+                GameObject tile;
+                if (row == width - 1 && col == width - 1)
+                {
+                    tile = Instantiate(iceTilePrefab);
+                }
+                else
+                {
+                    tile = Instantiate(paintTilePrefab);
+                }
                 tile.transform.localPosition = new Vector3(row, 0, col);
 
                 tile.name = string.Format("col{0}", col);
@@ -32,6 +41,7 @@ public class GridController : Singleton<GridController>
                 {
                     startingColor = thisRow[0].GetComponent<MeshRenderer>().material.color;
                 }
+
             }
             rowObj.transform.parent = transform;
             rows.Add(thisRow);
