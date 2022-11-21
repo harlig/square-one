@@ -7,6 +7,8 @@ public class LevelSevenManager : LevelManager
     private List<GameState> gameStateOrder;
     private GameState currentGameState;
 
+    private List<ObstacleController> obstacles;
+
     enum GameState
     {
         START,
@@ -39,8 +41,13 @@ public class LevelSevenManager : LevelManager
 
         SetupLevel();
 
+        obstacles = new List<ObstacleController>();
+
         ObstacleController obstacle = gridController.AddObstacleAtPosition(2, 1);
         obstacle.MoveTowardsPlayer(playerController);
+        gridController.PaintTileAtLocation(new Vector2Int(gridSizeX - 1, gridSizeY - 1), Color.white);
+
+        obstacles.Add(obstacle);
 
         currentGameState = GameState.START;
     }
@@ -76,6 +83,16 @@ public class LevelSevenManager : LevelManager
         {
             Debug.Log("Player exceeded move count");
             currentGameState = GameState.FAILED;
+        }
+
+        // white tile color disables all moving obstacles
+        if (gridController.TileColorAtLocation(playerPos) == Color.white)
+        {
+            Debug.Log("Stopping obstacle movement!");
+            foreach (ObstacleController obstacle in obstacles)
+            {
+                obstacle.StopMovement();
+            }
         }
 
         // game state handler
