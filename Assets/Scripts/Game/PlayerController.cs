@@ -87,6 +87,7 @@ public class PlayerController : Singleton<PlayerController>
         float movementX = movementVector.x;
         float movementY = movementVector.y;
 
+        // TODO ethan just take into account camera rotation and you can move accordingly
         if (movementX == -1) Cube.MoveInDirectionIfNotMoving(Vector3.left);
         else if (movementX == 1) Cube.MoveInDirectionIfNotMoving(Vector3.right);
         else if (movementY == 1) Cube.MoveInDirectionIfNotMoving(Vector3.forward);
