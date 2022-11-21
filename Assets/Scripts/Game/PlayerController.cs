@@ -19,6 +19,8 @@ public class PlayerController : Singleton<PlayerController>
     // TODO probably shouldn't be public hmm
     public Cube Cube { get; set; }
 
+    private Vector2Int currentPosition;
+
     public void SpawnPlayer(int row, int col)
     {
         originalPosition = new Vector3(row, 1.5f, col);
@@ -29,6 +31,7 @@ public class PlayerController : Singleton<PlayerController>
 
         // defines roll speed and allows to roll
         Cube = new(this, 3.0f, BeforeRollActions(), AfterRollActions());
+        currentPosition = GetRawCurrentPosition();
     }
 
     public int GetMoveCount()
@@ -61,7 +64,17 @@ public class PlayerController : Singleton<PlayerController>
             if (shouldCountMoves) moveCount++;
             OnMoveFinish?.Invoke();
             _isMoving = false;
+            currentPosition = GetRawCurrentPosition();
         };
+    }
+
+    /**
+        This internal method should only be used to get the raw current position of the player. Its public counterpart
+        should be used to determine the player's position since it handles the roll animation in its calculation.
+    */
+    private Vector2Int GetRawCurrentPosition()
+    {
+        return new Vector2Int(Mathf.RoundToInt(playerInstanceGameObject.transform.position.x), Mathf.RoundToInt(playerInstanceGameObject.transform.position.z));
     }
 
     private bool _isMoving;
@@ -94,9 +107,12 @@ public class PlayerController : Singleton<PlayerController>
         shouldCountMoves = false;
     }
 
-    public Vector2Int GetRoundedPosition()
+    /**
+        Get player's location taking into account roll animation. This position only updates once a roll animation completes.
+    */
+    public Vector2Int GetCurrentPosition()
     {
-        return new Vector2Int(Mathf.RoundToInt(playerInstanceGameObject.transform.position.x), Mathf.RoundToInt(playerInstanceGameObject.transform.position.z));
+        return currentPosition;
     }
 
 }

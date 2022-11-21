@@ -70,7 +70,7 @@ public class LevelSixManager : LevelManager
 
     void ManageGameState()
     {
-        Vector2Int playerPos = playerController.GetRoundedPosition();
+        Vector2Int playerPos = playerController.GetCurrentPosition();
 
         // allow devMode to not fall out of map
         if (!DEV_MODE && !gridController.IsWithinGrid(playerPos))

@@ -16,13 +16,13 @@ public class LevelTwoManager : LevelManager
         SetupLevel();
 
         paintedTiles = new Dictionary<TileController, bool>();
-        Vector2Int playerPos = playerController.GetRoundedPosition();
+        Vector2Int playerPos = playerController.GetCurrentPosition();
         CheckFailureAndPaintTile(playerPos);
     }
 
     override protected void OnPlayerMoveFinish()
     {
-        Vector2Int playerPos = playerController.GetRoundedPosition();
+        Vector2Int playerPos = playerController.GetCurrentPosition();
 
         // once level is done, can still use snake for fun
         if (!levelActive)
