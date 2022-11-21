@@ -22,6 +22,9 @@ Here's what it looks like in its current state
 
 # Ideas
 
+- [ ] Leaderboard per-level
+- [ ] Leaderboard for total turns remaining summation golf
+
 ## Level ideas
 
 Should consider accessibility and write letters or some symbol on tiles to differentiate. 
