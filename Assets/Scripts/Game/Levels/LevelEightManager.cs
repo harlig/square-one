@@ -39,17 +39,32 @@ public class LevelEightManager : LevelManager
 
         SetupLevel();
 
-        gridController.SpawnIceTile(4, 4);
-        IceTile iceTile = (IceTile)gridController.TileAtLocation(4, 4);
-        iceTile.WhenSteppedOn += OnIceTileSteppedOn;
+        for (int ndx = 0; ndx < 5; ndx++)
+        {
+            int iceTileRow = 4;
+            int iceTileCol = 3 + ndx;
+            gridController.SpawnIceTile(iceTileRow, iceTileCol);
+            IceTile iceTile = (IceTile)gridController.TileAtLocation(iceTileRow, iceTileCol);
+            iceTile.WhenSteppedOn += OnIceTileSteppedOn;
+        }
 
-        gridController.SpawnIceTile(3, 4);
-        IceTile iceTile2 = (IceTile)gridController.TileAtLocation(3, 4);
-        iceTile2.WhenSteppedOn += OnIceTileSteppedOn;
+        for (int ndx = 0; ndx < 3; ndx++)
+        {
+            int iceTileRow = gridSizeX - 3 - ndx;
+            int iceTileCol = gridSizeY - 3;
+            gridController.SpawnIceTile(iceTileRow, iceTileCol);
+            IceTile iceTile = (IceTile)gridController.TileAtLocation(iceTileRow, iceTileCol);
+            iceTile.WhenSteppedOn += OnIceTileSteppedOn;
+        }
 
-        gridController.SpawnIceTile(4, 5);
-        IceTile iceTile3 = (IceTile)gridController.TileAtLocation(4, 5);
-        iceTile3.WhenSteppedOn += OnIceTileSteppedOn;
+        for (int ndx = 0; ndx < 2; ndx++)
+        {
+            int iceTileRow = gridSizeX - 3 - ndx;
+            int iceTileCol = gridSizeY - 2;
+            gridController.SpawnIceTile(iceTileRow, iceTileCol);
+            IceTile iceTile = (IceTile)gridController.TileAtLocation(iceTileRow, iceTileCol);
+            iceTile.WhenSteppedOn += OnIceTileSteppedOn;
+        }
 
         currentGameState = GameState.START;
     }

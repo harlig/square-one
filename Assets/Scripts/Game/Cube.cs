@@ -46,6 +46,7 @@ public class Cube
         DoRotation(dir);
     }
 
+    // TODO add parameter for MoveType (e.g. Roll, Slide)
     private void DoRotation(Vector3 dir)
     {
         // lock
