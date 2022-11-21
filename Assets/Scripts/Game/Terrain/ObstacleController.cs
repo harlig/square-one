@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+// TODO split into StationaryObstacle and MovingObstacle
 public class ObstacleController : MonoBehaviour
 {
     private enum MoveDirection
@@ -179,6 +180,12 @@ public class ObstacleController : MonoBehaviour
         Cube.SetRollSpeed(playerController.Cube.GetRollSpeed());
         _moveTowardsPlayer = true;
         _playerController = playerController;
+    }
+
+    // TODO is this only applicable for _moveTowardsPlayer?
+    public void StopMovement()
+    {
+        _moveTowardsPlayer = false;
     }
 
     private Vector2Int GetPositionAsVector2Int()
