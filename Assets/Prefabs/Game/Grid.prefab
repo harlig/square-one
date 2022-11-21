@@ -46,4 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paintTilePrefab: {fileID: 5853905673737186236, guid: 88563589e77286949b81e1af3803e028,
     type: 3}
-  obstaclePrefab: {fileID: 0}
+  iceTilePrefab: {fileID: 5853905673737186236, guid: a3b0c589614d8dd4c835c9aa42932635,
+    type: 3}
+  obstaclePrefab: {fileID: 7530635830996508701, guid: f675280fa843bac44b8f8dfc8d6b1fe4,
+    type: 3}
