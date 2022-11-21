@@ -16,8 +16,6 @@ public class LevelTwoManager : LevelManager
         SetupLevel();
 
         paintedTiles = new Dictionary<TileController, bool>();
-        Vector2Int playerPos = playerController.GetCurrentPosition();
-        CheckFailureAndPaintTile(playerPos);
     }
 
     override protected void OnPlayerMoveFinish()
