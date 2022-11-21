@@ -45,7 +45,7 @@ public class LevelSevenManager : LevelManager
 
         ObstacleController obstacle = gridController.AddObstacleAtPosition(2, 1);
         obstacle.MoveTowardsPlayer(playerController);
-        gridController.PaintTileAtLocation(new Vector2Int(gridSizeX - 1, gridSizeY - 1), Color.white);
+        gridController.PaintTileAtLocation(new Vector2Int(1, gridSizeY - 2), Color.white);
 
         obstacles.Add(obstacle);
 
