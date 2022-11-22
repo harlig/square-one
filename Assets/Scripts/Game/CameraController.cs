@@ -58,7 +58,7 @@ public class CameraController : Singleton<CameraController>
         }
 
         _isRotating = true;
-        OnCameraRotate?.Invoke(Vector2Int.right);
+        OnCameraRotate?.Invoke(relativeMoveDirection);
         StartCoroutine(Rotate());
     }
 

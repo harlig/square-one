@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -44,7 +44,18 @@ public class PlayerController : Singleton<PlayerController>
 
     private void TrackCameraLocation(Vector2Int direction)
     {
-        Debug.LogFormat("Camera is moving in this direction {0}", direction);
+        if (direction == Vector2Int.right)
+        {
+            RotateRight();
+        }
+        else if (direction == Vector2Int.left)
+        {
+            RotateLeft();
+        }
+        else
+        {
+            Debug.LogErrorFormat("Camera moved in unexpected direction: {0}", direction);
+        }
     }
 
     public int GetMoveCount()
@@ -91,21 +102,60 @@ public class PlayerController : Singleton<PlayerController>
 
     private bool _isMoving;
 
+    private static List<Vector3Int> playerInputDirections = new List<Vector3Int>(){
+        Vector3Int.forward, //up 
+        Vector3Int.left, // left
+        Vector3Int.back, // down
+        Vector3Int.right //right
+    };
+
+    private int playerInputDirectionCameraOffset = 0;
+
+    void RotateLeft()
+    {
+        if (playerInputDirectionCameraOffset == 0) { playerInputDirectionCameraOffset = playerInputDirections.Count - 1; }
+        else { playerInputDirectionCameraOffset--; }
+    }
+
+    void RotateRight()
+    {
+        if (playerInputDirectionCameraOffset == playerInputDirections.Count - 1) { playerInputDirectionCameraOffset = 0; }
+        else { playerInputDirectionCameraOffset++; }
+    }
+
+    Vector3Int GetRelativeMoveDirectionWithCameraOffset(int movementX, int movementY)
+    {
+        Debug.LogFormat("playerInputStuff: {0} for this moveDirection: [{1}, {2}]", playerInputDirectionCameraOffset, movementX, movementY);
+        if (movementX == -1) return PlayerInputDirectionsFromOffset(1);
+        else if (movementX == 1) return PlayerInputDirectionsFromOffset(3);
+        else if (movementY == 1) return PlayerInputDirectionsFromOffset(0);
+        else if (movementY == -1) return PlayerInputDirectionsFromOffset(2);
+        else
+        {
+            Debug.LogErrorFormat("Tried to move player without one unit movements - movementX: {0}; movementY: {1}", movementX, movementY);
+            throw new Exception("Probably shouldn't be an exception but wtf you do?!");
+        }
+
+        Vector3Int PlayerInputDirectionsFromOffset(int directionOffset)
+        {
+            return playerInputDirections[(directionOffset + playerInputDirectionCameraOffset) % playerInputDirections.Count];
+        }
+    }
+
     // OnMove comes from the InputActions action defined Move
     void OnMove(InputValue movementValue)
     {
         if (_isMoving) return;
 
         Vector2 movementVector = movementValue.Get<Vector2>();
-        if (Mathf.Abs(movementVector.x) != 1.0f && Mathf.Abs(movementVector.y) != 1.0f) return;
-        float movementX = movementVector.x;
-        float movementY = movementVector.y;
 
-        // TODO ethan just take into account camera rotation and you can move accordingly
-        if (movementX == -1) Cube.MoveInDirectionIfNotMoving(Vector3.left);
-        else if (movementX == 1) Cube.MoveInDirectionIfNotMoving(Vector3.right);
-        else if (movementY == 1) Cube.MoveInDirectionIfNotMoving(Vector3.forward);
-        else if (movementY == -1) Cube.MoveInDirectionIfNotMoving(Vector3.back);
+        if (Mathf.Abs(movementVector.x) != 1.0f && Mathf.Abs(movementVector.y) != 1.0f) return;
+
+        int movementX = Mathf.RoundToInt(movementVector.x);
+        int movementY = Mathf.RoundToInt(movementVector.y);
+
+        Vector3Int relativeMoveDirection = GetRelativeMoveDirectionWithCameraOffset(movementX, movementY);
+        Cube.MoveInDirectionIfNotMoving(relativeMoveDirection);
 
         // TODO player can float by constant input, how to disallow? prev solution below
 
@@ -134,6 +184,7 @@ public class PlayerController : Singleton<PlayerController>
         shouldCountMoves = false;
     }
 
+    // TODO need to update GetCurrentPosition when the player gets moved by some other obstacle
     /**
         Get player's location taking into account roll animation. This position only updates once a roll animation completes.
     */
