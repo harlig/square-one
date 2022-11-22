@@ -193,16 +193,31 @@ public class PlayerController : Singleton<PlayerController>
         return currentPosition;
     }
 
+    /**
+        Update the player's known location after it has moved via something other than player;
+        e.g. something else (obstacle) interacting with player and causing player to move.
+
+    */
     public void StartUpdatingLocation()
     {
-        // this is a bad solution, doesn't really even work
-        StartCoroutine(StartUpdatingLocation(5.0f));
+        // this is a bad solution, but it kinda works
+        StartCoroutine(StartUpdatingLocation(1.0f));
     }
 
+    /**
+        For $seconds seconds, update the player's externally-exposed currentPosition to its current position.
+    */
     IEnumerator StartUpdatingLocation(float seconds)
     {
-        yield return new WaitForSeconds(seconds);
-        currentPosition = GetRawCurrentPosition();
+        float interval = 0.1f;
+        float elapsed = 0.0f;
+        while (elapsed < seconds)
+        {
+            // if you notice the player's position is screwed up after colliding with an obstacle, validate this is working
+            currentPosition = GetRawCurrentPosition();
+            yield return new WaitForSeconds(interval);
+            elapsed += interval;
+        };
     }
 
     // TODO need to do something like this to stop player movement and wait for it to finish
