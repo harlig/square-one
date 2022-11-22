@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,6 +23,7 @@ public class PlayerController : Singleton<PlayerController>
     public Cube Cube { get; set; }
 
     private Vector2Int currentPosition;
+    private bool _isMoving;
 
     public void SpawnPlayer(int row, int col)
     {
@@ -100,9 +102,7 @@ public class PlayerController : Singleton<PlayerController>
         return new Vector2Int(Mathf.RoundToInt(playerInstanceGameObject.transform.position.x), Mathf.RoundToInt(playerInstanceGameObject.transform.position.z));
     }
 
-    private bool _isMoving;
-
-    private static List<Vector3Int> playerInputDirections = new List<Vector3Int>(){
+    private static readonly List<Vector3Int> playerInputDirections = new(){
         Vector3Int.forward, //up 
         Vector3Int.left, // left
         Vector3Int.back, // down
@@ -191,6 +191,18 @@ public class PlayerController : Singleton<PlayerController>
     public Vector2Int GetCurrentPosition()
     {
         return currentPosition;
+    }
+
+    public void StartUpdatingLocation()
+    {
+        // this is a bad solution, doesn't really even work
+        StartCoroutine(StartUpdatingLocation(5.0f));
+    }
+
+    IEnumerator StartUpdatingLocation(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        currentPosition = GetRawCurrentPosition();
     }
 
     // TODO need to do something like this to stop player movement and wait for it to finish

@@ -185,4 +185,16 @@ public class ObstacleController : MonoBehaviour
         return Vector2Int.RoundToInt(new Vector2(transform.position.x, transform.position.z));
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        PlayerController playerController = other.GetComponent<PlayerController>();
+        if (playerController == null)
+        {
+            // Debug.LogFormat("Obstacle collided with non-player entity: {0}", other);
+            return;
+        }
+
+        Debug.Log("Gonna update player's location now");
+        playerController.StartUpdatingLocation();
+    }
 }
