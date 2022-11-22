@@ -34,6 +34,17 @@ public class PlayerController : Singleton<PlayerController>
         // defines roll speed and allows to roll
         Cube = new(this, 3.0f, BeforeRollActions(), AfterRollActions());
         currentPosition = GetRawCurrentPosition();
+        CameraController.OnCameraRotate += TrackCameraLocation;
+    }
+
+    private void OnDisable()
+    {
+        CameraController.OnCameraRotate -= TrackCameraLocation;
+    }
+
+    private void TrackCameraLocation(Vector2Int direction)
+    {
+        Debug.LogFormat("Camera is moving in this direction {0}", direction);
     }
 
     public int GetMoveCount()

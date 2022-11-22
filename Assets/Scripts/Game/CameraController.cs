@@ -22,8 +22,12 @@ public class CameraController : Singleton<CameraController>
         transform.localPosition = new Vector3(pos.x + x, pos.y, pos.z + z);
     }
 
+    // currentPosition here is before player moves
+    public delegate void CameraRotateAction(Vector2Int rotateDirection);
+    public static event CameraRotateAction OnCameraRotate;
 
     private bool _isRotating = false;
+
     // OnRotate comes from the InputActions action defined Rotate
     void OnRotate(InputValue movementValue)
     {
@@ -34,21 +38,30 @@ public class CameraController : Singleton<CameraController>
         }
 
         float moveDirection = movementValue.Get<float>();
+        Vector2Int relativeMoveDirection;
 
         if (moveDirection > 0)
         {
             Debug.Log("positive move direction");
             Vector3 rot = transform.eulerAngles;
             targetEulerAngles = new Vector3(rot.x, rot.y - 90, rot.z);
+            relativeMoveDirection = Vector2Int.right;
         }
         else if (moveDirection < 0)
         {
             Debug.Log("negative move direction");
             Vector3 rot = transform.eulerAngles;
             targetEulerAngles = new Vector3(rot.x, rot.y + 90, rot.z);
+            relativeMoveDirection = Vector2Int.left;
+        }
+        else
+        {
+            Debug.LogError("Move direction of 0 provided in camera controller!");
+            return;
         }
 
         _isRotating = true;
+        OnCameraRotate?.Invoke(Vector2Int.right);
         StartCoroutine(Rotate());
     }
 

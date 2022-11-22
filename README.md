@@ -48,12 +48,13 @@ Should consider accessibility and write letters or some symbol on tiles to diffe
   - This theoretical level has a wall, and rotating the wall into view adds a certain mechanic that aids/allows you to complete the level - Evan Lane (all royalties are awarded to Evan Lane)
 - [ ] Off the grid
   - end up on diagonal grid
-- [ ] Ice
+- [x] Ice
   - Tiles that make you slide until you hit end of ice path
 - [ ] Traps
   - Tiles that knock you away from next waypoint or something
 - [ ] Portal
   - Tiles that teleport you across the map, think going from one corner to another in the board game Clue
+- [ ] Tiles below map, you have to go hit one beneath map
 
 ## Meta ideas
 
