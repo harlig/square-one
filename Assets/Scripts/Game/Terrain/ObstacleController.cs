@@ -11,11 +11,6 @@ public class ObstacleController : MonoBehaviour
         TOWARDS_PATROL_POSITION
     }
 
-    public void LogFromObstacle()
-    {
-        Debug.Log("You're calling an obstacle here!");
-    }
-
     public void SetName(string name)
     {
         gameObject.name = name;
@@ -34,7 +29,6 @@ public class ObstacleController : MonoBehaviour
         // this is bound to go out of the map but I can't be bothered to deal with that right now
         IEnumerator MoveObstacleOnPatrolCourse(MoveDirection moveDirection)
         {
-            Debug.LogFormat("Moving obstacle in this direction: {0}", moveDirection);
             Vector2Int endPosition;
             if (moveDirection == MoveDirection.TOWARDS_START_POSITION)
             {
@@ -76,18 +70,15 @@ public class ObstacleController : MonoBehaviour
                 MoveTowardsPosition(out xDiff, out yDiff, curPosition, endPosition);
             }
             _isPatrolling = false;
-            Debug.Log("Done patrolling");
         }
 
         IEnumerator ChangePatrolDirectionWhenDonePatrolling(MoveDirection oldMoveDirection)
         {
-            Debug.Log("Checking for patrolling 1");
             while (_isPatrolling)
             {
                 // can modify to determine how long should rest at the final position before switching directions
                 yield return new WaitForSeconds(0.5f);
             }
-            Debug.Log("Done checking for patrolling");
             // I think this is okay because this execution of the method will end after the StartCoroutine call
             // and a new execution begins, but the old garbage is freed. if obstacle movement is slow this could be why though
             if (oldMoveDirection == MoveDirection.TOWARDS_START_POSITION)

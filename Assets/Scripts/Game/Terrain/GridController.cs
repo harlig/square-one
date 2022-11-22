@@ -76,9 +76,6 @@ public class GridController : Singleton<GridController>
 
         obstacle.transform.parent = _obstacleGameObject.transform;
 
-        Debug.LogFormat("Made obstacle: {0}", obstacle);
-        obstacle.LogFromObstacle();
-
         return obstacle;
     }
 

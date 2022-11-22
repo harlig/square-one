@@ -14,8 +14,6 @@ public class IceTile : TileController
 
     void OnPlayerMoveFinish(Vector2Int playerPosition)
     {
-        Debug.LogFormat("We are in the ice tile and here is player's position: {0}!", playerPosition);
-
         Vector3Int direction;
 
         if (playerPosition.x != _beforeMovePosition.x)

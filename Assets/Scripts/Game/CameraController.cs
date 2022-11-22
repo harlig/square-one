@@ -33,7 +33,6 @@ public class CameraController : Singleton<CameraController>
     {
         if (_isRotating)
         {
-            Debug.Log("Tried to call rotate when _isRotating is true");
             return;
         }
 
@@ -42,14 +41,12 @@ public class CameraController : Singleton<CameraController>
 
         if (moveDirection > 0)
         {
-            Debug.Log("positive move direction");
             Vector3 rot = transform.eulerAngles;
             targetEulerAngles = new Vector3(rot.x, rot.y - 90, rot.z);
             relativeMoveDirection = Vector2Int.right;
         }
         else if (moveDirection < 0)
         {
-            Debug.Log("negative move direction");
             Vector3 rot = transform.eulerAngles;
             targetEulerAngles = new Vector3(rot.x, rot.y + 90, rot.z);
             relativeMoveDirection = Vector2Int.left;
