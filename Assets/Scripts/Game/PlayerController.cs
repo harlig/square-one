@@ -6,11 +6,11 @@ using UnityEngine.InputSystem;
 public class PlayerController : Singleton<PlayerController>
 {
     // currentPosition here is before player moves
-    public delegate void MoveStartAction(Vector2Int currentPosition);
+    public delegate void MoveStartAction(Vector2Int positionBeforeMove);
     public static event MoveStartAction OnMoveStart;
 
     // currentPosition here is after player moves
-    public delegate void MoveFinishAction(Vector2Int currentPosition);
+    public delegate void MoveFinishAction(Vector2Int positionAfterMove);
     public static event MoveFinishAction OnMoveFinish;
 
     private Vector3 originalPosition;

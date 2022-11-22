@@ -90,8 +90,8 @@ public abstract class LevelManager : MonoBehaviour
 
     // handle player movement. override in child classes if they want to access these events
     // prefer to use OnPlayerMoveStart unless you need specific behavior at the end of the movement
-    protected virtual void OnPlayerMoveStart(Vector2Int playerPosition) { }
-    protected virtual void OnPlayerMoveFinish(Vector2Int playerPosition) { }
+    protected virtual void OnPlayerMoveStart(Vector2Int playerPositionBeforeMove) { }
+    protected virtual void OnPlayerMoveFinish(Vector2Int playerPositionAfterMove) { }
 
     // must be done at object enable time
     void OnEnable()
