@@ -48,7 +48,6 @@ public class Cube
 
     public void ForceMoveInDirection(Vector3 dir)
     {
-        Debug.LogFormat("FORCE MOVING when _isRotating is: {0}", _isRotating);
         DoRotation(dir, MoveType.SLIDE);
     }
 

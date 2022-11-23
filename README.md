@@ -29,6 +29,8 @@ Here's what it looks like in its current state
 
 Should consider accessibility and write letters or some symbol on tiles to differentiate. 
 
+- [ ] Full ice map with obstacles that stop you from sliding
+
 ## Mechanic ideas
 
 - [x] Snake
@@ -55,6 +57,7 @@ Should consider accessibility and write letters or some symbol on tiles to diffe
 - [ ] Portal
   - Tiles that teleport you across the map, think going from one corner to another in the board game Clue
 - [ ] Tiles below map, you have to go hit one beneath map
+- [ ] Moveable object that you can push onto ice and such
 
 ## Meta ideas
 

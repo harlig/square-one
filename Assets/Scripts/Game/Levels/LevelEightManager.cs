@@ -22,7 +22,7 @@ public class LevelEightManager : LevelManager
 
     void Start()
     {
-        gridSizeX = gridSizeY = 11;
+        gridSizeX = gridSizeY = 6;
         turnLimit = 70;
 
         gameStateOrder = new List<GameState>
@@ -41,8 +41,8 @@ public class LevelEightManager : LevelManager
 
         for (int ndx = 0; ndx < 5; ndx++)
         {
-            int iceTileRow = 4;
-            int iceTileCol = 3 + ndx;
+            int iceTileRow = 4 % gridSizeX;
+            int iceTileCol = (3 + ndx) % gridSizeY;
             gridController.SpawnIceTile(iceTileRow, iceTileCol);
             IceTile iceTile = (IceTile)gridController.TileAtLocation(iceTileRow, iceTileCol);
             iceTile.WhenSteppedOn += OnIceTileSteppedOn;
@@ -50,8 +50,8 @@ public class LevelEightManager : LevelManager
 
         for (int ndx = 0; ndx < 3; ndx++)
         {
-            int iceTileRow = gridSizeX - 3 - ndx;
-            int iceTileCol = gridSizeY - 3;
+            int iceTileRow = (gridSizeX - 3 - ndx) % gridSizeX;
+            int iceTileCol = (gridSizeY - 3) % gridSizeY;
             gridController.SpawnIceTile(iceTileRow, iceTileCol);
             IceTile iceTile = (IceTile)gridController.TileAtLocation(iceTileRow, iceTileCol);
             iceTile.WhenSteppedOn += OnIceTileSteppedOn;
@@ -59,12 +59,14 @@ public class LevelEightManager : LevelManager
 
         for (int ndx = 0; ndx < 2; ndx++)
         {
-            int iceTileRow = gridSizeX - 3 - ndx;
-            int iceTileCol = gridSizeY - 2;
+            int iceTileRow = (gridSizeX - 3 - ndx) % gridSizeX;
+            int iceTileCol = (gridSizeY - 2) % gridSizeY;
             gridController.SpawnIceTile(iceTileRow, iceTileCol);
             IceTile iceTile = (IceTile)gridController.TileAtLocation(iceTileRow, iceTileCol);
             iceTile.WhenSteppedOn += OnIceTileSteppedOn;
         }
+
+        gridController.AddObstacleAtPosition((4 + gridSizeX) % gridSizeX, (4 + gridSizeY) % gridSizeY);
 
         currentGameState = GameState.START;
     }
