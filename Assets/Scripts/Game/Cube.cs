@@ -20,10 +20,12 @@ public class Cube
     }
 
     private readonly Action _beforeRoll;
-    private readonly Action _afterRoll;
+    private readonly Action<bool> _afterRoll;
     private readonly Queue<Tuple<Vector3, MoveType>> queuedMovements;
 
-    public Cube(MonoBehaviour mb, float rollSpeed, Action beforeRoll, Action afterRoll)
+    private bool circuitBreakMovement = false;
+
+    public Cube(MonoBehaviour mb, float rollSpeed, Action beforeRoll, Action<bool> afterRoll)
     {
         _mb = mb;
         _rollSpeed = rollSpeed;
@@ -34,7 +36,7 @@ public class Cube
 
     protected Rigidbody rb;
 
-    private bool _isRotating;
+    private bool _isMoving;
 
     public enum MoveType
     {
@@ -44,35 +46,34 @@ public class Cube
 
     public void MoveInDirectionIfNotMoving(Vector3 dir, MoveType moveType)
     {
-        if (_isRotating)
+        if (queuedMovements.Count == 0)
         {
+            Debug.LogFormat("Enqueueing a move in this direction of this type {0} {1}", dir, moveType);
             queuedMovements.Enqueue(new(dir, moveType));
+        }
+        if (_isMoving)
+        {
             return;
         }
 
-        DoRotation(dir, moveType);
+        DoQueuedRotation();
     }
-
-    public void ForceMoveInDirection(Vector3 dir)
-    {
-        DoRotation(dir, MoveType.SLIDE);
-    }
-
-    Coroutine moveCoroutine;
 
     private void DoQueuedRotation()
     {
+        if (_isMoving) return;
+
         Debug.LogFormat("Peeking for enqueued rotation {0}", queuedMovements.Count != 0 ? queuedMovements.Peek() : "EMPTY");
         if (queuedMovements.Count == 0) return;
 
         Tuple<Vector3, MoveType> movement = queuedMovements.Dequeue();
-        DoRotation(movement.Item1, movement.Item2);
-    }
 
-    private void DoRotation(Vector3 dir, MoveType moveType)
-    {
+        Vector3 dir = movement.Item1;
+        MoveType moveType = movement.Item2;
+
         // lock
-        _isRotating = true;
+        _isMoving = true;
+        circuitBreakMovement = false;
         _beforeRoll.Invoke();
 
         if (rb == null)
@@ -84,14 +85,13 @@ public class Cube
         {
             var anchor = _mb.gameObject.transform.localPosition + (Vector3.down + dir) * 0.5f;
             var axis = Vector3.Cross(Vector3.up, dir);
-            // I think I want less of a Roll and more of a fixed one unit movement
             float rotationRemaining = 90;
             // TODO different math for tiny player?
-            moveCoroutine = _mb.StartCoroutine(Roll(anchor, axis, rotationRemaining));
+            _mb.StartCoroutine(Roll(anchor, axis, rotationRemaining));
         }
         else if (moveType == MoveType.SLIDE)
         {
-            moveCoroutine = _mb.StartCoroutine(Slide(dir));
+            _mb.StartCoroutine(Slide(dir));
         }
         else
         {
@@ -104,45 +104,47 @@ public class Cube
         Vector3 currentPos = _mb.gameObject.transform.position;
         Vector3 targetPos = _mb.gameObject.transform.position + dir;
 
+        bool finishedMove = true;
         int numSteps = 20;
         for (var i = 0; i < numSteps; i++)
         {
+            if (circuitBreakMovement) { finishedMove = false; break; };
+
             _mb.gameObject.transform.position = Vector3.Lerp(currentPos, targetPos, 1.0f / numSteps * i);
             yield return null;
         }
-
-        Vector3 pos = _mb.gameObject.transform.position;
-        _mb.gameObject.transform.localPosition = Vector3Int.RoundToInt(pos);
-        ResetPhysics();
-
-        _afterRoll?.Invoke();
-        DoQueuedRotation();
-
-        // lock
-        _isRotating = false;
-        moveCoroutine = null;
+        FinishMovement(finishedMove);
     }
 
     IEnumerator Roll(Vector3 anchor, Vector3 axis, float rotationRemaining)
     {
+        bool finishedMove = true;
         for (var i = 0; i < 90 / _rollSpeed; i++)
         {
+            if (circuitBreakMovement) { finishedMove = false; break; };
+
             float rotationAngle = Mathf.Min(_rollSpeed, rotationRemaining);
             _mb.gameObject.transform.RotateAround(anchor, axis, rotationAngle);
             rotationRemaining -= _rollSpeed;
             yield return null;
         }
+        FinishMovement(finishedMove);
+    }
 
+    private void FinishMovement(bool didFinishMove)
+    {
+        Debug.LogFormat("Finished movement in cube: {0}", didFinishMove);
         Vector3 pos = _mb.gameObject.transform.position;
         _mb.gameObject.transform.localPosition = Vector3Int.RoundToInt(pos);
         ResetPhysics();
 
-        _afterRoll?.Invoke();
-        DoQueuedRotation();
+        // unlock
+        _isMoving = false;
+        circuitBreakMovement = false;
 
-        // lock
-        _isRotating = false;
-        moveCoroutine = null;
+        _afterRoll?.Invoke(didFinishMove);
+
+        DoQueuedRotation();
     }
 
     public void ResetPhysics()
@@ -171,13 +173,15 @@ public class Cube
 
     public void StopMoving()
     {
-        Debug.LogFormat("moveCoroutine: {0}", moveCoroutine);
-        if (moveCoroutine == null)
-        {
-            _isRotating = true;
-            return;
-        }
+        Debug.Log("Clearing queue");
+        queuedMovements.Clear();
+        ResetPhysics();
+        circuitBreakMovement = true;
+    }
 
-        _mb.StopCoroutine(moveCoroutine);
+    public void StartMoving()
+    {
+        Debug.Log("Starting moving");
+        circuitBreakMovement = false;
     }
 }

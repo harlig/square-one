@@ -151,7 +151,7 @@ public class ObstacleController : MonoBehaviour
     void Awake()
     {
         // no need for any before/after roll actions right now
-        Cube = new(this, 1.0f, () => { }, () => { });
+        Cube = new(this, 1.0f, () => { }, (moveCompleted) => { });
     }
 
     // must be done at object enable time
@@ -190,18 +190,40 @@ public class ObstacleController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        PlayerController playerController = other.GetComponent<PlayerController>();
-        if (playerController == null)
+        if (!other.gameObject.CompareTag("Player"))
         {
             // Debug.LogFormat("Obstacle collided with non-player entity: {0}", other);
             return;
         }
 
-        Debug.LogFormat("playerController? {0}", playerController);
-        Debug.LogFormat("Collider: {0}", other);
+        PlayerController playerController = other.GetComponent<PlayerController>();
+        if (playerController == null)
+        {
+            Debug.LogAssertion("Something tagged `Player` with no PlayerController collided with this obstacle!");
+            return;
+        }
 
         Debug.Log("Gonna update player's location now");
         playerController.StartUpdatingLocation();
         playerController.StopMoving();
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (!other.gameObject.CompareTag("Player"))
+        {
+            // Debug.LogFormat("Obstacle collided with non-player entity: {0}", other);
+            return;
+        }
+
+        PlayerController playerController = other.GetComponent<PlayerController>();
+        if (playerController == null)
+        {
+            Debug.LogAssertion("Something tagged `Player` with no PlayerController collided with this obstacle!");
+            return;
+        }
+
+        Debug.Log("starting player movement");
+        playerController.StartMoving();
     }
 }

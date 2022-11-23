@@ -22,7 +22,7 @@ public class LevelEightManager : LevelManager
 
     void Start()
     {
-        gridSizeX = gridSizeY = 6;
+        gridSizeX = gridSizeY = 10;
         turnLimit = 70;
 
         gameStateOrder = new List<GameState>
@@ -66,7 +66,8 @@ public class LevelEightManager : LevelManager
             iceTile.WhenSteppedOn += OnIceTileSteppedOn;
         }
 
-        // gridController.AddObstacleAtPosition((4 + gridSizeX) % gridSizeX, (4 + gridSizeY) % gridSizeY);
+        gridController.AddObstacleAtPosition(4, 4);
+        gridController.AddObstacleAtPosition(6, 7);
 
         currentGameState = GameState.START;
     }
@@ -75,6 +76,7 @@ public class LevelEightManager : LevelManager
     {
         if (levelActive)
         {
+            Debug.LogFormat("Stepped on ice tile in this direction: {0}", direction);
             playerController.ForceMoveInDirection(direction);
         }
     }

@@ -16,6 +16,12 @@ public class IceTile : TileController
     {
         Vector3Int direction;
 
+        if (playerPosition == _beforeMovePosition)
+        {
+            Debug.Log("Player didn't move, don't re-trigger action");
+            return;
+        }
+
         if (playerPosition.x != _beforeMovePosition.x)
         {
             if (playerPosition.x > _beforeMovePosition.x)

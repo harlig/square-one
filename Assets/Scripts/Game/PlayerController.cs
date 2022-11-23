@@ -34,7 +34,7 @@ public class PlayerController : Singleton<PlayerController>
         playerInstanceGameObject = gameObject;
 
         // defines roll speed and allows to roll
-        Cube = new(this, 4.4f, BeforeRollActions(), AfterRollActions());
+        Cube = new(this, 4.4f, () => BeforeRollActions(), moveCompleted => AfterRollActions(moveCompleted));
         currentPosition = GetRawCurrentPosition();
         CameraController.OnCameraRotate += TrackCameraLocation;
     }
@@ -71,26 +71,24 @@ public class PlayerController : Singleton<PlayerController>
         Cube.ResetPhysics();
     }
 
-    Action BeforeRollActions()
+    void BeforeRollActions()
     {
-        return () =>
-        {
-            OnMoveStart?.Invoke(currentPosition);
-            _isMoving = true;
-        };
+        OnMoveStart?.Invoke(currentPosition);
+        _isMoving = true;
     }
 
-    Action AfterRollActions()
+    void AfterRollActions(bool moveCompleted)
     {
-        return () =>
-        {
-            // player should have their move count increased once they've finished moving
-            if (shouldCountMoves) moveCount++;
-            _isMoving = false;
 
-            currentPosition = GetRawCurrentPosition();
-            OnMoveFinish?.Invoke(currentPosition);
-        };
+        _isMoving = false;
+
+        currentPosition = GetRawCurrentPosition();
+
+        if (moveCompleted)
+        {
+            if (shouldCountMoves) moveCount++;
+        }
+        OnMoveFinish?.Invoke(currentPosition);
     }
 
     /**
@@ -232,5 +230,11 @@ public class PlayerController : Singleton<PlayerController>
     public void StopMoving()
     {
         Cube.StopMoving();
+    }
+
+    public void StartMoving()
+    {
+        _isMoving = false;
+        Cube.StartMoving();
     }
 }
