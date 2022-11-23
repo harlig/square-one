@@ -62,7 +62,7 @@ public class Cube
 
     private void DoQueuedRotation()
     {
-        Debug.LogFormat("Peeking for enqueued rotation {0} with moveType {1}", queuedMovements.Count != 0 ? queuedMovements.Peek() : "EMPTY", moveType);
+        Debug.LogFormat("Peeking for enqueued rotation {0}", queuedMovements.Count != 0 ? queuedMovements.Peek() : "EMPTY");
         if (queuedMovements.Count == 0) return;
 
         Tuple<Vector3, MoveType> movement = queuedMovements.Dequeue();

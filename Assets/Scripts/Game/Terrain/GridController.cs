@@ -49,7 +49,6 @@ public class GridController : Singleton<GridController>
     {
         if (IsWithinGrid(row, col))
         {
-            Debug.LogFormat("Destroying tile at this location: {0}, {1}", row, col);
             TileAtLocation(row, col).GetTile().SetActive(false);
             Transform parent = transform.GetChild(row).transform;
 
