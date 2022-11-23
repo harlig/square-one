@@ -34,7 +34,7 @@ public class PlayerController : Singleton<PlayerController>
         playerInstanceGameObject = gameObject;
 
         // defines roll speed and allows to roll
-        Cube = new(this, 3.0f, BeforeRollActions(), AfterRollActions());
+        Cube = new(this, 4.4f, BeforeRollActions(), AfterRollActions());
         currentPosition = GetRawCurrentPosition();
         CameraController.OnCameraRotate += TrackCameraLocation;
     }
@@ -221,6 +221,7 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     // TODO need to do something like this to stop player movement and wait for it to finish
+    // TODO this moves through stuff lol...
     public void ForceMoveInDirection(Vector3 direction)
     {
         StopCountingMoves();
