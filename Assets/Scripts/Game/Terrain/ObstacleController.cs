@@ -97,6 +97,9 @@ public class ObstacleController : MonoBehaviour
         }
     }
 
+    // obstacles always roll
+    private static readonly Cube.MoveType _moveType = Cube.MoveType.ROLL;
+
     void MoveTowardsPosition(out int xDiff, out int yDiff, Vector2Int curPosition, Vector2Int endPosition)
     {
         xDiff = Mathf.Abs(curPosition.x - endPosition.x);
@@ -109,11 +112,11 @@ public class ObstacleController : MonoBehaviour
         {
             if (curPosition.x > endPosition.x)
             {
-                Cube.MoveInDirectionIfNotMoving(Vector3.left);
+                Cube.MoveInDirectionIfNotMoving(Vector3.left, _moveType);
             }
             else
             {
-                Cube.MoveInDirectionIfNotMoving(Vector3.right);
+                Cube.MoveInDirectionIfNotMoving(Vector3.right, _moveType);
             }
         }
         // TODO, add this back in and think of a more explicit solution for when xDiff and yDiff are equivalent
@@ -123,11 +126,11 @@ public class ObstacleController : MonoBehaviour
             {
                 if (curPosition.y > endPosition.y)
                 {
-                    Cube.MoveInDirectionIfNotMoving(Vector3.back);
+                    Cube.MoveInDirectionIfNotMoving(Vector3.back, _moveType);
                 }
                 else
                 {
-                    Cube.MoveInDirectionIfNotMoving(Vector3.forward);
+                    Cube.MoveInDirectionIfNotMoving(Vector3.forward, _moveType);
                 }
             }
 
@@ -194,7 +197,11 @@ public class ObstacleController : MonoBehaviour
             return;
         }
 
+        Debug.LogFormat("playerController? {0}", playerController);
+        Debug.LogFormat("Collider: {0}", other);
+
         Debug.Log("Gonna update player's location now");
         playerController.StartUpdatingLocation();
+        playerController.StopMoving();
     }
 }

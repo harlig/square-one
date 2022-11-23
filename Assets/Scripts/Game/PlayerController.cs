@@ -125,7 +125,6 @@ public class PlayerController : Singleton<PlayerController>
 
     Vector3Int GetRelativeMoveDirectionWithCameraOffset(int movementX, int movementY)
     {
-        Debug.LogFormat("playerInputStuff: {0} for this moveDirection: [{1}, {2}]", playerInputDirectionCameraOffset, movementX, movementY);
         if (movementX == -1) return PlayerInputDirectionsFromOffset(1);
         else if (movementX == 1) return PlayerInputDirectionsFromOffset(3);
         else if (movementY == 1) return PlayerInputDirectionsFromOffset(0);
@@ -155,23 +154,13 @@ public class PlayerController : Singleton<PlayerController>
         int movementY = Mathf.RoundToInt(movementVector.y);
 
         Vector3Int relativeMoveDirection = GetRelativeMoveDirectionWithCameraOffset(movementX, movementY);
-        Cube.MoveInDirectionIfNotMoving(relativeMoveDirection);
+        Cube.MoveInDirectionIfNotMoving(relativeMoveDirection, Cube.MoveType.ROLL);
 
         // TODO player can float by constant input, how to disallow? prev solution below
 
         // downwards force disallows wall climbing, constant was chosen because it plays well
         // this solution isn't great but seems good enough, feel free to update it to be cleaner
         // rb.AddForce(Vector3.down * 25, ForceMode.Force);
-    }
-
-    public void DisableInput()
-    {
-        GetComponent<InputAction>().Disable();
-    }
-
-    public void EnableInput()
-    {
-        GetComponent<InputAction>().Enable();
     }
 
     public bool ShouldCountMoves()
@@ -226,7 +215,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         StopCountingMoves();
         OnMoveFinish += StartCountingMovesAndDeregisterOnMoveFinish;
-        Cube.ForceMoveInDirection(direction);
+        Cube.MoveInDirectionIfNotMoving(direction, Cube.MoveType.SLIDE);
     }
 
     private void StartCountingMovesAndDeregisterOnMoveFinish(Vector2Int pos)
@@ -238,5 +227,10 @@ public class PlayerController : Singleton<PlayerController>
     private void StartCountingMoves()
     {
         shouldCountMoves = true;
+    }
+
+    public void StopMoving()
+    {
+        Cube.StopMoving();
     }
 }

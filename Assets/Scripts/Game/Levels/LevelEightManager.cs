@@ -66,14 +66,13 @@ public class LevelEightManager : LevelManager
             iceTile.WhenSteppedOn += OnIceTileSteppedOn;
         }
 
-        gridController.AddObstacleAtPosition((4 + gridSizeX) % gridSizeX, (4 + gridSizeY) % gridSizeY);
+        // gridController.AddObstacleAtPosition((4 + gridSizeX) % gridSizeX, (4 + gridSizeY) % gridSizeY);
 
         currentGameState = GameState.START;
     }
 
     void OnIceTileSteppedOn(Vector3Int direction)
     {
-        Debug.LogFormat("I'm a level and my ice tile has been stepped on. Send them in this direction: {0}!", direction);
         if (levelActive)
         {
             playerController.ForceMoveInDirection(direction);

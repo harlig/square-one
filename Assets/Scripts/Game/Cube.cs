@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Cube
@@ -20,6 +21,7 @@ public class Cube
 
     private readonly Action _beforeRoll;
     private readonly Action _afterRoll;
+    private readonly Queue<Tuple<Vector3, MoveType>> queuedMovements;
 
     public Cube(MonoBehaviour mb, float rollSpeed, Action beforeRoll, Action afterRoll)
     {
@@ -27,6 +29,7 @@ public class Cube
         _rollSpeed = rollSpeed;
         _beforeRoll = beforeRoll;
         _afterRoll = afterRoll;
+        queuedMovements = new();
     }
 
     protected Rigidbody rb;
@@ -39,16 +42,31 @@ public class Cube
         SLIDE
     }
 
-    public void MoveInDirectionIfNotMoving(Vector3 dir)
+    public void MoveInDirectionIfNotMoving(Vector3 dir, MoveType moveType)
     {
-        if (_isRotating) return;
+        if (_isRotating)
+        {
+            queuedMovements.Enqueue(new(dir, moveType));
+            return;
+        }
 
-        DoRotation(dir, MoveType.ROLL);
+        DoRotation(dir, moveType);
     }
 
     public void ForceMoveInDirection(Vector3 dir)
     {
         DoRotation(dir, MoveType.SLIDE);
+    }
+
+    Coroutine moveCoroutine;
+
+    private void DoQueuedRotation()
+    {
+        Debug.LogFormat("Peeking for enqueued rotation {0} with moveType {1}", queuedMovements.Count != 0 ? queuedMovements.Peek() : "EMPTY", moveType);
+        if (queuedMovements.Count == 0) return;
+
+        Tuple<Vector3, MoveType> movement = queuedMovements.Dequeue();
+        DoRotation(movement.Item1, movement.Item2);
     }
 
     private void DoRotation(Vector3 dir, MoveType moveType)
@@ -62,7 +80,6 @@ public class Cube
             rb = _mb.gameObject.GetComponent<Rigidbody>();
         }
 
-
         if (moveType == MoveType.ROLL)
         {
             var anchor = _mb.gameObject.transform.localPosition + (Vector3.down + dir) * 0.5f;
@@ -70,11 +87,11 @@ public class Cube
             // I think I want less of a Roll and more of a fixed one unit movement
             float rotationRemaining = 90;
             // TODO different math for tiny player?
-            _mb.StartCoroutine(Roll(anchor, axis, rotationRemaining));
+            moveCoroutine = _mb.StartCoroutine(Roll(anchor, axis, rotationRemaining));
         }
         else if (moveType == MoveType.SLIDE)
         {
-            _mb.StartCoroutine(Slide(dir));
+            moveCoroutine = _mb.StartCoroutine(Slide(dir));
         }
         else
         {
@@ -97,9 +114,13 @@ public class Cube
         Vector3 pos = _mb.gameObject.transform.position;
         _mb.gameObject.transform.localPosition = Vector3Int.RoundToInt(pos);
         ResetPhysics();
+
         _afterRoll?.Invoke();
+        DoQueuedRotation();
+
         // lock
         _isRotating = false;
+        moveCoroutine = null;
     }
 
     IEnumerator Roll(Vector3 anchor, Vector3 axis, float rotationRemaining)
@@ -117,9 +138,11 @@ public class Cube
         ResetPhysics();
 
         _afterRoll?.Invoke();
+        DoQueuedRotation();
 
         // lock
         _isRotating = false;
+        moveCoroutine = null;
     }
 
     public void ResetPhysics()
@@ -144,5 +167,17 @@ public class Cube
                 return Mathf.RoundToInt(rotation) * 90 * (isPositive ? 1 : -1);
             }
         }
+    }
+
+    public void StopMoving()
+    {
+        Debug.LogFormat("moveCoroutine: {0}", moveCoroutine);
+        if (moveCoroutine == null)
+        {
+            _isRotating = true;
+            return;
+        }
+
+        _mb.StopCoroutine(moveCoroutine);
     }
 }
