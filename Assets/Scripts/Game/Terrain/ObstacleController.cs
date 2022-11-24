@@ -117,11 +117,11 @@ public class ObstacleController : MonoBehaviour
         {
             if (curPosition.x > endPosition.x)
             {
-                Cube.MoveInDirectionIfNotMoving(Vector3.left, _moveType);
+                Cube.MoveInDirectionIfNotMoving(Vector3.left, _moveType, false);
             }
             else
             {
-                Cube.MoveInDirectionIfNotMoving(Vector3.right, _moveType);
+                Cube.MoveInDirectionIfNotMoving(Vector3.right, _moveType, false);
             }
         }
         // TODO, add this back in and think of a more explicit solution for when xDiff and yDiff are equivalent
@@ -131,11 +131,11 @@ public class ObstacleController : MonoBehaviour
             {
                 if (curPosition.y > endPosition.y)
                 {
-                    Cube.MoveInDirectionIfNotMoving(Vector3.back, _moveType);
+                    Cube.MoveInDirectionIfNotMoving(Vector3.back, _moveType, false);
                 }
                 else
                 {
-                    Cube.MoveInDirectionIfNotMoving(Vector3.forward, _moveType);
+                    Cube.MoveInDirectionIfNotMoving(Vector3.forward, _moveType, false);
                 }
             }
 
@@ -153,7 +153,7 @@ public class ObstacleController : MonoBehaviour
         }
     }
 
-    public void SetAfterRollAction(Action<bool> afterRoll)
+    public void SetAfterRollAction(Action<bool, bool> afterRoll)
     {
         Cube.SetAfterRollAction(afterRoll);
     }
@@ -161,7 +161,7 @@ public class ObstacleController : MonoBehaviour
     void Awake()
     {
         // no need for any before/after roll actions right now
-        Cube = new(this, 1.0f, () => { }, (moveCompleted) => { });
+        Cube = new(this, 1.0f, () => { }, (_, _) => { });
     }
 
     // must be done at object enable time

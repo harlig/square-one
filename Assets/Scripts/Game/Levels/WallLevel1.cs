@@ -46,7 +46,7 @@ public class WallLevel1 : LevelManager
             obstacles.Add(gridController.AddObstacleAtPosition(1, ndx));
         }
 
-        obstacles[^1].SetAfterRollAction(_ => AfterObjectMoves());
+        obstacles[^1].SetAfterRollAction((_, _) => AfterObjectMoves());
 
         currentGameState = GameState.START;
     }
@@ -70,10 +70,9 @@ public class WallLevel1 : LevelManager
 
     override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {
-        Debug.Log("Player movement is finishing");
-        if (levelActive && playerController.ShouldCountMoves())
+        if (levelActive)
         {
-            turnsLeft--;
+            turnsLeft = turnLimit - playerController.GetMoveCount();
         }
     }
 

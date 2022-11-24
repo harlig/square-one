@@ -34,7 +34,7 @@ public class PlayerController : Singleton<PlayerController>
         playerInstanceGameObject = gameObject;
 
         // defines roll speed and allows to roll
-        Cube = new(this, 4.4f, () => BeforeRollActions(), moveCompleted => AfterRollActions(moveCompleted));
+        Cube = new(this, 4.4f, () => BeforeRollActions(), (moveCompleted, moveShouldCount) => AfterRollActions(moveCompleted, moveShouldCount));
         currentPosition = GetRawCurrentPosition();
         CameraController.OnCameraRotate += TrackCameraLocation;
     }
@@ -77,16 +77,18 @@ public class PlayerController : Singleton<PlayerController>
         _isMoving = true;
     }
 
-    void AfterRollActions(bool moveCompleted)
+    void AfterRollActions(bool moveCompleted, bool shouldMoveBeCounted)
     {
 
         _isMoving = false;
 
         currentPosition = GetRawCurrentPosition();
 
+        Debug.LogFormat("I'm a player finishing my move and should I count moves: {0}", shouldMoveBeCounted);
+
         if (moveCompleted)
         {
-            if (shouldCountMoves) moveCount++;
+            if (shouldMoveBeCounted) moveCount++;
         }
         OnMoveFinish?.Invoke(currentPosition);
     }
@@ -152,7 +154,7 @@ public class PlayerController : Singleton<PlayerController>
         int movementY = Mathf.RoundToInt(movementVector.y);
 
         Vector3Int relativeMoveDirection = GetRelativeMoveDirectionWithCameraOffset(movementX, movementY);
-        Cube.MoveInDirectionIfNotMoving(relativeMoveDirection, Cube.MoveType.ROLL);
+        Cube.MoveInDirectionIfNotMoving(relativeMoveDirection, Cube.MoveType.ROLL, true);
 
         // TODO player can float by constant input, how to disallow? prev solution below
 
@@ -211,7 +213,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         StopCountingMoves();
         OnMoveFinish += StartCountingMovesAndDeregisterOnMoveFinish;
-        Cube.MoveInDirectionIfNotMoving(direction, Cube.MoveType.SLIDE);
+        Cube.MoveInDirectionIfNotMoving(direction, Cube.MoveType.SLIDE, false);
     }
 
     private void StartCountingMovesAndDeregisterOnMoveFinish(Vector2Int pos)
