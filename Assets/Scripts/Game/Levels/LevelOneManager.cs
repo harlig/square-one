@@ -70,7 +70,7 @@ public class LevelOneManager : LevelManager
         Vector2Int playerPos = playerController.GetCurrentPosition();
 
         // allow devMode to not fall out of map
-        if (!DEV_MODE && !gridController.IsWithinGrid(playerPos))
+        if (!gridController.IsWithinGrid(playerPos))
         {
             Debug.Log("Player has exited map.");
             currentGameState = GameState.FAILED;

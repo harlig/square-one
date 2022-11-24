@@ -18,28 +18,21 @@ public abstract class LevelManager : MonoBehaviour
     protected Vector2Int squareOne;
     protected bool levelActive;
 
-    // these flags may be too dangerous, avoid using them
-    [SerializeField] protected bool DEV_MODE = false;
-    [SerializeField] private int DEV_MODE_GRID_SIZE_X, DEV_MODE_GRID_SIZE_Y, DEV_MODE_TURN_LIMIT;
-
     protected void SetupLevel()
     {
+        int playerOffsetX = gridSizeX / 2;
+        int playerOffsetY = gridSizeY / 2;
 
-        if (DEV_MODE)
-        {
-            gridSizeX = DEV_MODE_GRID_SIZE_X;
-            gridSizeY = DEV_MODE_GRID_SIZE_Y;
-            turnLimit = DEV_MODE_TURN_LIMIT;
-        }
+        SetupLevel(playerOffsetX, playerOffsetY);
+    }
 
+    protected void SetupLevel(int playerOffsetX, int playerOffsetY)
+    {
         playerController = (PlayerController)PlayerController.Instance;
         gridController = (GridController)GridController.Instance;
         cameraController = (CameraController)CameraController.Instance;
 
         gridController.SetupGrid(gridSizeX, gridSizeY);
-
-        int playerOffsetX = gridSizeX / 2;
-        int playerOffsetY = gridSizeY / 2;
 
         playerController.SpawnPlayer(playerOffsetX, playerOffsetY);
         playerController.gameObject.SetActive(true);
@@ -107,6 +100,15 @@ public abstract class LevelManager : MonoBehaviour
         Debug.Log("Disabling player event");
         PlayerController.OnMoveStart -= OnPlayerMoveStart;
         PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
+    }
+
+    protected void OnIceTileSteppedOn(Vector3Int direction)
+    {
+        if (levelActive)
+        {
+            Debug.LogFormat("Stepped on ice tile in this direction: {0}", direction);
+            playerController.ForceMoveInDirection(direction);
+        }
     }
 
 

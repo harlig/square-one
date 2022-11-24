@@ -48,15 +48,6 @@ public class IceLevel1 : LevelManager
         currentGameState = GameState.START;
     }
 
-    void OnIceTileSteppedOn(Vector3Int direction)
-    {
-        if (levelActive)
-        {
-            Debug.LogFormat("Stepped on ice tile in this direction: {0}", direction);
-            playerController.ForceMoveInDirection(direction);
-        }
-    }
-
     void Update()
     {
         SetMoveCountText();
@@ -81,7 +72,7 @@ public class IceLevel1 : LevelManager
         Vector2Int playerPos = playerController.GetCurrentPosition();
 
         // allow devMode to not fall out of map
-        if (!DEV_MODE && !gridController.IsWithinGrid(playerPos))
+        if (!gridController.IsWithinGrid(playerPos))
         {
             Debug.Log("Player has exited map.");
             currentGameState = GameState.FAILED;

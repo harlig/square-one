@@ -38,7 +38,7 @@ public class WallLevel1 : LevelManager
             GameState.SUCCESS
         };
 
-        SetupLevel();
+        SetupLevel(2, 3);
 
         obstacles = new();
         for (int ndx = 0; ndx < gridSizeY; ndx++)
@@ -71,12 +71,13 @@ public class WallLevel1 : LevelManager
         Vector2Int playerPos = playerController.GetCurrentPosition();
 
         // allow devMode to not fall out of map
-        if (!DEV_MODE && !gridController.IsWithinGrid(playerPos))
+        if (!gridController.IsWithinGrid(playerPos))
         {
             Debug.Log("Player has exited map.");
             currentGameState = GameState.FAILED;
         }
 
+        // TODO let's make this possible to be in both RED_HIT and BLUE_HIT at the same time
         // game state handler
         switch (currentGameState)
         {
@@ -84,32 +85,34 @@ public class WallLevel1 : LevelManager
                 TransitionState();
                 break;
             case GameState.GREEN_SETUP:
-                gridController.PaintTileAtLocation(gridSizeX - 1, 2, Color.green);
+                gridController.PaintTileAtLocation(gridSizeX - 1, gridSizeY - 2, Color.green);
                 TransitionState();
                 break;
             case GameState.GREEN_HIT:
                 if (gridController.TileColorAtLocation(playerPos) == Color.green)
                 {
-                    foreach (ObstacleController obstacle in obstacles)
-                    {
-                        obstacle.MoveInDirection(Vector3.right);
-                    }
+                    MoveObstacles(Vector3.right);
                     TransitionState();
                 }
                 break;
             case GameState.RED_SETUP:
-                gridController.PaintTileAtLocation(1, 4, Color.red);
+                MoveObstacles(Vector3.right);
+                gridController.PaintTileAtLocation(squareOne.x, squareOne.y, Color.blue);
+                gridController.PaintTileAtLocation(gridSizeX - 2, gridSizeY - 1, Color.red);
                 TransitionState();
                 break;
             case GameState.RED_HIT:
                 if (gridController.TileColorAtLocation(playerPos) == Color.red)
                 {
+                    gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 2, OnIceTileSteppedOn);
+                    gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 3, OnIceTileSteppedOn);
+                    gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 4, OnIceTileSteppedOn);
+                    gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 5, OnIceTileSteppedOn);
                     TransitionState();
                 }
                 break;
             case GameState.BLUE_SETUP:
                 // last step is back to square one
-                gridController.PaintTileAtLocation(squareOne.x, squareOne.y, Color.blue);
                 TransitionState();
                 break;
             case GameState.BLUE_HIT:
@@ -142,6 +145,15 @@ public class WallLevel1 : LevelManager
             // could probably use a better data structure as the state machine that allows a failure state as defined by the state machine
             currentGameState = gameStateOrder[gameStateOrder.IndexOf(currentGameState) + 1];
         }
+    }
 
+    void MoveObstacles(Vector3 direction)
+    {
+        foreach (ObstacleController obstacle in obstacles)
+        {
+            if (Mathf.RoundToInt(obstacle.transform.position.z) == 0) continue;
+
+            obstacle.MoveInDirection(direction);
+        }
     }
 }
