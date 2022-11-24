@@ -51,7 +51,7 @@ public class LevelThreeManager : LevelManager
         }
     }
 
-    override protected void OnPlayerMoveStart(Vector2Int playerPosition)
+    override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {
         if (levelActive)
         {
@@ -67,11 +67,6 @@ public class LevelThreeManager : LevelManager
         if (!DEV_MODE && !gridController.IsWithinGrid(playerPos))
         {
             Debug.Log("Player has exited map.");
-            currentGameState = GameState.FAILED;
-        }
-        if (playerController.GetMoveCount() >= turnLimit)
-        {
-            Debug.Log("Player exceeded move count");
             currentGameState = GameState.FAILED;
         }
 
@@ -127,6 +122,12 @@ public class LevelThreeManager : LevelManager
             default:
                 Debug.LogErrorFormat("Encountered unexpected game state: {0}", currentGameState);
                 break;
+        }
+
+        if (turnLimit <= 0)
+        {
+            Debug.Log("Player exceeded move count");
+            currentGameState = GameState.FAILED;
         }
 
         void TransitionState()
