@@ -30,6 +30,7 @@ Here's what it looks like in its current state
 Should consider accessibility and write letters or some symbol on tiles to differentiate. 
 
 - [ ] Full ice map with obstacles that stop you from sliding
+- [ ] Map where you think you're out of turns but then 
 
 ## Mechanic ideas
 

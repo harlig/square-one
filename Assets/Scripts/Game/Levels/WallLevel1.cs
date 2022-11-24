@@ -6,6 +6,8 @@ public class WallLevel1 : LevelManager
     private List<GameState> gameStateOrder;
     private GameState currentGameState;
 
+    private List<ObstacleController> obstacles;
+
     enum GameState
     {
         START,
@@ -38,9 +40,10 @@ public class WallLevel1 : LevelManager
 
         SetupLevel();
 
+        obstacles = new();
         for (int ndx = 0; ndx < gridSizeY; ndx++)
         {
-            gridController.AddObstacleAtPosition(1, ndx);
+            obstacles.Add(gridController.AddObstacleAtPosition(1, ndx));
         }
 
         currentGameState = GameState.START;
@@ -87,6 +90,10 @@ public class WallLevel1 : LevelManager
             case GameState.GREEN_HIT:
                 if (gridController.TileColorAtLocation(playerPos) == Color.green)
                 {
+                    foreach (ObstacleController obstacle in obstacles)
+                    {
+                        obstacle.MoveInDirection(Vector3.right);
+                    }
                     TransitionState();
                 }
                 break;

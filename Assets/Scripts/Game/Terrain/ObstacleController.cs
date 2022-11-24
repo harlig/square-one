@@ -97,6 +97,11 @@ public class ObstacleController : MonoBehaviour
         }
     }
 
+    public void MoveInDirection(Vector3 direction)
+    {
+        Cube.MoveInDirectionIfNotMoving(direction, _moveType);
+    }
+
     // obstacles always roll
     private static readonly Cube.MoveType _moveType = Cube.MoveType.ROLL;
 
