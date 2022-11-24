@@ -90,7 +90,7 @@ public class IceLevel1 : LevelManager
                 TransitionState();
                 break;
             case GameState.GREEN_SETUP:
-                gridController.PaintTileAtLocation(3, 1, Color.green);
+                gridController.PaintTileAtLocation(gridSizeX - 1, 2, Color.green);
                 TransitionState();
                 break;
             case GameState.GREEN_HIT:
@@ -100,7 +100,7 @@ public class IceLevel1 : LevelManager
                 }
                 break;
             case GameState.RED_SETUP:
-                gridController.PaintTileAtLocation(4, gridSizeY - 1, Color.red);
+                gridController.PaintTileAtLocation(1, 4, Color.red);
                 TransitionState();
                 break;
             case GameState.RED_HIT:

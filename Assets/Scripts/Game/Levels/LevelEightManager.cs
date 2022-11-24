@@ -43,8 +43,7 @@ public class LevelEightManager : LevelManager
         {
             int iceTileRow = 4 % gridSizeX;
             int iceTileCol = (3 + ndx) % gridSizeY;
-            gridController.SpawnIceTile(iceTileRow, iceTileCol);
-            IceTile iceTile = (IceTile)gridController.TileAtLocation(iceTileRow, iceTileCol);
+            IceTile iceTile = gridController.SpawnIceTile(iceTileRow, iceTileCol);
             iceTile.WhenSteppedOn += OnIceTileSteppedOn;
         }
 
