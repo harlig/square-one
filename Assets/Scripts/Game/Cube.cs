@@ -20,7 +20,7 @@ public class Cube
     }
 
     private readonly Action _beforeRoll;
-    private readonly Action<bool> _afterRoll;
+    private Action<bool> _afterRoll;
     private readonly Queue<Tuple<Vector3, MoveType>> queuedMovements;
 
     private bool circuitBreakMovement = false;
@@ -44,11 +44,31 @@ public class Cube
         SLIDE
     }
 
+    public void SetAfterRollAction(Action<bool> afterRoll)
+    {
+        _afterRoll = afterRoll;
+    }
+
+    public void MoveInDirectionIfNotMovingAndDontEnqueue(Vector3 dir, MoveType moveType)
+    {
+        if (_isMoving)
+        {
+            return;
+        }
+        else if (queuedMovements.Count == 0)
+        {
+            // Debug.LogFormat("Enqueueing a move in this direction of this type {0} {1}", dir, moveType);
+            queuedMovements.Enqueue(new(dir, moveType));
+            DoQueuedRotation();
+        }
+
+    }
+
     public void MoveInDirectionIfNotMoving(Vector3 dir, MoveType moveType)
     {
         if (queuedMovements.Count == 0)
         {
-            Debug.LogFormat("Enqueueing a move in this direction of this type {0} {1}", dir, moveType);
+            // Debug.LogFormat("Enqueueing a move in this direction of this type {0} {1}", dir, moveType);
             queuedMovements.Enqueue(new(dir, moveType));
         }
         if (_isMoving)
@@ -63,7 +83,7 @@ public class Cube
     {
         if (_isMoving) return;
 
-        Debug.LogFormat("Peeking for enqueued rotation {0}", queuedMovements.Count != 0 ? queuedMovements.Peek() : "EMPTY");
+        // Debug.LogFormat("Peeking for enqueued rotation {0}", queuedMovements.Count != 0 ? queuedMovements.Peek() : "EMPTY");
         if (queuedMovements.Count == 0) return;
 
         Tuple<Vector3, MoveType> movement = queuedMovements.Dequeue();

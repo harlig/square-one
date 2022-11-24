@@ -97,9 +97,9 @@ public class ObstacleController : MonoBehaviour
         }
     }
 
-    public void MoveInDirection(Vector3 direction)
+    public void MoveInDirectionIfNotMovingAndDontEnqueue(Vector3 direction)
     {
-        Cube.MoveInDirectionIfNotMoving(direction, _moveType);
+        Cube.MoveInDirectionIfNotMovingAndDontEnqueue(direction, _moveType);
     }
 
     // obstacles always roll
@@ -151,6 +151,11 @@ public class ObstacleController : MonoBehaviour
             MoveTowardsPosition(out _, out _, GetPositionAsVector2Int(), _playerController.GetCurrentPosition());
 
         }
+    }
+
+    public void SetAfterRollAction(Action<bool> afterRoll)
+    {
+        Cube.SetAfterRollAction(afterRoll);
     }
 
     void Awake()

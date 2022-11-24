@@ -46,7 +46,17 @@ public class WallLevel1 : LevelManager
             obstacles.Add(gridController.AddObstacleAtPosition(1, ndx));
         }
 
+        obstacles[^1].SetAfterRollAction(_ => AfterObjectMoves());
+
         currentGameState = GameState.START;
+    }
+
+    bool objectHasMoved;
+
+    void AfterObjectMoves()
+    {
+        Debug.Log("Object has moved");
+        objectHasMoved = true;
     }
 
     void Update()
@@ -79,6 +89,8 @@ public class WallLevel1 : LevelManager
 
         // TODO let's make this possible to be in both RED_HIT and BLUE_HIT at the same time
         // game state handler
+        bool greenHit, redSetupStarted;
+        greenHit = redSetupStarted = false;
         switch (currentGameState)
         {
             case GameState.START:
@@ -91,15 +103,29 @@ public class WallLevel1 : LevelManager
             case GameState.GREEN_HIT:
                 if (gridController.TileColorAtLocation(playerPos) == Color.green)
                 {
+                    greenHit = true;
                     MoveObstacles(Vector3.right);
+                }
+                if (greenHit && objectHasMoved)
+                {
                     TransitionState();
+                    objectHasMoved = false;
                 }
                 break;
             case GameState.RED_SETUP:
-                MoveObstacles(Vector3.right);
-                gridController.PaintTileAtLocation(squareOne.x, squareOne.y, Color.blue);
-                gridController.PaintTileAtLocation(gridSizeX - 2, gridSizeY - 1, Color.red);
-                TransitionState();
+                if (!redSetupStarted)
+                {
+                    MoveObstacles(Vector3.right);
+                    redSetupStarted = true;
+                }
+                if (redSetupStarted && objectHasMoved)
+                {
+                    objectHasMoved = false;
+                    Debug.Log("red setup is being finished");
+                    gridController.PaintTileAtLocation(squareOne.x, squareOne.y, Color.blue);
+                    gridController.PaintTileAtLocation(gridSizeX - 2, gridSizeY - 1, Color.red);
+                    TransitionState();
+                }
                 break;
             case GameState.RED_HIT:
                 if (gridController.TileColorAtLocation(playerPos) == Color.red)
@@ -149,11 +175,12 @@ public class WallLevel1 : LevelManager
 
     void MoveObstacles(Vector3 direction)
     {
+        if (objectHasMoved) return;
         foreach (ObstacleController obstacle in obstacles)
         {
             if (Mathf.RoundToInt(obstacle.transform.position.z) == 0) continue;
 
-            obstacle.MoveInDirection(direction);
+            obstacle.MoveInDirectionIfNotMovingAndDontEnqueue(direction);
         }
     }
 }
