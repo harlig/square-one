@@ -171,7 +171,6 @@ public class PlayerController : Singleton<PlayerController>
         shouldCountMoves = false;
     }
 
-    // TODO need to update GetCurrentPosition when the player gets moved by some other obstacle
     /**
         Get player's location taking into account roll animation. This position only updates once a roll animation completes.
     */
@@ -208,7 +207,6 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     // TODO need to do something like this to stop player movement and wait for it to finish
-    // TODO this moves through stuff lol...
     public void ForceMoveInDirection(Vector3 direction)
     {
         StopCountingMoves();

@@ -24,7 +24,7 @@ public class WallLevel1 : LevelManager
     void Start()
     {
         gridSizeX = gridSizeY = 6;
-        turnLimit = 10;
+        turnLimit = 1000;
 
         gameStateOrder = new List<GameState>
         {
@@ -70,6 +70,7 @@ public class WallLevel1 : LevelManager
 
     override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {
+        Debug.Log("Player movement is finishing");
         if (levelActive && playerController.ShouldCountMoves())
         {
             turnsLeft--;

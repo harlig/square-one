@@ -148,7 +148,7 @@ public class LevelEightManager : LevelManager
                 break;
         }
 
-        if (currentGameState != GameState.SUCCESS && turnLimit <= 0)
+        if (currentGameState != GameState.SUCCESS && turnsLeft <= 0)
         {
             Debug.Log("Player exceeded move count");
             currentGameState = GameState.FAILED;

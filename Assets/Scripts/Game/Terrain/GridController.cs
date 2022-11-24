@@ -135,7 +135,6 @@ public class GridController : Singleton<GridController>
         }
         if (TileAtLocation(position) is not PaintTile)
         {
-            Debug.Log("Tile color at location returned a non-paint tile!");
             return null;
         }
 
