@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,7 +47,7 @@ public class GridController : Singleton<GridController>
         gridRows = rows;
     }
 
-    public IceTile SpawnIceTile(int x, int y)
+    public IceTile SpawnIceTile(int x, int y, IceTile.SteppedOnAction steppedOnAction)
     {
         if (IsWithinGrid(x, y))
         {
@@ -57,11 +59,33 @@ public class GridController : Singleton<GridController>
             tile.name = string.Format("y{0} - Ice", y);
             tile.transform.parent = parent;
 
-            gridRows[x][y] = tile.GetComponent<TileController>();
-            return tile.GetComponent<IceTile>();
+            IceTile iceTile = tile.GetComponent<IceTile>();
+            iceTile.WhenSteppedOn += steppedOnAction;
+
+            gridRows[x][y] = iceTile;
+            return iceTile;
         }
 
         return null;
+    }
+
+    public List<IceTile> SpawnIceTilesAroundPosition(int x, int y, IceTile.SteppedOnAction steppedOnAction)
+    {
+        List<IceTile> iceTilesCreated = new();
+        for (int xAttempt = x - 1; xAttempt <= x + 1; xAttempt++)
+        {
+            for (int yAttempt = y - 1; yAttempt <= y + 1; yAttempt++)
+            {
+                // don't spawn ice tile here
+                if (xAttempt == x && yAttempt == y) continue;
+
+                IceTile iceTile = SpawnIceTile(xAttempt, yAttempt, steppedOnAction);
+                if (iceTile == null) continue;
+
+                iceTilesCreated.Add(iceTile);
+            }
+        }
+        return iceTilesCreated;
     }
 
     private GameObject _obstacleGameObject;
