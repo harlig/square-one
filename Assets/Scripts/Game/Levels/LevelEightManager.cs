@@ -102,11 +102,6 @@ public class LevelEightManager : LevelManager
             Debug.Log("Player has exited map.");
             currentGameState = GameState.FAILED;
         }
-        if (playerController.GetMoveCount() >= turnLimit)
-        {
-            Debug.Log("Player exceeded move count");
-            currentGameState = GameState.FAILED;
-        }
 
         // game state handler
         switch (currentGameState)
@@ -160,6 +155,12 @@ public class LevelEightManager : LevelManager
             default:
                 Debug.LogErrorFormat("Encountered unexpected game state: {0}", currentGameState);
                 break;
+        }
+
+        if (currentGameState != GameState.SUCCESS && turnLimit <= 0)
+        {
+            Debug.Log("Player exceeded move count");
+            currentGameState = GameState.FAILED;
         }
 
         void TransitionState()
