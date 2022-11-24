@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IceLevel1 : LevelManager
+public class WallLevel1 : LevelManager
 {
     private List<GameState> gameStateOrder;
     private GameState currentGameState;
@@ -38,23 +38,12 @@ public class IceLevel1 : LevelManager
 
         SetupLevel();
 
-        gridController.SpawnIceTilesAroundPosition(gridSizeX - 1, 2, OnIceTileSteppedOn);
-        // gridController.SpawnIceTile(gridSizeX - 1, 3, OnIceTileSteppedOn);
-        // gridController.SpawnIceTile(gridSizeX - 1, 1, OnIceTileSteppedOn);
-        // gridController.SpawnIceTile(gridSizeX - 2, 3, OnIceTileSteppedOn);
-        // gridController.SpawnIceTile(gridSizeX - 2, 2, OnIceTileSteppedOn);
-        // gridController.SpawnIceTile(gridSizeX - 2, 1, OnIceTileSteppedOn);
+        for (int ndx = 0; ndx < gridSizeY; ndx++)
+        {
+            gridController.AddObstacleAtPosition(1, ndx);
+        }
 
         currentGameState = GameState.START;
-    }
-
-    void OnIceTileSteppedOn(Vector3Int direction)
-    {
-        if (levelActive)
-        {
-            Debug.LogFormat("Stepped on ice tile in this direction: {0}", direction);
-            playerController.ForceMoveInDirection(direction);
-        }
     }
 
     void Update()
@@ -68,8 +57,6 @@ public class IceLevel1 : LevelManager
 
     override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {
-        ManageGameState();
-        // TODO ice is being counted as a turn?
         if (levelActive && playerController.ShouldCountMoves())
         {
             turnsLeft--;
