@@ -90,7 +90,7 @@ public class LevelEightManager : LevelManager
         }
     }
 
-    override protected void OnPlayerMoveStart(Vector2Int playerPosition)
+    override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {
         if (levelActive && playerController.ShouldCountMoves())
         {
