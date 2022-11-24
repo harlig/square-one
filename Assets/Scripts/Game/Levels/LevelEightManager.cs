@@ -77,9 +77,9 @@ public class LevelEightManager : LevelManager
 
     override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {
-        if (levelActive && playerController.ShouldCountMoves())
+        if (levelActive)
         {
-            turnsLeft--;
+            turnsLeft = turnLimit - playerController.GetMoveCount();
         }
     }
 

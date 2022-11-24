@@ -60,10 +60,10 @@ public class IceLevel1 : LevelManager
     override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {
         ManageGameState();
-        // TODO ice is being counted as a turn?
-        if (levelActive && playerController.ShouldCountMoves())
+
+        if (levelActive)
         {
-            turnsLeft--;
+            turnsLeft = turnLimit - playerController.GetMoveCount();
         }
     }
 

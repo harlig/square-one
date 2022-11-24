@@ -61,7 +61,7 @@ public class LevelOneManager : LevelManager
     {
         if (levelActive)
         {
-            turnsLeft--;
+            turnsLeft = turnLimit - playerController.GetMoveCount();
         }
     }
 

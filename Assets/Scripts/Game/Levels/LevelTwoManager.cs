@@ -29,7 +29,10 @@ public class LevelTwoManager : LevelManager
             return;
         }
 
-        turnsLeft--;
+        if (levelActive)
+        {
+            turnsLeft = turnLimit - playerController.GetMoveCount();
+        }
         SetMoveCountText();
 
         // win by making it to no turns I guess

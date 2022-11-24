@@ -65,7 +65,7 @@ public class LevelSevenManager : LevelManager
     {
         if (levelActive)
         {
-            turnsLeft--;
+            turnsLeft = turnLimit - playerController.GetMoveCount();
         }
     }
 
