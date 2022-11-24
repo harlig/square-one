@@ -76,6 +76,9 @@ public class WallLevel1 : LevelManager
         }
     }
 
+    bool greenHit = false;
+    bool redSetupStarted = false;
+
     void ManageGameState()
     {
         Vector2Int playerPos = playerController.GetCurrentPosition();
@@ -86,11 +89,6 @@ public class WallLevel1 : LevelManager
             Debug.Log("Player has exited map.");
             currentGameState = GameState.FAILED;
         }
-
-        // TODO let's make this possible to be in both RED_HIT and BLUE_HIT at the same time
-        // game state handler
-        bool greenHit, redSetupStarted;
-        greenHit = redSetupStarted = false;
         switch (currentGameState)
         {
             case GameState.START:
