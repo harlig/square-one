@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,22 +16,22 @@ public class GridController : Singleton<GridController>
     // TODO need a way to specify a default prefab to use (like paintTilePrefab) and then
     // a list of other prefabs and a list of their locations. Like "use paintTilePrefab everywhere
     // except put IceTiles where I specify in this list"
-    public void SetupGrid(int width, int length)
+    public void SetupGrid(int xSize, int ySize)
     {
         List<List<TileController>> rows = new();
 
-        for (int row = 0; row < width; row++)
+        for (int x = 0; x < xSize; x++)
         {
             List<TileController> thisRow = new();
-            GameObject rowObj = new(string.Format("row{0}", row));
-            for (int col = 0; col < length; col++)
+            GameObject xRowObj = new(string.Format("X{0}", x));
+            for (int y = 0; y < ySize; y++)
             {
                 GameObject tile;
 
                 tile = Instantiate(paintTilePrefab);
-                tile.transform.localPosition = new Vector3(row, 0, col);
-                tile.name = string.Format("col{0} - Paint", col);
-                tile.transform.parent = rowObj.transform;
+                tile.transform.localPosition = new Vector3(x, 0, y);
+                tile.name = string.Format("Y{0} - Paint", y);
+                tile.transform.parent = xRowObj.transform;
 
                 thisRow.Add(tile.GetComponent<TileController>());
 
@@ -39,39 +41,64 @@ public class GridController : Singleton<GridController>
                 }
 
             }
-            rowObj.transform.parent = transform;
+            xRowObj.transform.parent = transform;
             rows.Add(thisRow);
         }
         gridRows = rows;
     }
 
-    public void SpawnIceTile(int row, int col)
+    public IceTile SpawnIceTile(int x, int y, IceTile.SteppedOnAction steppedOnAction)
     {
-        if (IsWithinGrid(row, col))
+        if (IsWithinGrid(x, y))
         {
-            TileAtLocation(row, col).GetTile().SetActive(false);
-            Transform parent = transform.GetChild(row).transform;
+            TileAtLocation(x, y).GetTile().SetActive(false);
+            Transform parent = transform.GetChild(x).transform;
 
             GameObject tile = Instantiate(iceTilePrefab);
-            tile.transform.localPosition = new Vector3(row, 0, col);
-            tile.name = string.Format("col{0} - Ice", col);
+            tile.transform.localPosition = new Vector3(x, 0, y);
+            tile.name = string.Format("y{0} - Ice", y);
             tile.transform.parent = parent;
 
-            gridRows[row][col] = tile.GetComponent<TileController>();
+            IceTile iceTile = tile.GetComponent<IceTile>();
+            iceTile.WhenSteppedOn += steppedOnAction;
+
+            gridRows[x][y] = iceTile;
+            return iceTile;
         }
+
+        return null;
+    }
+
+    public List<IceTile> SpawnIceTilesAroundPosition(int x, int y, IceTile.SteppedOnAction steppedOnAction)
+    {
+        List<IceTile> iceTilesCreated = new();
+        for (int xAttempt = x - 1; xAttempt <= x + 1; xAttempt++)
+        {
+            for (int yAttempt = y - 1; yAttempt <= y + 1; yAttempt++)
+            {
+                // don't spawn ice tile here
+                if (xAttempt == x && yAttempt == y) continue;
+
+                IceTile iceTile = SpawnIceTile(xAttempt, yAttempt, steppedOnAction);
+                if (iceTile == null) continue;
+
+                iceTilesCreated.Add(iceTile);
+            }
+        }
+        return iceTilesCreated;
     }
 
     private GameObject _obstacleGameObject;
 
-    public ObstacleController AddObstacleAtPosition(int row, int col)
+    public ObstacleController AddObstacleAtPosition(int x, int y)
     {
         if (_obstacleGameObject == null)
         {
             _obstacleGameObject = new("Obstacles");
         }
         // obstacles spawn on top of floor
-        ObstacleController obstacle = Instantiate(obstaclePrefab, new Vector3Int(row, 1, col), Quaternion.identity).GetComponent<ObstacleController>();
-        obstacle.SetName($"row{row}col{col}");
+        ObstacleController obstacle = Instantiate(obstaclePrefab, new Vector3Int(x, 1, y), Quaternion.identity).GetComponent<ObstacleController>();
+        obstacle.SetName($"row{x}col{y}");
 
         obstacle.transform.parent = _obstacleGameObject.transform;
 
