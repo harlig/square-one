@@ -24,7 +24,7 @@ public class WallLevel1 : LevelManager
     void Start()
     {
         gridSizeX = gridSizeY = 6;
-        turnLimit = 1000;
+        turnLimit = 13;
 
         gameStateOrder = new List<GameState>
         {
@@ -131,7 +131,6 @@ public class WallLevel1 : LevelManager
                     gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 2, OnIceTileSteppedOn);
                     gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 3, OnIceTileSteppedOn);
                     gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 4, OnIceTileSteppedOn);
-                    gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 5, OnIceTileSteppedOn);
                     TransitionState();
                 }
                 break;
@@ -143,6 +142,9 @@ public class WallLevel1 : LevelManager
                 if (gridController.TileColorAtLocation(playerPos) == Color.blue)
                 {
                     TransitionState();
+                    // you must manage game state here before falling through, otherwise you could be transitioning
+                    // into a success game state when you're at zero turns!
+                    ManageGameState();
                 }
                 break;
             case GameState.SUCCESS:

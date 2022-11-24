@@ -113,6 +113,9 @@ public class IceLevel1 : LevelManager
                 if (gridController.TileColorAtLocation(playerPos) == Color.blue)
                 {
                     TransitionState();
+                    // you must manage game state here before falling through, otherwise you could be transitioning
+                    // into a success game state when you're at zero turns!
+                    ManageGameState();
                 }
                 break;
             case GameState.SUCCESS:
