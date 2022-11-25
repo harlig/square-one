@@ -197,40 +197,18 @@ public class ObstacleController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.CompareTag("Player"))
-        {
-            // Debug.LogFormat("Obstacle collided with non-player entity: {0}", other);
-            return;
-        }
+        if (!PlayerController.IsColliderPlayer(other)) return;
 
         PlayerController playerController = other.GetComponent<PlayerController>();
-        if (playerController == null)
-        {
-            Debug.LogAssertion("Something tagged `Player` with no PlayerController collided with this obstacle!");
-            return;
-        }
-
-        Debug.Log("Gonna update player's location now");
         playerController.StartUpdatingLocation();
         playerController.StopMoving();
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (!other.gameObject.CompareTag("Player"))
-        {
-            // Debug.LogFormat("Obstacle collided with non-player entity: {0}", other);
-            return;
-        }
+        if (!PlayerController.IsColliderPlayer(other)) return;
 
         PlayerController playerController = other.GetComponent<PlayerController>();
-        if (playerController == null)
-        {
-            Debug.LogAssertion("Something tagged `Player` with no PlayerController collided with this obstacle!");
-            return;
-        }
-
-        Debug.Log("starting player movement");
         playerController.StartMoving();
     }
 }
