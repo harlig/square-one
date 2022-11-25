@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class IceTile : TileController
+// TODO how to make this tile clearly marked as ice even when painted?
+public class IceTile : PaintTile
 {
     private Vector2Int _beforeMovePosition;
 
