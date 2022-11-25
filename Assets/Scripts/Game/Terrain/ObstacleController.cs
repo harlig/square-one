@@ -54,9 +54,6 @@ public class ObstacleController : MonoBehaviour
                 // should maybe wait a second or two? we need to let the obstacle finish rolling too?
                 yield return null;
 
-                // TODO ethan
-                // wait also we want to floor the values when they're close to the max size, and we need to do it specifically for x and z i think?
-
                 // when we get into the 1 range, we don't want to snap to a zero deficit when we're at like 0.4
                 if (xDiff == 1 || yDiff == 1)
                 {
@@ -182,7 +179,7 @@ public class ObstacleController : MonoBehaviour
 
     public void MoveTowardsPlayer(PlayerController playerController)
     {
-        Cube.SetRollSpeed(playerController.Cube.GetRollSpeed());
+        Cube.SetRollSpeed(playerController.GetRollSpeed());
         _moveTowardsPlayer = true;
         _playerController = playerController;
     }

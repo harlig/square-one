@@ -39,11 +39,6 @@ public class IceLevel1 : LevelManager
         SetupLevel();
 
         gridController.SpawnIceTilesAroundPosition(gridSizeX - 1, 2, OnIceTileSteppedOn);
-        // gridController.SpawnIceTile(gridSizeX - 1, 3, OnIceTileSteppedOn);
-        // gridController.SpawnIceTile(gridSizeX - 1, 1, OnIceTileSteppedOn);
-        // gridController.SpawnIceTile(gridSizeX - 2, 3, OnIceTileSteppedOn);
-        // gridController.SpawnIceTile(gridSizeX - 2, 2, OnIceTileSteppedOn);
-        // gridController.SpawnIceTile(gridSizeX - 2, 1, OnIceTileSteppedOn);
 
         currentGameState = GameState.START;
     }

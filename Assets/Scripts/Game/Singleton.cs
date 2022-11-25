@@ -5,8 +5,6 @@ public abstract class Singleton<T> : MonoBehaviour
     // SINGLETON
     public static Singleton<T> Instance { get; private set; }
 
-    // private static Singleton<T> _Instance;
-
     void Awake()
     {
         // If there is an instance and it's not me, delete myself.

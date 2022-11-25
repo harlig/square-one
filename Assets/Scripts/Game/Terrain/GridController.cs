@@ -13,9 +13,6 @@ public class GridController : Singleton<GridController>
 
     private Color startingColor;
 
-    // TODO need a way to specify a default prefab to use (like paintTilePrefab) and then
-    // a list of other prefabs and a list of their locations. Like "use paintTilePrefab everywhere
-    // except put IceTiles where I specify in this list"
     public void SetupGrid(int xSize, int ySize)
     {
         List<List<TileController>> rows = new();

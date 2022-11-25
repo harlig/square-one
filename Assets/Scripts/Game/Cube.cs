@@ -68,7 +68,6 @@ public class Cube
     {
         if (queuedMovements.Count == 0)
         {
-            // Debug.LogFormat("Enqueueing a move in this direction of this type {0} {1}", dir, moveType);
             queuedMovements.Enqueue(new(dir, moveType, moveShouldCount));
         }
         if (_isMoving)
@@ -83,7 +82,6 @@ public class Cube
     {
         if (_isMoving) return;
 
-        // Debug.LogFormat("Peeking for enqueued rotation {0}", queuedMovements.Count != 0 ? queuedMovements.Peek() : "EMPTY");
         if (queuedMovements.Count == 0) return;
 
         Tuple<Vector3, MoveType, bool> movement = queuedMovements.Dequeue();
@@ -107,7 +105,6 @@ public class Cube
             var anchor = _mb.gameObject.transform.localPosition + (Vector3.down + dir) * 0.5f;
             var axis = Vector3.Cross(Vector3.up, dir);
             float rotationRemaining = 90;
-            // TODO different math for tiny player?
             _mb.StartCoroutine(Roll(anchor, axis, rotationRemaining, moveShouldCount));
         }
         else if (moveType == MoveType.SLIDE)

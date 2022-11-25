@@ -19,8 +19,7 @@ public class PlayerController : Singleton<PlayerController>
     private bool shouldCountMoves = true;
     private int moveCount;
     private GameObject playerInstanceGameObject;
-    // TODO probably shouldn't be public hmm
-    public Cube Cube { get; set; }
+    private Cube Cube { get; set; }
 
     private Vector2Int currentPosition;
     private bool _isMoving;
@@ -208,7 +207,6 @@ public class PlayerController : Singleton<PlayerController>
         };
     }
 
-    // TODO need to do something like this to stop player movement and wait for it to finish
     public void ForceMoveInDirection(Vector3 direction)
     {
         StopCountingMoves();
@@ -236,5 +234,10 @@ public class PlayerController : Singleton<PlayerController>
     {
         _isMoving = false;
         Cube.StartMoving();
+    }
+
+    public float GetRollSpeed()
+    {
+        return Cube.GetRollSpeed();
     }
 }
