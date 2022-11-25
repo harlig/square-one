@@ -51,6 +51,11 @@ public class IceLevel2 : LevelManager
         gridController.AddObstacleAtPosition(gridSizeX - 1, 1);
         gridController.AddObstacleAtPosition(gridSizeX - 2, 6);
         gridController.AddObstacleAtPosition(2, 5);
+        // hit red
+        gridController.AddObstacleAtPosition(3, 3);
+        gridController.AddObstacleAtPosition(0, 4);
+        gridController.AddObstacleAtPosition(1, gridSizeY - 1);
+        gridController.AddObstacleAtPosition(squareOne.x + 1, gridSizeY - 2);
 
         currentGameState = GameState.START;
     }
@@ -92,7 +97,7 @@ public class IceLevel2 : LevelManager
                 TransitionState();
                 break;
             case GameState.GREEN_SETUP:
-                gridController.PaintTileAtLocation(4, 2, Color.green);
+                gridController.PaintTileAtLocation(5, 2, Color.green);
                 TransitionState();
                 break;
             case GameState.GREEN_HIT:
