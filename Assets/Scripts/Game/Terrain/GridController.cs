@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class GridController : Singleton<GridController>
 {
+    // TODO will change to BaseTile and use a bare TileController
     [SerializeField] private GameObject paintTilePrefab;
     [SerializeField] private GameObject iceTilePrefab;
     [SerializeField] private GameObject obstaclePrefab;
+    [SerializeField] private GameObject waypointPrefab;
 
     private List<List<TileController>> gridRows;
 
@@ -117,11 +119,6 @@ public class GridController : Singleton<GridController>
             return null;
         }
         return gridRows[position.x][position.y];
-    }
-
-    public void ResetTileColorAtLocation(Vector2Int position)
-    {
-        PaintTileAtLocation(position, startingColor);
     }
 
     public Color? TileColorAtLocation(Vector2Int position)
