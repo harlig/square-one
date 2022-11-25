@@ -144,9 +144,8 @@ public class ObstacleController : MonoBehaviour
         if (_moveTowardsPlayer && moveShouldCount)
         {
             Debug.Log("Moving towards player");
-            // TODO should use playerPosition?
             // move one unit torwads player's position
-            MoveTowardsPosition(out _, out _, GetPositionAsVector2Int(), _playerController.GetCurrentPosition());
+            MoveTowardsPosition(out _, out _, GetPositionAsVector2Int(), playerPosition);
         }
     }
 
@@ -175,13 +174,11 @@ public class ObstacleController : MonoBehaviour
     }
 
     private bool _moveTowardsPlayer = false;
-    private PlayerController _playerController;
 
     public void MoveTowardsPlayer(PlayerController playerController)
     {
         Cube.SetRollSpeed(playerController.GetRollSpeed());
         _moveTowardsPlayer = true;
-        _playerController = playerController;
     }
 
     // TODO is this only applicable for _moveTowardsPlayer?
