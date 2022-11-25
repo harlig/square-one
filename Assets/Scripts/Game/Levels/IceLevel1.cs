@@ -59,8 +59,6 @@ public class IceLevel1 : LevelManager
 
     override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {
-        ManageGameState();
-
         if (levelActive)
         {
             turnsLeft = turnLimit - playerController.GetMoveCount();
