@@ -152,14 +152,14 @@ public class GridController : Singleton<GridController>
             return;
         }
         ((PaintTile)gridRows[x][y]).Paint(color);
-        SpawnWaypoint(x, y);
     }
 
-    public void SpawnWaypoint(int x, int y)
+    public void SpawnWaypoint(int x, int y, WaypointController.OnTriggeredAction onTriggeredAction)
     {
         GameObject waypoint = Instantiate(waypointPrefab);
         waypoint.transform.localPosition = new Vector3(x, 1.0f, y);
         waypoint.name = string.Format("Waypoint [{0}, {1}]", x, y);
+        waypoint.GetComponent<WaypointController>().OnTriggered += onTriggeredAction;
         // TODO animate this lil guy and make them spin or something
 
         // TODO to return
