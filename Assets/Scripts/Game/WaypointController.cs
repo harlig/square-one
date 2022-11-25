@@ -10,6 +10,7 @@ public class WaypointController : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (!PlayerController.IsColliderPlayer(other)) return;
+        gameObject.SetActive(false);
 
         OnTriggered?.Invoke();
     }

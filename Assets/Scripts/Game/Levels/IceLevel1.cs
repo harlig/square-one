@@ -39,6 +39,13 @@ public class IceLevel1 : LevelManager
         SetupLevel();
 
         gridController.SpawnIceTilesAroundPosition(gridSizeX - 1, 2, OnIceTileSteppedOn);
+        List<Vector2Int> waypoints = new() {
+            new Vector2Int(gridSizeX -1, 2),
+            new Vector2Int(1, 4),
+            new Vector2Int(squareOne.x, squareOne.y),
+        };
+
+        SpawnNextWaypoint(waypoints);
 
         currentGameState = GameState.START;
     }

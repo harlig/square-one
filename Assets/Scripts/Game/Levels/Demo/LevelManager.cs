@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -111,5 +112,16 @@ public abstract class LevelManager : MonoBehaviour
         }
     }
 
-
+    protected void SpawnNextWaypoint(List<Vector2Int> waypoints)
+    {
+        if (waypoints.Count == 0)
+        {
+            Debug.Log("no more waypoints to hit. player has won?");
+            return;
+        }
+        else
+        {
+            gridController.SpawnWaypoint(waypoints[0].x, waypoints[0].y, () => SpawnNextWaypoint(waypoints.GetRange(1, waypoints.Count - 1)));
+        }
+    }
 }
