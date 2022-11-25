@@ -53,7 +53,7 @@ public class CameraController : Singleton<CameraController>
         }
         else
         {
-            Debug.LogError("Move direction of 0 provided in camera controller!");
+            Debug.LogWarning("Move direction of 0 provided in camera controller!");
             return;
         }
 

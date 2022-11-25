@@ -109,6 +109,7 @@ public class WallLevel1 : LevelManager
                 TransitionState();
                 break;
             case GameState.GREEN_HIT:
+                // TODO move this logic into the waypoint callback on trigger
                 if (gridController.TileColorAtLocation(playerPos) == Color.green)
                 {
                     greenHit = true;

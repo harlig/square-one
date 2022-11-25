@@ -47,7 +47,7 @@ public class IceLevel2 : LevelManager
         }
 
         waypoints = new() {
-            new Vector2Int(5, 2),
+            new Vector2Int(gridSizeX - 2, 1),
             new Vector2Int(1, 4),
             new Vector2Int(squareOne.x, squareOne.y),
         };
@@ -59,11 +59,20 @@ public class IceLevel2 : LevelManager
         gridController.AddObstacleAtPosition(gridSizeX - 1, 1);
         gridController.AddObstacleAtPosition(gridSizeX - 2, 6);
         gridController.AddObstacleAtPosition(2, 5);
-        // hit red
+        // allows player to hit red
         gridController.AddObstacleAtPosition(3, 3);
         gridController.AddObstacleAtPosition(0, 4);
-        gridController.AddObstacleAtPosition(1, gridSizeY - 1);
-        gridController.AddObstacleAtPosition(squareOne.x + 1, gridSizeY - 2);
+        gridController.AddObstacleAtPosition(1, gridSizeY);
+        // allows player to hit blue
+        gridController.AddObstacleAtPosition(squareOne.x + 1, gridSizeY - 1);
+
+        // useless ones added for extra challenge
+        gridController.AddObstacleAtPosition(gridSizeX - 2, -1);
+        gridController.AddObstacleAtPosition(2, 1);
+        gridController.AddObstacleAtPosition(gridSizeX, 4);
+        gridController.AddObstacleAtPosition(gridSizeX, 5);
+        gridController.AddObstacleAtPosition(gridSizeX - 1, gridSizeY);
+        gridController.AddObstacleAtPosition(-1, gridSizeY - 1);
 
         currentGameState = GameState.START;
     }
