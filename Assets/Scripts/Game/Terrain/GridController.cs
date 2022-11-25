@@ -154,6 +154,11 @@ public class GridController : Singleton<GridController>
         ((PaintTile)gridRows[x][y]).Paint(color);
     }
 
+    public void SpawnWaypoint(Vector2Int position, WaypointController.OnTriggeredAction onTriggeredAction)
+    {
+        SpawnWaypoint(position.x, position.y, onTriggeredAction);
+    }
+
     public void SpawnWaypoint(int x, int y, WaypointController.OnTriggeredAction onTriggeredAction)
     {
         GameObject waypoint = Instantiate(waypointPrefab);
@@ -161,9 +166,21 @@ public class GridController : Singleton<GridController>
         waypoint.name = string.Format("Waypoint [{0}, {1}]", x, y);
         waypoint.GetComponent<WaypointController>().OnTriggered += onTriggeredAction;
         // TODO animate this lil guy and make them spin or something
+    }
 
-        // TODO to return
-        // waypoint.GetComponent<WaypointController>();
+    public void SpawnWaypoint(Vector2Int position, WaypointController.BeforeNextWaypointSpawnAction beforeNextWaypointSpawnAction, WaypointController.SpawnNextWaypointAction spawnNextWaypointAction)
+    {
+        SpawnWaypoint(position.x, position.y, beforeNextWaypointSpawnAction, spawnNextWaypointAction);
+    }
+
+    public void SpawnWaypoint(int x, int y, WaypointController.BeforeNextWaypointSpawnAction beforeNextWaypointSpawnAction, WaypointController.SpawnNextWaypointAction spawnNextWaypointAction)
+    {
+        GameObject waypoint = Instantiate(waypointPrefab);
+        waypoint.transform.localPosition = new Vector3(x, 1.0f, y);
+        waypoint.name = string.Format("Waypoint [{0}, {1}]", x, y);
+        waypoint.GetComponent<WaypointController>().BeforeNextWaypointSpawn += beforeNextWaypointSpawnAction;
+        waypoint.GetComponent<WaypointController>().SpawnNextWaypoint += spawnNextWaypointAction;
+        // TODO animate this lil guy and make them spin or something
     }
 
     public void PaintTilesAdjacentToLocation(Vector2 position, Color color)

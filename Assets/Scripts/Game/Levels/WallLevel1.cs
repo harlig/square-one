@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,7 +49,12 @@ public class WallLevel1 : LevelManager
             new Vector2Int(squareOne.x, squareOne.y),
         };
 
-        SpawnNextWaypoint(waypoints);
+        SpawnFirstWaypoint();
+
+        // gridController.SpawnWaypoint(waypoints[1].x, waypoints[1].y, () => SpawnNextWaypoint(waypoints.GetRange(2, 1)));
+        // gridController.SpawnWaypoint(waypoints[0].x, waypoints[0].y, () => SpawnNextWaypoint(waypoints.GetRange(1, 2)));
+
+        // SpawnNextWaypoint(waypoints);
 
         obstacles = new();
         for (int ndx = 0; ndx < gridSizeY; ndx++)
@@ -59,6 +65,40 @@ public class WallLevel1 : LevelManager
         obstacles[^1].SetAfterRollAction((_, _) => AfterObjectMoves());
 
         currentGameState = GameState.START;
+    }
+
+    void SpawnFirstWaypoint()
+    {
+        gridController.SpawnWaypoint(waypoints[0], () => BeforeNextWaypointSpawnAction(), () => { });
+
+        void BeforeNextWaypointSpawnAction()
+        {
+            objectHasMoved = false;
+            MoveObstacles(Vector3.right);
+            StartCoroutine(WaitForObjectToMove());
+        }
+
+        IEnumerator WaitForObjectToMove()
+        {
+            while (!objectHasMoved)
+            {
+                yield return null;
+            }
+            TransitionState();
+            objectHasMoved = false;
+        }
+        // how do we make sure second waypoint spawns after this stuff moves?
+        // SpawnSecondWaypoint();
+    }
+
+    void SpawnSecondWaypoint()
+    {
+        gridController.SpawnWaypoint(waypoints[1], () => SpawnLastWaypoint());
+    }
+
+    void SpawnLastWaypoint()
+    {
+        gridController.SpawnWaypoint(waypoints[2], () => Debug.Log("player has won according to custom waypoint manager"));
     }
 
     bool objectHasMoved;
@@ -110,16 +150,16 @@ public class WallLevel1 : LevelManager
                 break;
             case GameState.GREEN_HIT:
                 // TODO move this logic into the waypoint callback on trigger
-                if (gridController.TileColorAtLocation(playerPos) == Color.green)
-                {
-                    greenHit = true;
-                    MoveObstacles(Vector3.right);
-                }
-                if (greenHit && objectHasMoved)
-                {
-                    TransitionState();
-                    objectHasMoved = false;
-                }
+                // if (gridController.TileColorAtLocation(playerPos) == Color.green)
+                // {
+                //     greenHit = true;
+                //     MoveObstacles(Vector3.right);
+                // }
+                // if (greenHit && objectHasMoved)
+                // {
+                //     TransitionState();
+                //     objectHasMoved = false;
+                // }
                 break;
             case GameState.RED_SETUP:
                 if (!redSetupStarted)
@@ -176,11 +216,12 @@ public class WallLevel1 : LevelManager
             currentGameState = GameState.FAILED;
         }
 
-        void TransitionState()
-        {
-            // could probably use a better data structure as the state machine that allows a failure state as defined by the state machine
-            currentGameState = gameStateOrder[gameStateOrder.IndexOf(currentGameState) + 1];
-        }
+    }
+
+    void TransitionState()
+    {
+        // could probably use a better data structure as the state machine that allows a failure state as defined by the state machine
+        currentGameState = gameStateOrder[gameStateOrder.IndexOf(currentGameState) + 1];
     }
 
     void MoveObstacles(Vector3 direction)
