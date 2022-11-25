@@ -11,7 +11,7 @@ public class PlayerController : Singleton<PlayerController>
     public static event MoveStartAction OnMoveStart;
 
     // currentPosition here is after player moves
-    public delegate void MoveFinishAction(Vector2Int positionAfterMove);
+    public delegate void MoveFinishAction(Vector2Int positionAfterMove, bool moveShouldCount);
     public static event MoveFinishAction OnMoveFinish;
 
     private Vector3 originalPosition;
@@ -89,7 +89,7 @@ public class PlayerController : Singleton<PlayerController>
         {
             if (shouldMoveBeCounted) moveCount++;
         }
-        OnMoveFinish?.Invoke(currentPosition);
+        OnMoveFinish?.Invoke(currentPosition, shouldMoveBeCounted);
     }
 
     /**
@@ -214,7 +214,7 @@ public class PlayerController : Singleton<PlayerController>
         Cube.MoveInDirectionIfNotMoving(direction, Cube.MoveType.SLIDE, false);
     }
 
-    private void StartCountingMovesAndDeregisterOnMoveFinish(Vector2Int pos)
+    private void StartCountingMovesAndDeregisterOnMoveFinish(Vector2Int pos, bool _)
     {
         StartCountingMoves();
         OnMoveFinish -= StartCountingMovesAndDeregisterOnMoveFinish;

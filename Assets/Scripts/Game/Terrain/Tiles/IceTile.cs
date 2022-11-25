@@ -13,7 +13,7 @@ public class IceTile : PaintTile
         _beforeMovePosition = playerPosition;
     }
 
-    void OnPlayerMoveFinish(Vector2Int playerPosition)
+    void OnPlayerMoveFinish(Vector2Int playerPosition, bool _)
     {
         Vector3Int direction;
 

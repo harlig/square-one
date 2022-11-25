@@ -88,6 +88,12 @@ public abstract class LevelManager : MonoBehaviour
     protected virtual void OnPlayerMoveStart(Vector2Int playerPositionBeforeMove) { }
     protected virtual void OnPlayerMoveFinish(Vector2Int playerPositionAfterMove) { }
 
+    // levels shouldn't have access to know about if a move should count
+    private void OnPlayerMoveFinish(Vector2Int playerPositionAfterMove, bool _)
+    {
+        OnPlayerMoveFinish(playerPositionAfterMove);
+    }
+
     // must be done at object enable time
     void OnEnable()
     {

@@ -139,14 +139,14 @@ public class ObstacleController : MonoBehaviour
         }
     }
 
-    void OnPlayerMoveFinish(Vector2Int playerPosition)
+    void OnPlayerMoveFinish(Vector2Int playerPosition, bool moveShouldCount)
     {
-        if (_moveTowardsPlayer)
+        if (_moveTowardsPlayer && moveShouldCount)
         {
             Debug.Log("Moving towards player");
+            // TODO should use playerPosition?
             // move one unit torwads player's position
             MoveTowardsPosition(out _, out _, GetPositionAsVector2Int(), _playerController.GetCurrentPosition());
-
         }
     }
 
