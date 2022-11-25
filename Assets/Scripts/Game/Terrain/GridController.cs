@@ -140,18 +140,30 @@ public class GridController : Singleton<GridController>
         PaintTileAtLocation(position.x, position.y, color);
     }
 
-    public void PaintTileAtLocation(int x, int z, Color color)
+    public void PaintTileAtLocation(int x, int y, Color color)
     {
-        if (!IsWithinGrid(x, z))
+        if (!IsWithinGrid(x, y))
         {
             return;
         }
-        if (TileAtLocation(x, z) is not PaintTile)
+        if (TileAtLocation(x, y) is not PaintTile)
         {
             Debug.Log("Paint tile at location returned a non-paint tile!");
             return;
         }
-        ((PaintTile)gridRows[x][z]).Paint(color);
+        ((PaintTile)gridRows[x][y]).Paint(color);
+        SpawnWaypoint(x, y);
+    }
+
+    public void SpawnWaypoint(int x, int y)
+    {
+        GameObject waypoint = Instantiate(waypointPrefab);
+        waypoint.transform.localPosition = new Vector3(x, 1.0f, y);
+        waypoint.name = string.Format("Waypoint [{0}, {1}]", x, y);
+        // TODO animate this lil guy and make them spin or something
+
+        // TODO to return
+        // waypoint.GetComponent<WaypointController>();
     }
 
     public void PaintTilesAdjacentToLocation(Vector2 position, Color color)
@@ -159,12 +171,12 @@ public class GridController : Singleton<GridController>
         PaintTilesAdjacentToLocation((int)position.x, (int)position.y, color);
     }
 
-    public void PaintTilesAdjacentToLocation(int x, int z, Color color)
+    public void PaintTilesAdjacentToLocation(int x, int y, Color color)
     {
-        PaintTileAtLocation(x - 1, z, color);
-        PaintTileAtLocation(x + 1, z, color);
-        PaintTileAtLocation(x, z - 1, color);
-        PaintTileAtLocation(x, z + 1, color);
+        PaintTileAtLocation(x - 1, y, color);
+        PaintTileAtLocation(x + 1, y, color);
+        PaintTileAtLocation(x, y - 1, color);
+        PaintTileAtLocation(x, y + 1, color);
     }
 
     public bool IsWithinGrid(Vector2Int position)
@@ -172,8 +184,8 @@ public class GridController : Singleton<GridController>
         return IsWithinGrid(position.x, position.y);
     }
 
-    public bool IsWithinGrid(int x, int z)
+    public bool IsWithinGrid(int x, int y)
     {
-        return x >= 0 && x < gridRows.Count && z >= 0 && z < gridRows.Count;
+        return x >= 0 && x < gridRows.Count && y >= 0 && y < gridRows.Count;
     }
 }
