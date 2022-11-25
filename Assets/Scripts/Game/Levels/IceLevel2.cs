@@ -46,6 +46,14 @@ public class IceLevel2 : LevelManager
             }
         }
 
+        waypoints = new() {
+            new Vector2Int(5, 2),
+            new Vector2Int(1, 4),
+            new Vector2Int(squareOne.x, squareOne.y),
+        };
+
+        SpawnNextWaypoint(waypoints);
+
         // player is at 5, 5 so this is hittable
         gridController.AddObstacleAtPosition(5, 0);
         gridController.AddObstacleAtPosition(gridSizeX - 1, 1);
@@ -95,7 +103,7 @@ public class IceLevel2 : LevelManager
                 TransitionState();
                 break;
             case GameState.GREEN_SETUP:
-                gridController.PaintTileAtLocation(5, 2, Color.green);
+                gridController.PaintTileAtLocation(waypoints[0], Color.green);
                 TransitionState();
                 break;
             case GameState.GREEN_HIT:
@@ -105,7 +113,7 @@ public class IceLevel2 : LevelManager
                 }
                 break;
             case GameState.RED_SETUP:
-                gridController.PaintTileAtLocation(1, 4, Color.red);
+                gridController.PaintTileAtLocation(waypoints[1], Color.red);
                 TransitionState();
                 break;
             case GameState.RED_HIT:
@@ -116,7 +124,7 @@ public class IceLevel2 : LevelManager
                 break;
             case GameState.BLUE_SETUP:
                 // last step is back to square one
-                gridController.PaintTileAtLocation(squareOne.x, squareOne.y, Color.blue);
+                gridController.PaintTileAtLocation(waypoints[2], Color.blue);
                 TransitionState();
                 break;
             case GameState.BLUE_HIT:

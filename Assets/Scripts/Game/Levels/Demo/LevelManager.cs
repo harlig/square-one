@@ -18,6 +18,7 @@ public abstract class LevelManager : MonoBehaviour
 
     protected Vector2Int squareOne;
     protected bool levelActive;
+    protected List<Vector2Int> waypoints;
 
     protected void SetupLevel()
     {
@@ -116,6 +117,7 @@ public abstract class LevelManager : MonoBehaviour
     {
         if (waypoints.Count == 0)
         {
+            // this should be part of the game state manager and will just switch the game state to success here!!
             Debug.Log("no more waypoints to hit. player has won?");
             return;
         }

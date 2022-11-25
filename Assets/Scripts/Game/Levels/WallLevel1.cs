@@ -40,6 +40,16 @@ public class WallLevel1 : LevelManager
 
         SetupLevel(2, 3);
 
+        waypoints = new() {
+            new Vector2Int(gridSizeX - 1, gridSizeY - 2),
+            // TODO this one shouldn't trigger until the wall finishes moving, so need to figure out how to manage the game state more complexly
+            // like I want to be able to have the granularity to call TransitionState() at the times when I do below
+            new Vector2Int(gridSizeX - 2, gridSizeY - 1),
+            new Vector2Int(squareOne.x, squareOne.y),
+        };
+
+        SpawnNextWaypoint(waypoints);
+
         obstacles = new();
         for (int ndx = 0; ndx < gridSizeY; ndx++)
         {
@@ -95,7 +105,7 @@ public class WallLevel1 : LevelManager
                 TransitionState();
                 break;
             case GameState.GREEN_SETUP:
-                gridController.PaintTileAtLocation(gridSizeX - 1, gridSizeY - 2, Color.green);
+                gridController.PaintTileAtLocation(waypoints[0].x, waypoints[0].y, Color.green);
                 TransitionState();
                 break;
             case GameState.GREEN_HIT:
@@ -119,9 +129,8 @@ public class WallLevel1 : LevelManager
                 if (redSetupStarted && objectHasMoved)
                 {
                     objectHasMoved = false;
-                    Debug.Log("red setup is being finished");
-                    gridController.PaintTileAtLocation(squareOne.x, squareOne.y, Color.blue);
-                    gridController.PaintTileAtLocation(gridSizeX - 2, gridSizeY - 1, Color.red);
+                    gridController.PaintTileAtLocation(waypoints[1].x, waypoints[1].y, Color.red);
+                    gridController.PaintTileAtLocation(waypoints[2].x, waypoints[2].y, Color.blue);
                     TransitionState();
                 }
                 break;

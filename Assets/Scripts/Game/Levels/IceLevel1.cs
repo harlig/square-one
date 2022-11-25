@@ -38,12 +38,13 @@ public class IceLevel1 : LevelManager
 
         SetupLevel();
 
-        gridController.SpawnIceTilesAroundPosition(gridSizeX - 1, 2, OnIceTileSteppedOn);
-        List<Vector2Int> waypoints = new() {
-            new Vector2Int(gridSizeX -1, 2),
+        waypoints = new() {
+            new Vector2Int(gridSizeX - 1, 2),
             new Vector2Int(1, 4),
             new Vector2Int(squareOne.x, squareOne.y),
         };
+
+        gridController.SpawnIceTilesAroundPosition(waypoints[0].x, waypoints[0].y, OnIceTileSteppedOn);
 
         SpawnNextWaypoint(waypoints);
 
@@ -85,7 +86,7 @@ public class IceLevel1 : LevelManager
                 TransitionState();
                 break;
             case GameState.GREEN_SETUP:
-                gridController.PaintTileAtLocation(gridSizeX - 1, 2, Color.green);
+                gridController.PaintTileAtLocation(waypoints[0], Color.green);
                 TransitionState();
                 break;
             case GameState.GREEN_HIT:
@@ -95,7 +96,7 @@ public class IceLevel1 : LevelManager
                 }
                 break;
             case GameState.RED_SETUP:
-                gridController.PaintTileAtLocation(1, 4, Color.red);
+                gridController.PaintTileAtLocation(waypoints[1], Color.red);
                 TransitionState();
                 break;
             case GameState.RED_HIT:
@@ -106,7 +107,7 @@ public class IceLevel1 : LevelManager
                 break;
             case GameState.BLUE_SETUP:
                 // last step is back to square one
-                gridController.PaintTileAtLocation(squareOne.x, squareOne.y, Color.blue);
+                gridController.PaintTileAtLocation(waypoints[2], Color.blue);
                 TransitionState();
                 break;
             case GameState.BLUE_HIT:
