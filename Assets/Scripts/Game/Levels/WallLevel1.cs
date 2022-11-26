@@ -91,7 +91,7 @@ public class WallLevel1 : LevelManager
         doMove?.Invoke();
         int currentTimesWallMoved = timesWallMoved;
         // this loop and the break condition are kinda weird but they seem to work
-        while (timesWallMoved < desiredAfterMoveCount)
+        while (timesWallMoved != desiredAfterMoveCount)
         {
             if (currentTimesWallMoved != timesWallMoved)
             {
@@ -100,7 +100,7 @@ public class WallLevel1 : LevelManager
                 wallHasMoved = false;
                 currentTimesWallMoved = timesWallMoved;
 
-                if (currentTimesWallMoved == desiredAfterMoveCount - 1)
+                if (currentTimesWallMoved == desiredAfterMoveCount)
                 {
                     break;
                 }
@@ -171,31 +171,20 @@ public class WallLevel1 : LevelManager
                 TransitionState();
                 break;
             case GameState.GREEN_HIT:
-                // TODO move this logic into the waypoint callback on trigger
-                // if (gridController.TileColorAtLocation(playerPos) == Color.green)
-                // {
-                //     greenHit = true;
-                //     MoveObstacles(Vector3.right);
-                // }
-                // if (greenHit && objectHasMoved)
-                // {
-                //     TransitionState();
-                //     objectHasMoved = false;
-                // }
                 break;
             case GameState.RED_SETUP:
-                if (!redSetupStarted)
-                {
-                    MoveObstacles(Vector3.right);
-                    redSetupStarted = true;
-                }
-                if (redSetupStarted && wallHasMoved)
-                {
-                    wallHasMoved = false;
-                    gridController.PaintTileAtLocation(waypoints[1].x, waypoints[1].y, Color.red);
-                    gridController.PaintTileAtLocation(waypoints[2].x, waypoints[2].y, Color.blue);
-                    TransitionState();
-                }
+                // if (!redSetupStarted)
+                // {
+                //     MoveObstacles(Vector3.right);
+                //     redSetupStarted = true;
+                // }
+                // if (redSetupStarted && wallHasMoved)
+                // {
+                //     wallHasMoved = false;
+                gridController.PaintTileAtLocation(waypoints[1].x, waypoints[1].y, Color.red);
+                gridController.PaintTileAtLocation(waypoints[2].x, waypoints[2].y, Color.blue);
+                TransitionState();
+                // }
                 break;
             case GameState.RED_HIT:
                 if (gridController.TileColorAtLocation(playerPos) == Color.red)
