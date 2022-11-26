@@ -82,6 +82,9 @@ public class WallLevel1 : LevelManager
     }
 
 
+    /**
+    Allow wall to move until it hits the desired number of times moved
+    */
     IEnumerator WaitForObjectToMove(int desiredAfterMoveCount, Action doMove, Action afterObjectMoveAction)
     {
         Debug.LogFormat("I want to get to {0} but I'm only at {1}", desiredAfterMoveCount, timesWallMoved);
