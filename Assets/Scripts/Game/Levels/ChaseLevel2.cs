@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// obstacle rushes at player
+// player has to complete tasks while keeping moving obstacle away
 public class ChaseLevel2 : LevelManager
 {
     private List<GameState> gameStateOrder;
@@ -58,6 +58,8 @@ public class ChaseLevel2 : LevelManager
 
         MovingObstacle obstacle = gridController.AddMovingObstacleAtPosition(2, gridSizeY - 1);
         obstacle.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction());
+
+        // can maybe use disable button as bait?
         // gridController.PaintTileAtLocation(new Vector2Int(1, gridSizeY - 2), Color.white);
 
         obstacles.Add(obstacle);

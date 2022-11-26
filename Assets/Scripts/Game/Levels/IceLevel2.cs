@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// full ice level with distractions
 public class IceLevel2 : LevelManager
 {
     private List<GameState> gameStateOrder;

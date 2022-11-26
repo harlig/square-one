@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// full ice level with following obstacle
 public class IceLevel3 : LevelManager
 {
     private List<GameState> gameStateOrder;
@@ -54,6 +55,8 @@ public class IceLevel3 : LevelManager
         };
 
         SpawnNextWaypoint(waypoints);
+
+        // TODO this is copied from IceLevel2, think of new puzzle
 
         // player is at 5, 5 so this is hittable
         gridController.AddStationaryObstacleAtPosition(5, 0);

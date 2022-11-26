@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// obstacle rushes at player
+// simple chase level that introduces player to the concept 
 public class ChaseLevel1 : LevelManager
 {
     private List<GameState> gameStateOrder;
@@ -40,7 +40,7 @@ public class ChaseLevel1 : LevelManager
             GameState.SUCCESS
         };
 
-        SetupLevel();
+        SetupLevel(gridSizeX / 2 + 4, gridSizeY / 2);
 
         obstacles = new List<MovingObstacle>();
 

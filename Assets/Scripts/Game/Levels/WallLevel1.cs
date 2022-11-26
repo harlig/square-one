@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// introduces player to camera movement, uses ice
 public class WallLevel1 : LevelManager
 {
     private List<GameState> gameStateOrder;

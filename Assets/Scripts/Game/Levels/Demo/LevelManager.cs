@@ -39,7 +39,7 @@ public abstract class LevelManager : MonoBehaviour
         playerController.SpawnPlayer(playerOffsetX, playerOffsetY);
         playerController.gameObject.SetActive(true);
 
-        cameraController.CenterCameraOnOffset(playerOffsetX, playerOffsetY);
+        cameraController.CenterCameraOnOffset(gridSizeX / 2, gridSizeY / 2);
 
         squareOne = new(playerOffsetX, playerOffsetY);
 
@@ -112,6 +112,8 @@ public abstract class LevelManager : MonoBehaviour
     }
 #pragma warning restore IDE0051
 
+    // TODO if player needs to step on multiple ice tiles which result in 0 moves remaining but a victory,
+    // they actually only traverse the first tile before the game state is checked. need to rethink
     protected void OnIceTileSteppedOn(Vector3Int direction)
     {
         if (levelActive)
