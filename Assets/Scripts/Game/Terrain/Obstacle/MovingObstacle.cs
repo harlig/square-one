@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MovingObstacle : ObstacleController
@@ -11,10 +12,12 @@ public class MovingObstacle : ObstacleController
     }
 
     private bool _isPatrolling;
+    private Func<HashSet<Vector2Int>> getCurrentStationaryObstacles;
 
-    public void StartPatrolling(Vector2Int patrolPosition)
+    public void StartPatrolling(Vector2Int patrolPosition, Func<HashSet<Vector2Int>> getCurrentStationaryObstaclesAction)
     {
         spawnPosition = GetPositionAsVector2Int();
+        getCurrentStationaryObstacles = getCurrentStationaryObstaclesAction;
 
         StartCoroutine(MoveObstacleOnPatrolCourse(MoveDirection.TOWARDS_PATROL_POSITION));
 
@@ -91,10 +94,11 @@ public class MovingObstacle : ObstacleController
         Cube.MoveInDirectionIfNotMovingAndDontEnqueue(direction, _moveType);
     }
 
-    public void MoveTowardsPlayer(PlayerController playerController)
+    public void MoveTowardsPlayer(PlayerController playerController, Func<HashSet<Vector2Int>> getCurrentStationaryObstaclesAction)
     {
         Cube.SetRollSpeed(playerController.GetRollSpeed());
         _moveTowardsPlayer = true;
+        getCurrentStationaryObstacles = getCurrentStationaryObstaclesAction;
     }
 
     // TODO is this only applicable for _moveTowardsPlayer?
@@ -118,18 +122,25 @@ public class MovingObstacle : ObstacleController
 
         if (xDiff == 0 && yDiff == 0) return;
 
+        HashSet<Vector2Int> currentStationaryObstacles = getCurrentStationaryObstacles?.Invoke();
         // if bigger x deficit, move that way first
         if (xDiff > yDiff)
         {
-            // if something is in the way, try a different path
+            // TODO if something is in the way, try a different path
             // don't need to worry about two moving obstacles next to each other moving in same direction
             if (curPosition.x > endPosition.x)
             {
-                Cube.MoveInDirectionIfNotMoving(Vector3.left, _moveType, false);
+                if (!IsStationaryObstacleInWay(curPosition.x - 1, curPosition.y))
+                {
+                    Cube.MoveInDirectionIfNotMoving(Vector3.left, _moveType, false);
+                }
             }
             else
             {
-                Cube.MoveInDirectionIfNotMoving(Vector3.right, _moveType, false);
+                if (!IsStationaryObstacleInWay(curPosition.x + 1, curPosition.y))
+                {
+                    Cube.MoveInDirectionIfNotMoving(Vector3.right, _moveType, false);
+                }
             }
         }
         // TODO, add this back in and think of a more explicit solution for when xDiff and yDiff are equivalent
@@ -139,14 +150,24 @@ public class MovingObstacle : ObstacleController
             {
                 if (curPosition.y > endPosition.y)
                 {
-                    Cube.MoveInDirectionIfNotMoving(Vector3.back, _moveType, false);
+                    if (!IsStationaryObstacleInWay(curPosition.x, curPosition.y - 1))
+                    {
+                        Cube.MoveInDirectionIfNotMoving(Vector3.back, _moveType, false);
+                    }
                 }
                 else
                 {
-                    Cube.MoveInDirectionIfNotMoving(Vector3.forward, _moveType, false);
+                    if (!IsStationaryObstacleInWay(curPosition.x, curPosition.y + 1))
+                    {
+                        Cube.MoveInDirectionIfNotMoving(Vector3.forward, _moveType, false);
+                    }
                 }
             }
+        }
 
+        bool IsStationaryObstacleInWay(int desiredX, int desiredY)
+        {
+            return currentStationaryObstacles.Contains(new Vector2Int(desiredX, desiredY));
         }
     }
 

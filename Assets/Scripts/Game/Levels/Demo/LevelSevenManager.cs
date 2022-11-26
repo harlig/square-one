@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// obstacle rushes at player
+// ice tiles allow player to glide
 public class LevelSevenManager : LevelManager
 {
     private List<GameState> gameStateOrder;
     private GameState currentGameState;
-
-    private List<MovingObstacle> obstacles;
 
     enum GameState
     {
@@ -24,7 +22,7 @@ public class LevelSevenManager : LevelManager
 
     void Start()
     {
-        gridSizeX = gridSizeY = 11;
+        gridSizeX = gridSizeY = 10;
         turnLimit = 70;
 
         gameStateOrder = new List<GameState>
@@ -41,13 +39,29 @@ public class LevelSevenManager : LevelManager
 
         SetupLevel();
 
-        obstacles = new List<MovingObstacle>();
+        for (int ndx = 0; ndx < 5; ndx++)
+        {
+            int iceTileRow = 4 % gridSizeX;
+            int iceTileCol = (3 + ndx) % gridSizeY;
+            gridController.SpawnIceTile(iceTileRow, iceTileCol, OnIceTileSteppedOn);
+        }
 
-        MovingObstacle obstacle = gridController.AddMovingObstacleAtPosition(2, 1);
-        obstacle.MoveTowardsPlayer(playerController);
-        gridController.PaintTileAtLocation(new Vector2Int(1, gridSizeY - 2), Color.white);
+        for (int ndx = 0; ndx < 3; ndx++)
+        {
+            int iceTileRow = (gridSizeX - 3 - ndx) % gridSizeX;
+            int iceTileCol = (gridSizeY - 3) % gridSizeY;
+            gridController.SpawnIceTile(iceTileRow, iceTileCol, OnIceTileSteppedOn);
+        }
 
-        obstacles.Add(obstacle);
+        for (int ndx = 0; ndx < 2; ndx++)
+        {
+            int iceTileRow = (gridSizeX - 3 - ndx) % gridSizeX;
+            int iceTileCol = (gridSizeY - 2) % gridSizeY;
+            gridController.SpawnIceTile(iceTileRow, iceTileCol, OnIceTileSteppedOn);
+        }
+
+        gridController.AddStationaryObstacleAtPosition(4, 4);
+        gridController.AddStationaryObstacleAtPosition(6, 7);
 
         currentGameState = GameState.START;
     }
@@ -78,16 +92,6 @@ public class LevelSevenManager : LevelManager
         {
             Debug.Log("Player has exited map.");
             currentGameState = GameState.FAILED;
-        }
-
-        // white tile color disables all moving obstacles
-        if (gridController.TileColorAtLocation(playerPos) == Color.white)
-        {
-            Debug.Log("Stopping obstacle movement!");
-            foreach (MovingObstacle obstacle in obstacles)
-            {
-                obstacle.StopMovement();
-            }
         }
 
         // game state handler

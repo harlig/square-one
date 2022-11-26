@@ -67,7 +67,7 @@ public class IceLevel3 : LevelManager
         gridController.AddStationaryObstacleAtPosition(squareOne.x + 1, gridSizeY - 1);
 
         MovingObstacle follower = gridController.AddMovingObstacleAtPosition(0, 0);
-        follower.MoveTowardsPlayer(playerController);
+        follower.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction());
 
         currentGameState = GameState.START;
     }

@@ -40,13 +40,13 @@ public class LevelSixManager : LevelManager
         SetupLevel();
 
         MovingObstacle obstacle = gridController.AddMovingObstacleAtPosition(2, 2);
-        obstacle.StartPatrolling(new Vector2Int(8, 0));
+        obstacle.StartPatrolling(new Vector2Int(8, 0), gridController.GetCurrentStationaryObstaclesAction());
 
         MovingObstacle obstacle2 = gridController.AddMovingObstacleAtPosition(5, 7);
-        obstacle2.StartPatrolling(new Vector2Int(8, 9));
+        obstacle2.StartPatrolling(new Vector2Int(8, 9), gridController.GetCurrentStationaryObstaclesAction());
 
         MovingObstacle obstacle3 = gridController.AddMovingObstacleAtPosition(1, 10);
-        obstacle3.StartPatrolling(new Vector2Int(0, 1));
+        obstacle3.StartPatrolling(new Vector2Int(0, 1), gridController.GetCurrentStationaryObstaclesAction());
 
         currentGameState = GameState.START;
     }

@@ -122,6 +122,16 @@ public class GridController : Singleton<GridController>
         return obstacle;
     }
 
+    private HashSet<Vector2Int> GetCurrentStationaryObstacles()
+    {
+        return stationaryObstaclePositions;
+    }
+
+    public Func<HashSet<Vector2Int>> GetCurrentStationaryObstaclesAction()
+    {
+        return () => GetCurrentStationaryObstacles();
+    }
+
     public TileController TileAtLocation(int x, int y)
     {
         return TileAtLocation(new Vector2Int(x, y));

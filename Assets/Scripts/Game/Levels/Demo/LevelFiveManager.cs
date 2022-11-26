@@ -40,7 +40,7 @@ public class LevelFiveManager : LevelManager
         SetupLevel();
 
         MovingObstacle obstacle = gridController.AddMovingObstacleAtPosition(2, 1);
-        obstacle.StartPatrolling(new Vector2Int(8, 1));
+        obstacle.StartPatrolling(new Vector2Int(8, 1), gridController.GetCurrentStationaryObstaclesAction());
 
         currentGameState = GameState.START;
     }

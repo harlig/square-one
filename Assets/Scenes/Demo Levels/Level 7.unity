@@ -291,7 +291,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 677198413}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bb8f165165580f4eb47850c73629780, type: 3}
+  m_Script: {fileID: 11500000, guid: 6588233943d42954ab4277af977c9928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gridController: {fileID: 272909727}
@@ -300,10 +300,6 @@ MonoBehaviour:
   moveCountText: {fileID: 1675783243}
   successElements: {fileID: 1675783242}
   failedElements: {fileID: 1675783241}
-  DEV_MODE: 0
-  DEV_MODE_GRID_SIZE_X: 0
-  DEV_MODE_GRID_SIZE_Y: 0
-  DEV_MODE_TURN_LIMIT: 0
 --- !u!114 &1106754085 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3930883601968557274, guid: 57cbc997aff41c740925e4e77ae23aeb,
@@ -684,12 +680,12 @@ PrefabInstance:
     - target: {fileID: 1293813722184293693, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.000000059604645
       objectReference: {fileID: 0}
     - target: {fileID: 1293813722184293693, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.00000023841858
       objectReference: {fileID: 0}
     - target: {fileID: 1293813722184293693, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
         type: 3}
@@ -704,7 +700,7 @@ PrefabInstance:
     - target: {fileID: 1293813722184293693, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.23911765
+      value: 0.23911762
       objectReference: {fileID: 0}
     - target: {fileID: 1293813722184293693, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
         type: 3}
@@ -714,7 +710,7 @@ PrefabInstance:
     - target: {fileID: 1293813722184293693, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.09904577
+      value: -0.09904578
       objectReference: {fileID: 0}
     - target: {fileID: 1293813722184293693, guid: 6fa10c9f9d8e79e45b080c2c8a8364f7,
         type: 3}
