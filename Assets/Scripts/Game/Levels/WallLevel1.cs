@@ -9,7 +9,6 @@ public class WallLevel1 : LevelManager
     private GameState currentGameState;
 
     private List<MovingObstacle> obstacles;
-    bool wallHasMoved;
     int timesWallMoved = 0;
 
 
@@ -71,7 +70,6 @@ public class WallLevel1 : LevelManager
 
         void MoveObstaclesThenSpawnSecondWaypoint()
         {
-            wallHasMoved = false;
             int desiredObjectMoveCount = timesWallMoved + 2;
             StartCoroutine(WaitForObjectToMove(desiredObjectMoveCount, () => MoveObstacles(Vector3.right), () => SpawnSecondWaypoint()));
         }
@@ -93,7 +91,6 @@ public class WallLevel1 : LevelManager
             {
                 Debug.Log("The wall has moved once according to the waiter");
                 // let it progress
-                wallHasMoved = false;
                 currentTimesWallMoved = timesWallMoved;
 
                 if (currentTimesWallMoved == desiredAfterMoveCount)
@@ -106,7 +103,6 @@ public class WallLevel1 : LevelManager
             yield return null;
         }
         TransitionState();
-        wallHasMoved = false;
         afterObjectMoveAction?.Invoke();
     }
 
@@ -125,7 +121,6 @@ public class WallLevel1 : LevelManager
     {
         Debug.Log("Object has moved");
         timesWallMoved++;
-        wallHasMoved = true;
     }
 
     void Update()
@@ -233,9 +228,6 @@ public class WallLevel1 : LevelManager
 
     void MoveObstacles(Vector3 direction)
     {
-        // TODO what does this line do?
-        // if (wallHasMoved) return;
-
         foreach (MovingObstacle obstacle in obstacles)
         {
             // TODO this one really isn't a moving obstacle?
