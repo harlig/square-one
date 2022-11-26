@@ -66,7 +66,7 @@ public class IceLevel3 : LevelManager
         // allows player to hit blue
         gridController.AddStationaryObstacleAtPosition(squareOne.x + 1, gridSizeY - 1);
 
-        ObstacleController follower = gridController.AddMovingObstacleAtPosition(0, 0);
+        MovingObstacle follower = gridController.AddMovingObstacleAtPosition(0, 0);
         follower.MoveTowardsPlayer(playerController);
 
         currentGameState = GameState.START;

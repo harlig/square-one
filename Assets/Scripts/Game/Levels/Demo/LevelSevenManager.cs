@@ -7,7 +7,7 @@ public class LevelSevenManager : LevelManager
     private List<GameState> gameStateOrder;
     private GameState currentGameState;
 
-    private List<ObstacleController> obstacles;
+    private List<MovingObstacle> obstacles;
 
     enum GameState
     {
@@ -41,9 +41,9 @@ public class LevelSevenManager : LevelManager
 
         SetupLevel();
 
-        obstacles = new List<ObstacleController>();
+        obstacles = new List<MovingObstacle>();
 
-        ObstacleController obstacle = gridController.AddMovingObstacleAtPosition(2, 1);
+        MovingObstacle obstacle = gridController.AddMovingObstacleAtPosition(2, 1);
         obstacle.MoveTowardsPlayer(playerController);
         gridController.PaintTileAtLocation(new Vector2Int(1, gridSizeY - 2), Color.white);
 
@@ -84,7 +84,7 @@ public class LevelSevenManager : LevelManager
         if (gridController.TileColorAtLocation(playerPos) == Color.white)
         {
             Debug.Log("Stopping obstacle movement!");
-            foreach (ObstacleController obstacle in obstacles)
+            foreach (MovingObstacle obstacle in obstacles)
             {
                 obstacle.StopMovement();
             }

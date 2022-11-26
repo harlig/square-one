@@ -2,8 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-// TODO split into StationaryObstacle and MovingObstacle
-public class ObstacleController : MonoBehaviour
+public class MovingObstacle : ObstacleController
 {
     private enum MoveDirection
     {
@@ -11,14 +10,7 @@ public class ObstacleController : MonoBehaviour
         TOWARDS_PATROL_POSITION
     }
 
-    private Vector2Int spawnPosition;
     private bool _isPatrolling;
-    private Cube Cube { get; set; }
-
-    public void SetName(string name)
-    {
-        gameObject.name = name;
-    }
 
     public void StartPatrolling(Vector2Int patrolPosition)
     {
@@ -168,12 +160,6 @@ public class ObstacleController : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        // no need for any before/after roll actions right now
-        Cube = new(this, 1.0f, () => { }, (_, _) => { });
-    }
-
     // must be done at object enable time
     private void OnEnable()
     {
@@ -188,26 +174,4 @@ public class ObstacleController : MonoBehaviour
     }
 
     private bool _moveTowardsPlayer = false;
-
-    private Vector2Int GetPositionAsVector2Int()
-    {
-        return Vector2Int.RoundToInt(new Vector2(transform.position.x, transform.position.z));
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!PlayerController.IsColliderPlayer(other)) return;
-
-        PlayerController playerController = other.GetComponent<PlayerController>();
-        playerController.StartUpdatingLocation();
-        playerController.StopMoving();
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (!PlayerController.IsColliderPlayer(other)) return;
-
-        PlayerController playerController = other.GetComponent<PlayerController>();
-        playerController.StartMoving();
-    }
 }

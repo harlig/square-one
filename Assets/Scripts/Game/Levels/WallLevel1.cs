@@ -8,7 +8,7 @@ public class WallLevel1 : LevelManager
     private List<GameState> gameStateOrder;
     private GameState currentGameState;
 
-    private List<ObstacleController> obstacles;
+    private List<MovingObstacle> obstacles;
     bool wallHasMoved;
     int timesWallMoved = 0;
 
@@ -53,11 +53,6 @@ public class WallLevel1 : LevelManager
         };
 
         SpawnFirstWaypoint();
-
-        // gridController.SpawnWaypoint(waypoints[1].x, waypoints[1].y, () => SpawnNextWaypoint(waypoints.GetRange(2, 1)));
-        // gridController.SpawnWaypoint(waypoints[0].x, waypoints[0].y, () => SpawnNextWaypoint(waypoints.GetRange(1, 2)));
-
-        // SpawnNextWaypoint(waypoints);
 
         obstacles = new();
         for (int ndx = 0; ndx < gridSizeY; ndx++)
@@ -241,7 +236,7 @@ public class WallLevel1 : LevelManager
         // TODO what does this line do?
         // if (wallHasMoved) return;
 
-        foreach (ObstacleController obstacle in obstacles)
+        foreach (MovingObstacle obstacle in obstacles)
         {
             // TODO this one really isn't a moving obstacle?
             if (Mathf.RoundToInt(obstacle.transform.position.z) == 0) continue;

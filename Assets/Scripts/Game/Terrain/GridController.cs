@@ -14,6 +14,7 @@ public class GridController : Singleton<GridController>
     private List<List<TileController>> gridRows;
     private Color startingColor;
     private GameObject _obstacleGameObject;
+    private HashSet<Vector2Int> stationaryObstaclePositions = new();
 
     public void SetupGrid(int xSize, int ySize)
     {
@@ -87,7 +88,6 @@ public class GridController : Singleton<GridController>
         return iceTilesCreated;
     }
 
-    // TODO should be split into static and moving obstacles
     public ObstacleController AddStationaryObstacleAtPosition(int x, int y)
     {
         if (_obstacleGameObject == null)
@@ -95,23 +95,26 @@ public class GridController : Singleton<GridController>
             _obstacleGameObject = new("Obstacles");
         }
         // obstacles spawn on top of floor
-        ObstacleController obstacle = Instantiate(obstaclePrefab, new Vector3Int(x, 1, y), Quaternion.identity).GetComponent<ObstacleController>();
+        GameObject obj = Instantiate(obstaclePrefab, new Vector3Int(x, 1, y), Quaternion.identity);
+        ObstacleController obstacle = obj.AddComponent<ObstacleController>();
         obstacle.SetName($"static - row{x}col{y}");
 
         obstacle.transform.parent = _obstacleGameObject.transform;
 
+        stationaryObstaclePositions.Add(new Vector2Int(x, y));
         return obstacle;
     }
 
     // TODO should be split into static and moving obstacles
-    public ObstacleController AddMovingObstacleAtPosition(int x, int y)
+    public MovingObstacle AddMovingObstacleAtPosition(int x, int y)
     {
         if (_obstacleGameObject == null)
         {
             _obstacleGameObject = new("Obstacles");
         }
-        // obstacles spawn on top of floor
-        ObstacleController obstacle = Instantiate(obstaclePrefab, new Vector3Int(x, 1, y), Quaternion.identity).GetComponent<ObstacleController>();
+
+        GameObject obj = Instantiate(obstaclePrefab, new Vector3Int(x, 1, y), Quaternion.identity);
+        MovingObstacle obstacle = obj.AddComponent<MovingObstacle>();
         obstacle.SetName($"moving - row{x}col{y}");
 
         obstacle.transform.parent = _obstacleGameObject.transform;
