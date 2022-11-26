@@ -55,24 +55,24 @@ public class IceLevel2 : LevelManager
         SpawnNextWaypoint(waypoints);
 
         // player is at 5, 5 so this is hittable
-        gridController.AddObstacleAtPosition(5, 0);
-        gridController.AddObstacleAtPosition(gridSizeX - 1, 1);
-        gridController.AddObstacleAtPosition(gridSizeX - 2, 6);
-        gridController.AddObstacleAtPosition(2, 5);
+        gridController.AddStationaryObstacleAtPosition(5, 0);
+        gridController.AddStationaryObstacleAtPosition(gridSizeX - 1, 1);
+        gridController.AddStationaryObstacleAtPosition(gridSizeX - 2, 6);
+        gridController.AddStationaryObstacleAtPosition(2, 5);
         // allows player to hit red
-        gridController.AddObstacleAtPosition(3, 3);
-        gridController.AddObstacleAtPosition(0, 4);
-        gridController.AddObstacleAtPosition(1, gridSizeY);
+        gridController.AddStationaryObstacleAtPosition(3, 3);
+        gridController.AddStationaryObstacleAtPosition(0, 4);
+        gridController.AddStationaryObstacleAtPosition(1, gridSizeY);
         // allows player to hit blue
-        gridController.AddObstacleAtPosition(squareOne.x + 1, gridSizeY - 1);
+        gridController.AddStationaryObstacleAtPosition(squareOne.x + 1, gridSizeY - 1);
 
         // useless ones added for extra challenge
-        gridController.AddObstacleAtPosition(gridSizeX - 2, -1);
-        gridController.AddObstacleAtPosition(2, 1);
-        gridController.AddObstacleAtPosition(gridSizeX, 4);
-        gridController.AddObstacleAtPosition(gridSizeX, 5);
-        gridController.AddObstacleAtPosition(gridSizeX - 1, gridSizeY);
-        gridController.AddObstacleAtPosition(-1, gridSizeY - 1);
+        gridController.AddStationaryObstacleAtPosition(gridSizeX - 2, -1);
+        gridController.AddStationaryObstacleAtPosition(2, 1);
+        gridController.AddStationaryObstacleAtPosition(gridSizeX, 4);
+        gridController.AddStationaryObstacleAtPosition(gridSizeX, 5);
+        gridController.AddStationaryObstacleAtPosition(gridSizeX - 1, gridSizeY);
+        gridController.AddStationaryObstacleAtPosition(-1, gridSizeY - 1);
 
         currentGameState = GameState.START;
     }

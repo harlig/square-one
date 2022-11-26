@@ -12,8 +12,8 @@ public class GridController : Singleton<GridController>
     [SerializeField] private GameObject waypointPrefab;
 
     private List<List<TileController>> gridRows;
-
     private Color startingColor;
+    private GameObject _obstacleGameObject;
 
     public void SetupGrid(int xSize, int ySize)
     {
@@ -87,9 +87,8 @@ public class GridController : Singleton<GridController>
         return iceTilesCreated;
     }
 
-    private GameObject _obstacleGameObject;
-
-    public ObstacleController AddObstacleAtPosition(int x, int y)
+    // TODO should be split into static and moving obstacles
+    public ObstacleController AddStationaryObstacleAtPosition(int x, int y)
     {
         if (_obstacleGameObject == null)
         {
@@ -97,7 +96,23 @@ public class GridController : Singleton<GridController>
         }
         // obstacles spawn on top of floor
         ObstacleController obstacle = Instantiate(obstaclePrefab, new Vector3Int(x, 1, y), Quaternion.identity).GetComponent<ObstacleController>();
-        obstacle.SetName($"row{x}col{y}");
+        obstacle.SetName($"static - row{x}col{y}");
+
+        obstacle.transform.parent = _obstacleGameObject.transform;
+
+        return obstacle;
+    }
+
+    // TODO should be split into static and moving obstacles
+    public ObstacleController AddMovingObstacleAtPosition(int x, int y)
+    {
+        if (_obstacleGameObject == null)
+        {
+            _obstacleGameObject = new("Obstacles");
+        }
+        // obstacles spawn on top of floor
+        ObstacleController obstacle = Instantiate(obstaclePrefab, new Vector3Int(x, 1, y), Quaternion.identity).GetComponent<ObstacleController>();
+        obstacle.SetName($"moving - row{x}col{y}");
 
         obstacle.transform.parent = _obstacleGameObject.transform;
 

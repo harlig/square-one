@@ -11,14 +11,14 @@ public class ObstacleController : MonoBehaviour
         TOWARDS_PATROL_POSITION
     }
 
+    private Vector2Int spawnPosition;
+    private bool _isPatrolling;
+    private Cube Cube { get; set; }
+
     public void SetName(string name)
     {
         gameObject.name = name;
     }
-
-    private Vector2Int spawnPosition;
-    private bool _isPatrolling;
-    private Cube Cube { get; set; }
 
     public void StartPatrolling(Vector2Int patrolPosition)
     {
@@ -99,10 +99,27 @@ public class ObstacleController : MonoBehaviour
         Cube.MoveInDirectionIfNotMovingAndDontEnqueue(direction, _moveType);
     }
 
+    public void MoveTowardsPlayer(PlayerController playerController)
+    {
+        Cube.SetRollSpeed(playerController.GetRollSpeed());
+        _moveTowardsPlayer = true;
+    }
+
+    // TODO is this only applicable for _moveTowardsPlayer?
+    public void StopMovement()
+    {
+        _moveTowardsPlayer = false;
+    }
+
+    public void SetAfterRollAction(Action<bool, bool> afterRoll)
+    {
+        Cube.SetAfterRollAction(afterRoll);
+    }
+
     // obstacles always roll
     private static readonly Cube.MoveType _moveType = Cube.MoveType.ROLL;
 
-    void MoveTowardsPosition(out int xDiff, out int yDiff, Vector2Int curPosition, Vector2Int endPosition)
+    private void MoveTowardsPosition(out int xDiff, out int yDiff, Vector2Int curPosition, Vector2Int endPosition)
     {
         xDiff = Mathf.Abs(curPosition.x - endPosition.x);
         yDiff = Mathf.Abs(curPosition.y - endPosition.y);
@@ -112,6 +129,8 @@ public class ObstacleController : MonoBehaviour
         // if bigger x deficit, move that way first
         if (xDiff > yDiff)
         {
+            // if something is in the way, try a different path
+            // don't need to worry about two moving obstacles next to each other moving in same direction
             if (curPosition.x > endPosition.x)
             {
                 Cube.MoveInDirectionIfNotMoving(Vector3.left, _moveType, false);
@@ -139,7 +158,7 @@ public class ObstacleController : MonoBehaviour
         }
     }
 
-    void OnPlayerMoveFinish(Vector2Int playerPosition, bool moveShouldCount)
+    private void OnPlayerMoveFinish(Vector2Int playerPosition, bool moveShouldCount)
     {
         if (_moveTowardsPlayer && moveShouldCount)
         {
@@ -149,50 +168,33 @@ public class ObstacleController : MonoBehaviour
         }
     }
 
-    public void SetAfterRollAction(Action<bool, bool> afterRoll)
-    {
-        Cube.SetAfterRollAction(afterRoll);
-    }
-
-    void Awake()
+    private void Awake()
     {
         // no need for any before/after roll actions right now
         Cube = new(this, 1.0f, () => { }, (_, _) => { });
     }
 
     // must be done at object enable time
-    void OnEnable()
+    private void OnEnable()
     {
         PlayerController.OnMoveFinish += OnPlayerMoveFinish;
 
     }
 
     // make sure to deregister at disable time
-    void OnDisable()
+    private void OnDisable()
     {
         PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
     }
 
     private bool _moveTowardsPlayer = false;
 
-    public void MoveTowardsPlayer(PlayerController playerController)
-    {
-        Cube.SetRollSpeed(playerController.GetRollSpeed());
-        _moveTowardsPlayer = true;
-    }
-
-    // TODO is this only applicable for _moveTowardsPlayer?
-    public void StopMovement()
-    {
-        _moveTowardsPlayer = false;
-    }
-
     private Vector2Int GetPositionAsVector2Int()
     {
         return Vector2Int.RoundToInt(new Vector2(transform.position.x, transform.position.z));
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (!PlayerController.IsColliderPlayer(other)) return;
 
@@ -201,7 +203,7 @@ public class ObstacleController : MonoBehaviour
         playerController.StopMoving();
     }
 
-    void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (!PlayerController.IsColliderPlayer(other)) return;
 

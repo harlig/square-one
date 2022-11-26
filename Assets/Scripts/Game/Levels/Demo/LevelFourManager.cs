@@ -39,10 +39,10 @@ public class LevelFourManager : LevelManager
 
         SetupLevel();
 
-        gridController.AddObstacleAtPosition(2, 2);
-        gridController.AddObstacleAtPosition(gridSizeX - 3, 2);
-        gridController.AddObstacleAtPosition(2, gridSizeY - 3);
-        gridController.AddObstacleAtPosition(gridSizeX - 3, gridSizeY - 3);
+        gridController.AddStationaryObstacleAtPosition(2, 2);
+        gridController.AddStationaryObstacleAtPosition(gridSizeX - 3, 2);
+        gridController.AddStationaryObstacleAtPosition(2, gridSizeY - 3);
+        gridController.AddStationaryObstacleAtPosition(gridSizeX - 3, gridSizeY - 3);
 
         currentGameState = GameState.START;
     }

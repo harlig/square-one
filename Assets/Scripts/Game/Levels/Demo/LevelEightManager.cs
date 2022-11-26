@@ -60,8 +60,8 @@ public class LevelEightManager : LevelManager
             gridController.SpawnIceTile(iceTileRow, iceTileCol, OnIceTileSteppedOn);
         }
 
-        gridController.AddObstacleAtPosition(4, 4);
-        gridController.AddObstacleAtPosition(6, 7);
+        gridController.AddStationaryObstacleAtPosition(4, 4);
+        gridController.AddStationaryObstacleAtPosition(6, 7);
 
         currentGameState = GameState.START;
     }

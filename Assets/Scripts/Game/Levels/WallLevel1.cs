@@ -47,6 +47,7 @@ public class WallLevel1 : LevelManager
 
         waypoints = new() {
             new Vector2Int(gridSizeX - 1, gridSizeY - 2),
+            // TODO this one should be tiny so it can't be seen unless you rotate
             new Vector2Int(gridSizeX - 2, gridSizeY - 1),
             new Vector2Int(squareOne.x, squareOne.y),
         };
@@ -61,7 +62,7 @@ public class WallLevel1 : LevelManager
         obstacles = new();
         for (int ndx = 0; ndx < gridSizeY; ndx++)
         {
-            obstacles.Add(gridController.AddObstacleAtPosition(1, ndx));
+            obstacles.Add(gridController.AddMovingObstacleAtPosition(1, ndx));
         }
 
         obstacles[^1].SetAfterRollAction((_, _) => AfterObjectMoves());
@@ -242,6 +243,7 @@ public class WallLevel1 : LevelManager
 
         foreach (ObstacleController obstacle in obstacles)
         {
+            // TODO this one really isn't a moving obstacle?
             if (Mathf.RoundToInt(obstacle.transform.position.z) == 0) continue;
 
             obstacle.MoveInDirectionIfNotMovingAndDontEnqueue(direction);
