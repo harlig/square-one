@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +9,9 @@ public class WallLevel1 : LevelManager
     private GameState currentGameState;
 
     private List<ObstacleController> obstacles;
+    bool wallHasMoved;
+    int timesWallMoved = 0;
+
 
     enum GameState
     {
@@ -42,13 +47,16 @@ public class WallLevel1 : LevelManager
 
         waypoints = new() {
             new Vector2Int(gridSizeX - 1, gridSizeY - 2),
-            // TODO this one shouldn't trigger until the wall finishes moving, so need to figure out how to manage the game state more complexly
-            // like I want to be able to have the granularity to call TransitionState() at the times when I do below
             new Vector2Int(gridSizeX - 2, gridSizeY - 1),
             new Vector2Int(squareOne.x, squareOne.y),
         };
 
-        SpawnNextWaypoint(waypoints);
+        SpawnFirstWaypoint();
+
+        // gridController.SpawnWaypoint(waypoints[1].x, waypoints[1].y, () => SpawnNextWaypoint(waypoints.GetRange(2, 1)));
+        // gridController.SpawnWaypoint(waypoints[0].x, waypoints[0].y, () => SpawnNextWaypoint(waypoints.GetRange(1, 2)));
+
+        // SpawnNextWaypoint(waypoints);
 
         obstacles = new();
         for (int ndx = 0; ndx < gridSizeY; ndx++)
@@ -61,12 +69,67 @@ public class WallLevel1 : LevelManager
         currentGameState = GameState.START;
     }
 
-    bool objectHasMoved;
+    void SpawnFirstWaypoint()
+    {
+        gridController.SpawnWaypoint(waypoints[0], () => MoveObstaclesThenSpawnSecondWaypoint());
+
+        void MoveObstaclesThenSpawnSecondWaypoint()
+        {
+            wallHasMoved = false;
+            int desiredObjectMoveCount = timesWallMoved + 2;
+            StartCoroutine(WaitForObjectToMove(desiredObjectMoveCount, () => MoveObstacles(Vector3.right), () => SpawnSecondWaypoint()));
+        }
+    }
+
+
+    /**
+    Allow wall to move until it hits the desired number of times moved
+    */
+    IEnumerator WaitForObjectToMove(int desiredAfterMoveCount, Action doMove, Action afterObjectMoveAction)
+    {
+        Debug.LogFormat("I want to get to {0} but I'm only at {1}", desiredAfterMoveCount, timesWallMoved);
+        doMove?.Invoke();
+        int currentTimesWallMoved = timesWallMoved;
+        // this loop and the break condition are kinda weird but they seem to work
+        while (timesWallMoved != desiredAfterMoveCount)
+        {
+            if (currentTimesWallMoved != timesWallMoved)
+            {
+                Debug.Log("The wall has moved once according to the waiter");
+                // let it progress
+                wallHasMoved = false;
+                currentTimesWallMoved = timesWallMoved;
+
+                if (currentTimesWallMoved == desiredAfterMoveCount)
+                {
+                    break;
+                }
+
+                doMove?.Invoke();
+            }
+            yield return null;
+        }
+        TransitionState();
+        wallHasMoved = false;
+        afterObjectMoveAction?.Invoke();
+    }
+
+    void SpawnSecondWaypoint()
+    {
+        gridController.SpawnWaypoint(waypoints[1], () => SpawnLastWaypoint());
+    }
+
+    void SpawnLastWaypoint()
+    {
+        gridController.SpawnWaypoint(waypoints[2], () => Debug.Log("player has won according to custom waypoint manager"));
+    }
+
 
     void AfterObjectMoves()
     {
         Debug.Log("Object has moved");
-        objectHasMoved = true;
+        timesWallMoved++;
+        wallHasMoved = true;
     }
 
     void Update()
@@ -86,7 +149,6 @@ public class WallLevel1 : LevelManager
         }
     }
 
-    bool greenHit = false;
     bool redSetupStarted = false;
 
     void ManageGameState()
@@ -109,31 +171,20 @@ public class WallLevel1 : LevelManager
                 TransitionState();
                 break;
             case GameState.GREEN_HIT:
-                // TODO move this logic into the waypoint callback on trigger
-                if (gridController.TileColorAtLocation(playerPos) == Color.green)
-                {
-                    greenHit = true;
-                    MoveObstacles(Vector3.right);
-                }
-                if (greenHit && objectHasMoved)
-                {
-                    TransitionState();
-                    objectHasMoved = false;
-                }
                 break;
             case GameState.RED_SETUP:
-                if (!redSetupStarted)
-                {
-                    MoveObstacles(Vector3.right);
-                    redSetupStarted = true;
-                }
-                if (redSetupStarted && objectHasMoved)
-                {
-                    objectHasMoved = false;
-                    gridController.PaintTileAtLocation(waypoints[1].x, waypoints[1].y, Color.red);
-                    gridController.PaintTileAtLocation(waypoints[2].x, waypoints[2].y, Color.blue);
-                    TransitionState();
-                }
+                // if (!redSetupStarted)
+                // {
+                //     MoveObstacles(Vector3.right);
+                //     redSetupStarted = true;
+                // }
+                // if (redSetupStarted && wallHasMoved)
+                // {
+                //     wallHasMoved = false;
+                gridController.PaintTileAtLocation(waypoints[1].x, waypoints[1].y, Color.red);
+                gridController.PaintTileAtLocation(waypoints[2].x, waypoints[2].y, Color.blue);
+                TransitionState();
+                // }
                 break;
             case GameState.RED_HIT:
                 if (gridController.TileColorAtLocation(playerPos) == Color.red)
@@ -176,16 +227,19 @@ public class WallLevel1 : LevelManager
             currentGameState = GameState.FAILED;
         }
 
-        void TransitionState()
-        {
-            // could probably use a better data structure as the state machine that allows a failure state as defined by the state machine
-            currentGameState = gameStateOrder[gameStateOrder.IndexOf(currentGameState) + 1];
-        }
+    }
+
+    void TransitionState()
+    {
+        // could probably use a better data structure as the state machine that allows a failure state as defined by the state machine
+        currentGameState = gameStateOrder[gameStateOrder.IndexOf(currentGameState) + 1];
     }
 
     void MoveObstacles(Vector3 direction)
     {
-        if (objectHasMoved) return;
+        // TODO what does this line do?
+        // if (wallHasMoved) return;
+
         foreach (ObstacleController obstacle in obstacles)
         {
             if (Mathf.RoundToInt(obstacle.transform.position.z) == 0) continue;
