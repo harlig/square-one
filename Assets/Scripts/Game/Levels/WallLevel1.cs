@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,9 @@ public class WallLevel1 : LevelManager
     private GameState currentGameState;
 
     private List<ObstacleController> obstacles;
+    bool wallHasMoved;
+    int timesWallMoved = 0;
+
 
     enum GameState
     {
@@ -43,8 +47,6 @@ public class WallLevel1 : LevelManager
 
         waypoints = new() {
             new Vector2Int(gridSizeX - 1, gridSizeY - 2),
-            // TODO this one shouldn't trigger until the wall finishes moving, so need to figure out how to manage the game state more complexly
-            // like I want to be able to have the granularity to call TransitionState() at the times when I do below
             new Vector2Int(gridSizeX - 2, gridSizeY - 1),
             new Vector2Int(squareOne.x, squareOne.y),
         };
@@ -69,26 +71,44 @@ public class WallLevel1 : LevelManager
 
     void SpawnFirstWaypoint()
     {
-        gridController.SpawnWaypoint(waypoints[0], () => BeforeNextWaypointSpawnAction(), () => { });
+        gridController.SpawnWaypoint(waypoints[0], () => MoveObstaclesThenSpawnSecondWaypoint());
 
-        void BeforeNextWaypointSpawnAction()
+        void MoveObstaclesThenSpawnSecondWaypoint()
         {
-            objectHasMoved = false;
-            MoveObstacles(Vector3.right);
-            StartCoroutine(WaitForObjectToMove());
+            wallHasMoved = false;
+            int desiredObjectMoveCount = timesWallMoved + 2;
+            StartCoroutine(WaitForObjectToMove(desiredObjectMoveCount, () => MoveObstacles(Vector3.right), () => SpawnSecondWaypoint()));
         }
+    }
 
-        IEnumerator WaitForObjectToMove()
+
+    IEnumerator WaitForObjectToMove(int desiredAfterMoveCount, Action doMove, Action afterObjectMoveAction)
+    {
+        Debug.LogFormat("I want to get to {0} but I'm only at {1}", desiredAfterMoveCount, timesWallMoved);
+        doMove?.Invoke();
+        int currentTimesWallMoved = timesWallMoved;
+        // this loop and the break condition are kinda weird but they seem to work
+        while (timesWallMoved < desiredAfterMoveCount)
         {
-            while (!objectHasMoved)
+            if (currentTimesWallMoved != timesWallMoved)
             {
-                yield return null;
+                Debug.Log("The wall has moved once according to the waiter");
+                // let it progress
+                wallHasMoved = false;
+                currentTimesWallMoved = timesWallMoved;
+
+                if (currentTimesWallMoved == desiredAfterMoveCount - 1)
+                {
+                    break;
+                }
+
+                doMove?.Invoke();
             }
-            TransitionState();
-            objectHasMoved = false;
+            yield return null;
         }
-        // how do we make sure second waypoint spawns after this stuff moves?
-        // SpawnSecondWaypoint();
+        TransitionState();
+        wallHasMoved = false;
+        afterObjectMoveAction?.Invoke();
     }
 
     void SpawnSecondWaypoint()
@@ -101,12 +121,12 @@ public class WallLevel1 : LevelManager
         gridController.SpawnWaypoint(waypoints[2], () => Debug.Log("player has won according to custom waypoint manager"));
     }
 
-    bool objectHasMoved;
 
     void AfterObjectMoves()
     {
         Debug.Log("Object has moved");
-        objectHasMoved = true;
+        timesWallMoved++;
+        wallHasMoved = true;
     }
 
     void Update()
@@ -126,7 +146,6 @@ public class WallLevel1 : LevelManager
         }
     }
 
-    bool greenHit = false;
     bool redSetupStarted = false;
 
     void ManageGameState()
@@ -167,9 +186,9 @@ public class WallLevel1 : LevelManager
                     MoveObstacles(Vector3.right);
                     redSetupStarted = true;
                 }
-                if (redSetupStarted && objectHasMoved)
+                if (redSetupStarted && wallHasMoved)
                 {
-                    objectHasMoved = false;
+                    wallHasMoved = false;
                     gridController.PaintTileAtLocation(waypoints[1].x, waypoints[1].y, Color.red);
                     gridController.PaintTileAtLocation(waypoints[2].x, waypoints[2].y, Color.blue);
                     TransitionState();
@@ -226,7 +245,9 @@ public class WallLevel1 : LevelManager
 
     void MoveObstacles(Vector3 direction)
     {
-        if (objectHasMoved) return;
+        // TODO what does this line do?
+        if (wallHasMoved) return;
+
         foreach (ObstacleController obstacle in obstacles)
         {
             if (Mathf.RoundToInt(obstacle.transform.position.z) == 0) continue;

@@ -151,7 +151,6 @@ public class Cube
 
     private void FinishMovement(bool didFinishMove, bool moveShouldCount)
     {
-        Debug.LogFormat("Finished movement in cube: {0}", didFinishMove);
         Vector3 pos = _mb.gameObject.transform.position;
         _mb.gameObject.transform.localPosition = Vector3Int.RoundToInt(pos);
         ResetPhysics();
