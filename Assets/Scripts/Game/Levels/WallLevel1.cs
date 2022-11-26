@@ -238,7 +238,7 @@ public class WallLevel1 : LevelManager
     void MoveObstacles(Vector3 direction)
     {
         // TODO what does this line do?
-        if (wallHasMoved) return;
+        // if (wallHasMoved) return;
 
         foreach (ObstacleController obstacle in obstacles)
         {
