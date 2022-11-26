@@ -115,6 +115,7 @@ public class MovingObstacle : ObstacleController
     // obstacles always roll
     private static readonly Cube.MoveType _moveType = Cube.MoveType.ROLL;
 
+    // TODO shouldn't move outside of map too!!
     private void MoveTowardsPosition(out int xDiff, out int yDiff, Vector2Int curPosition, Vector2Int endPosition)
     {
         xDiff = Mathf.Abs(curPosition.x - endPosition.x);

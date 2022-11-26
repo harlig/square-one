@@ -40,7 +40,7 @@ public class ChaseLevel2 : LevelManager
             GameState.SUCCESS
         };
 
-        SetupLevel();
+        SetupLevel(1, 1);
 
         obstacles = new List<MovingObstacle>();
 
@@ -55,6 +55,13 @@ public class ChaseLevel2 : LevelManager
             if (x == 3) continue;
             gridController.AddStationaryObstacleAtPosition(x, gridSizeY - 4);
         }
+
+        waypoints = new() {
+            new Vector2Int(gridSizeX - 1, gridSizeY - 5),
+            new Vector2Int(gridSizeX - 1, 2),
+            new Vector2Int(squareOne.x, squareOne.y),
+        };
+        SpawnNextWaypoint(waypoints);
 
         // TODO should setup level with waypoints
 
