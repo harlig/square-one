@@ -20,6 +20,7 @@ public class LevelSixManager : LevelManager
         FAILED,
     };
 
+#pragma warning disable IDE0051
     void Start()
     {
         gridSizeX = gridSizeY = 11;
@@ -59,6 +60,7 @@ public class LevelSixManager : LevelManager
             ManageGameState();
         }
     }
+#pragma warning restore IDE0051
 
     override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {

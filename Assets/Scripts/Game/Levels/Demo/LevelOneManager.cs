@@ -20,6 +20,7 @@ public class LevelOneManager : LevelManager
         FAILED,
     };
 
+#pragma warning disable IDE0051
     /**
     Level one is a tile painting level. 
     When the player moves once, a square one unit away from them turns green.
@@ -56,6 +57,7 @@ public class LevelOneManager : LevelManager
             ManageGameState();
         }
     }
+#pragma warning restore IDE0051
 
     override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {

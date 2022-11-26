@@ -22,6 +22,7 @@ public class ChaseLevel1 : LevelManager
         FAILED,
     };
 
+#pragma warning disable IDE0051
     void Start()
     {
         gridSizeX = gridSizeY = 11;
@@ -62,6 +63,7 @@ public class ChaseLevel1 : LevelManager
             ManageGameState();
         }
     }
+#pragma warning restore IDE0051
 
     override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {

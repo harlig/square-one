@@ -38,10 +38,34 @@ public class PlayerController : Singleton<PlayerController>
         CameraController.OnCameraRotate += TrackCameraLocation;
     }
 
+#pragma warning disable IDE0051
     private void OnDisable()
     {
         CameraController.OnCameraRotate -= TrackCameraLocation;
     }
+
+    // OnMove comes from the InputActions action defined Move
+    void OnMove(InputValue movementValue)
+    {
+        if (_isMoving) return;
+
+        Vector2 movementVector = movementValue.Get<Vector2>();
+
+        if (Mathf.Abs(movementVector.x) != 1.0f && Mathf.Abs(movementVector.y) != 1.0f) return;
+
+        int movementX = Mathf.RoundToInt(movementVector.x);
+        int movementY = Mathf.RoundToInt(movementVector.y);
+
+        Vector3Int relativeMoveDirection = GetRelativeMoveDirectionWithCameraOffset(movementX, movementY);
+        Cube.MoveInDirectionIfNotMoving(relativeMoveDirection, Cube.MoveType.ROLL, true);
+
+        // TODO player can float by constant input, how to disallow? prev solution below
+
+        // downwards force disallows wall climbing, constant was chosen because it plays well
+        // this solution isn't great but seems good enough, feel free to update it to be cleaner
+        // rb.AddForce(Vector3.down * 25, ForceMode.Force);
+    }
+#pragma warning restore IDE0051
 
     private void TrackCameraLocation(Vector2Int direction)
     {
@@ -138,28 +162,6 @@ public class PlayerController : Singleton<PlayerController>
         {
             return playerInputDirections[(directionOffset + playerInputDirectionCameraOffset) % playerInputDirections.Count];
         }
-    }
-
-    // OnMove comes from the InputActions action defined Move
-    void OnMove(InputValue movementValue)
-    {
-        if (_isMoving) return;
-
-        Vector2 movementVector = movementValue.Get<Vector2>();
-
-        if (Mathf.Abs(movementVector.x) != 1.0f && Mathf.Abs(movementVector.y) != 1.0f) return;
-
-        int movementX = Mathf.RoundToInt(movementVector.x);
-        int movementY = Mathf.RoundToInt(movementVector.y);
-
-        Vector3Int relativeMoveDirection = GetRelativeMoveDirectionWithCameraOffset(movementX, movementY);
-        Cube.MoveInDirectionIfNotMoving(relativeMoveDirection, Cube.MoveType.ROLL, true);
-
-        // TODO player can float by constant input, how to disallow? prev solution below
-
-        // downwards force disallows wall climbing, constant was chosen because it plays well
-        // this solution isn't great but seems good enough, feel free to update it to be cleaner
-        // rb.AddForce(Vector3.down * 25, ForceMode.Force);
     }
 
     public bool ShouldCountMoves()

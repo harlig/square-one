@@ -25,6 +25,7 @@ public class WallLevel1 : LevelManager
         FAILED,
     };
 
+#pragma warning disable IDE0051
     void Start()
     {
         gridSizeX = gridSizeY = 6;
@@ -63,6 +64,16 @@ public class WallLevel1 : LevelManager
 
         currentGameState = GameState.START;
     }
+
+    void Update()
+    {
+        SetMoveCountText();
+        if (levelActive)
+        {
+            ManageGameState();
+        }
+    }
+#pragma warning restore IDE0051
 
     void SpawnFirstWaypoint()
     {
@@ -123,15 +134,6 @@ public class WallLevel1 : LevelManager
         timesWallMoved++;
     }
 
-    void Update()
-    {
-        SetMoveCountText();
-        if (levelActive)
-        {
-            ManageGameState();
-        }
-    }
-
     override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {
         if (levelActive)
@@ -139,8 +141,6 @@ public class WallLevel1 : LevelManager
             turnsLeft = turnLimit - playerController.GetMoveCount();
         }
     }
-
-    bool redSetupStarted = false;
 
     void ManageGameState()
     {

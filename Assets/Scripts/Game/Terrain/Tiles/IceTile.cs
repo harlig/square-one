@@ -54,6 +54,7 @@ public class IceTile : PaintTile
         }
     }
 
+#pragma warning disable IDE0051
     void OnEnable()
     {
         PlayerController.OnMoveStart += OnPlayerMoveStart;
@@ -65,4 +66,5 @@ public class IceTile : PaintTile
         PlayerController.OnMoveStart -= OnPlayerMoveStart;
         PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
     }
+#pragma warning restore IDE0051
 }
