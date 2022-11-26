@@ -107,8 +107,6 @@ public class PlayerController : Singleton<PlayerController>
 
         currentPosition = GetRawCurrentPosition();
 
-        Debug.LogFormat("I'm a player finishing my move and should I count moves: {0}", shouldMoveBeCounted);
-
         if (moveCompleted)
         {
             if (shouldMoveBeCounted) moveCount++;

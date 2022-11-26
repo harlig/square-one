@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Chase Level 1.unity
     guid: 5c9de40601343e042a5093a0fc742c97
   - enabled: 1
+    path: Assets/Scenes/Chase Level 2.unity
+    guid: b4a3f3f3f09090c458d740b1d63dab36
+  - enabled: 1
     path: Assets/Scenes/Game End.unity
     guid: 30c72ad4c38e83f4abd66b258144b6d5
   m_configObjects:

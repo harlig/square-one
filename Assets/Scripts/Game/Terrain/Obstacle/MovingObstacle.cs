@@ -123,6 +123,9 @@ public class MovingObstacle : ObstacleController
         if (xDiff == 0 && yDiff == 0) return;
 
         HashSet<Vector2Int> currentStationaryObstacles = getCurrentStationaryObstacles?.Invoke();
+
+        List<Vector3> directions = new();
+
         // if bigger x deficit, move that way first
         if (xDiff > yDiff)
         {
@@ -130,18 +133,25 @@ public class MovingObstacle : ObstacleController
             // don't need to worry about two moving obstacles next to each other moving in same direction
             if (curPosition.x > endPosition.x)
             {
-                if (!IsStationaryObstacleInWay(curPosition.x - 1, curPosition.y))
-                {
-                    Cube.MoveInDirectionIfNotMoving(Vector3.left, _moveType, false);
-                }
+                directions.Add(Vector3.left);
+                directions.Add(Vector3.right);
             }
             else
             {
-                if (!IsStationaryObstacleInWay(curPosition.x + 1, curPosition.y))
-                {
-                    Cube.MoveInDirectionIfNotMoving(Vector3.right, _moveType, false);
-                }
+                directions.Add(Vector3.right);
+                directions.Add(Vector3.left);
             }
+
+            bool backFirst = curPosition.y > endPosition.y;
+            if (backFirst)
+            {
+                directions.InsertRange(1, new List<Vector3>() { Vector3.back, Vector3.forward });
+            }
+            else
+            {
+                directions.InsertRange(1, new List<Vector3>() { Vector3.forward, Vector3.back });
+            }
+
         }
         // TODO, add this back in and think of a more explicit solution for when xDiff and yDiff are equivalent
         // else if (xDiff < yDiff)
@@ -150,32 +160,63 @@ public class MovingObstacle : ObstacleController
             {
                 if (curPosition.y > endPosition.y)
                 {
-                    if (!IsStationaryObstacleInWay(curPosition.x, curPosition.y - 1))
-                    {
-                        Cube.MoveInDirectionIfNotMoving(Vector3.back, _moveType, false);
-                    }
+                    directions.Add(Vector3.back);
+                    directions.Add(Vector3.forward);
                 }
                 else
                 {
-                    if (!IsStationaryObstacleInWay(curPosition.x, curPosition.y + 1))
-                    {
-                        Cube.MoveInDirectionIfNotMoving(Vector3.forward, _moveType, false);
-                    }
+                    directions.Add(Vector3.forward);
+                    directions.Add(Vector3.back);
+                }
+                bool leftFirst = curPosition.x > endPosition.y;
+                if (leftFirst)
+                {
+                    directions.InsertRange(1, new List<Vector3>() { Vector3.left, Vector3.right });
+                }
+                else
+                {
+                    directions.InsertRange(1, new List<Vector3>() { Vector3.right, Vector3.left });
                 }
             }
         }
+        MoveInNextDirectionIfNoBlocker(curPosition, directions, currentStationaryObstacles);
+    }
 
-        bool IsStationaryObstacleInWay(int desiredX, int desiredY)
+    bool IsStationaryObstacleInWay(int desiredX, int desiredY, HashSet<Vector2Int> currentStationaryObstacles)
+    {
+        return currentStationaryObstacles.Contains(new Vector2Int(desiredX, desiredY));
+    }
+    private void MoveInNextDirectionIfNoBlocker(Vector2Int curPosition, List<Vector3> directions, HashSet<Vector2Int> currentStationaryObstacles)
+    {
+        MoveInNextDirectionIfNoBlocker(curPosition, directions, 0, currentStationaryObstacles);
+
+        void MoveInNextDirectionIfNoBlocker(Vector2Int curPosition, List<Vector3> directions, int directionsNdx, HashSet<Vector2Int> currentStationaryObstacles)
         {
-            return currentStationaryObstacles.Contains(new Vector2Int(desiredX, desiredY));
+            Debug.Log("Check if we have a direction to go");
+            // not possible to try other way to move now
+            if (directionsNdx == directions.Count) return;
+
+            Vector3 thisDir = directions[directionsNdx];
+            Vector3 desiredPosition = new Vector3Int(curPosition.x, 0, curPosition.y) + thisDir;
+
+            Debug.LogFormat("Checking if we can move in this direction {0} at this position {1} with this desired pos {2}", thisDir, curPosition, desiredPosition);
+            if (IsStationaryObstacleInWay(Mathf.RoundToInt(desiredPosition.x), Mathf.RoundToInt(desiredPosition.z), currentStationaryObstacles))
+            {
+                MoveInNextDirectionIfNoBlocker(curPosition, directions, directionsNdx++, currentStationaryObstacles);
+            }
+            else
+            {
+                Cube.MoveInDirectionIfNotMoving(thisDir, _moveType, false);
+            }
         }
     }
+
+
 
     private void OnPlayerMoveFinish(Vector2Int playerPosition, bool moveShouldCount)
     {
         if (_moveTowardsPlayer && moveShouldCount)
         {
-            Debug.Log("Moving towards player");
             // move one unit torwads player's position
             MoveTowardsPosition(out _, out _, GetPositionAsVector2Int(), playerPosition);
         }
