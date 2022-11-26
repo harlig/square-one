@@ -179,35 +179,33 @@ public class MovingObstacle : ObstacleController
                 }
             }
         }
-        MoveInNextDirectionIfNoBlocker(curPosition, directions, currentStationaryObstacles);
+
+        Queue<Vector3> directionsQueue = new(directions);
+        MoveInNextDirectionIfNoBlocker(curPosition, directionsQueue, currentStationaryObstacles);
     }
 
     bool IsStationaryObstacleInWay(int desiredX, int desiredY, HashSet<Vector2Int> currentStationaryObstacles)
     {
         return currentStationaryObstacles.Contains(new Vector2Int(desiredX, desiredY));
     }
-    private void MoveInNextDirectionIfNoBlocker(Vector2Int curPosition, List<Vector3> directions, HashSet<Vector2Int> currentStationaryObstacles)
+
+    private void MoveInNextDirectionIfNoBlocker(Vector2Int curPosition, Queue<Vector3> directions, HashSet<Vector2Int> currentStationaryObstacles)
     {
-        MoveInNextDirectionIfNoBlocker(curPosition, directions, 0, currentStationaryObstacles);
+        Debug.Log("Check if we have a direction to go");
+        // not possible to try other way to move now
+        if (0 == directions.Count) return;
 
-        void MoveInNextDirectionIfNoBlocker(Vector2Int curPosition, List<Vector3> directions, int directionsNdx, HashSet<Vector2Int> currentStationaryObstacles)
+        Vector3 thisDir = directions.Dequeue();
+        Vector3 desiredPosition = new Vector3Int(curPosition.x, 0, curPosition.y) + thisDir;
+
+        Debug.LogFormat("Checking if we can move in this direction {0} at this position {1} with this desired pos {2}", thisDir, curPosition, desiredPosition);
+        if (IsStationaryObstacleInWay(Mathf.RoundToInt(desiredPosition.x), Mathf.RoundToInt(desiredPosition.z), currentStationaryObstacles))
         {
-            Debug.Log("Check if we have a direction to go");
-            // not possible to try other way to move now
-            if (directionsNdx == directions.Count) return;
-
-            Vector3 thisDir = directions[directionsNdx];
-            Vector3 desiredPosition = new Vector3Int(curPosition.x, 0, curPosition.y) + thisDir;
-
-            Debug.LogFormat("Checking if we can move in this direction {0} at this position {1} with this desired pos {2}", thisDir, curPosition, desiredPosition);
-            if (IsStationaryObstacleInWay(Mathf.RoundToInt(desiredPosition.x), Mathf.RoundToInt(desiredPosition.z), currentStationaryObstacles))
-            {
-                MoveInNextDirectionIfNoBlocker(curPosition, directions, directionsNdx++, currentStationaryObstacles);
-            }
-            else
-            {
-                Cube.MoveInDirectionIfNotMoving(thisDir, _moveType, false);
-            }
+            MoveInNextDirectionIfNoBlocker(curPosition, directions, currentStationaryObstacles);
+        }
+        else
+        {
+            Cube.MoveInDirectionIfNotMoving(thisDir, _moveType, false);
         }
     }
 
