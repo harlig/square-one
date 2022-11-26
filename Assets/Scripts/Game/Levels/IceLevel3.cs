@@ -40,6 +40,9 @@ public class IceLevel3 : LevelManager
 
         SetupLevel(5, 5);
 
+        // TODO should rotate camera?
+        // TODO should rely on moving the obstacle around so you can hit it as a stopper
+
         for (int x = 0; x < gridSizeX; x++)
         {
             for (int y = 0; y < gridSizeY; y++)

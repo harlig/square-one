@@ -56,6 +56,8 @@ public class ChaseLevel2 : LevelManager
             gridController.AddStationaryObstacleAtPosition(x, gridSizeY - 4);
         }
 
+        // TODO should setup level with waypoints
+
         MovingObstacle obstacle = gridController.AddMovingObstacleAtPosition(2, gridSizeY - 1);
         obstacle.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction());
 
