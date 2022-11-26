@@ -94,6 +94,7 @@ public abstract class LevelManager : MonoBehaviour
         OnPlayerMoveFinish(playerPositionAfterMove);
     }
 
+#pragma warning disable IDE0051
     // must be done at object enable time
     void OnEnable()
     {
@@ -109,6 +110,7 @@ public abstract class LevelManager : MonoBehaviour
         PlayerController.OnMoveStart -= OnPlayerMoveStart;
         PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
     }
+#pragma warning restore IDE0051
 
     protected void OnIceTileSteppedOn(Vector3Int direction)
     {

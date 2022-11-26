@@ -181,6 +181,7 @@ public class MovingObstacle : ObstacleController
         }
     }
 
+#pragma warning disable IDE0051
     // must be done at object enable time
     private void OnEnable()
     {
@@ -193,6 +194,7 @@ public class MovingObstacle : ObstacleController
     {
         PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
     }
+#pragma warning restore IDE0051
 
     private bool _moveTowardsPlayer = false;
 }

@@ -6,10 +6,12 @@ using UnityEngine;
 public class GridController : Singleton<GridController>
 {
     // TODO will change to BaseTile and use a bare TileController
+#pragma warning disable IDE0044
     [SerializeField] private GameObject paintTilePrefab;
     [SerializeField] private GameObject iceTilePrefab;
     [SerializeField] private GameObject obstaclePrefab;
     [SerializeField] private GameObject waypointPrefab;
+#pragma warning disable IDE0044
 
     private List<List<TileController>> gridRows;
     private Color startingColor;

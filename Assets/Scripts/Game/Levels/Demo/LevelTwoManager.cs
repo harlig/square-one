@@ -8,6 +8,7 @@ public class LevelTwoManager : LevelManager
 
     // TODO add fun message if you paint whole map :)
 
+#pragma warning disable IDE0051
     void Start()
     {
         gridSizeX = gridSizeY = 10;
@@ -17,6 +18,7 @@ public class LevelTwoManager : LevelManager
 
         paintedTiles = new Dictionary<TileController, bool>();
     }
+#pragma warning restore IDE0051
 
     override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {

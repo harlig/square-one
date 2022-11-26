@@ -19,6 +19,7 @@ public class IceLevel2 : LevelManager
         FAILED,
     };
 
+#pragma warning disable IDE0051
     void Start()
     {
         gridSizeX = gridSizeY = 10;
@@ -85,6 +86,7 @@ public class IceLevel2 : LevelManager
             ManageGameState();
         }
     }
+#pragma warning restore IDE0051
 
     override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
     {

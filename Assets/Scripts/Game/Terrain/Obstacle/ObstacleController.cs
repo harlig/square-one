@@ -10,11 +10,13 @@ public class ObstacleController : MonoBehaviour
         gameObject.name = name;
     }
 
+#pragma warning disable IDE0051
     private void Awake()
     {
         // no need for any before/after roll actions right now
         Cube = new(this, 1.0f, () => { }, (_, _) => { });
     }
+#pragma warning restore IDE0051
 
     protected Vector2Int GetPositionAsVector2Int()
     {
