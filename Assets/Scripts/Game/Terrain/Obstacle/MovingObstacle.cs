@@ -168,7 +168,7 @@ public class MovingObstacle : ObstacleController
                     directions.Add(Vector3.forward);
                     directions.Add(Vector3.back);
                 }
-                bool leftFirst = curPosition.x > endPosition.y;
+                bool leftFirst = curPosition.x > endPosition.x;
                 if (leftFirst)
                 {
                     directions.InsertRange(1, new List<Vector3>() { Vector3.left, Vector3.right });
