@@ -121,6 +121,9 @@ public class GridController : Singleton<GridController>
 
         obstacle.transform.parent = _obstacleGameObject.transform;
 
+        // moving obstacles are yellow
+        obj.GetComponent<MeshRenderer>().material.color = Color.yellow;
+
         return obstacle;
     }
 
