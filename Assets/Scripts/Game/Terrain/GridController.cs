@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using UnityEngine;
 
 public class GridController : Singleton<GridController>
@@ -18,7 +19,7 @@ public class GridController : Singleton<GridController>
     private GameObject _obstacleGameObject;
     // TODO need to keep track of moving obstacles too
     private HashSet<Vector2Int> stationaryObstaclePositions = new();
-    private Dictionary<Vector2Int, MovingObstacle> movingObstaclePositionToControllerMap = new();
+    private OrderedDictionary movingObstaclePositionToControllerMap = new();
 
     public void SetupGrid(int xSize, int ySize)
     {
@@ -109,6 +110,8 @@ public class GridController : Singleton<GridController>
         return obstacle;
     }
 
+    private int countMovingObstacles = 0;
+
     // TODO should be split into static and moving obstacles
     public MovingObstacle AddMovingObstacleAtPosition(int x, int y)
     {
@@ -122,6 +125,7 @@ public class GridController : Singleton<GridController>
         obstacle.SetName($"moving - row{x}col{y}");
         obstacle.SetAfterRollAction((didFinishMove, _, beforeMovePosition) => AfterMovingObjectMoves(didFinishMove, beforeMovePosition));
         movingObstaclePositionToControllerMap.Add(obstacle.GetPositionAsVector2Int(), obstacle);
+        countMovingObstacles++;
 
         // moving obstacle should call function to update something with its location
         // obstacle.SetLocationUpdaterFunction();
@@ -138,21 +142,22 @@ public class GridController : Singleton<GridController>
     {
         Vector2Int beforeMovePosition = new(Mathf.RoundToInt(beforeMovePosition3d.x), Mathf.RoundToInt(beforeMovePosition3d.z));
         Debug.LogFormat("Object has moved, {0} {1}", didFinishMove, beforeMovePosition);
-        if (!movingObstaclePositionToControllerMap.ContainsKey(beforeMovePosition))
+        if (!movingObstaclePositionToControllerMap.Contains(beforeMovePosition))
         {
             Debug.LogAssertionFormat("Didn't find this obstacle previously in this position {0}", beforeMovePosition);
             return;
         }
-        MovingObstacle obstacle = movingObstaclePositionToControllerMap[beforeMovePosition];
+        MovingObstacle obstacle = (MovingObstacle)movingObstaclePositionToControllerMap[beforeMovePosition];
 
-        if (!movingObstaclePositionToControllerMap.ContainsKey(obstacle.GetPositionAsVector2Int()))
+        if (!movingObstaclePositionToControllerMap.Contains(obstacle.GetPositionAsVector2Int()))
         {
             movingObstaclePositionToControllerMap.Remove(beforeMovePosition);
             movingObstaclePositionToControllerMap.Add(obstacle.GetPositionAsVector2Int(), obstacle);
+            return;
         }
         else
         {
-            Debug.Log("Something was here, going back to old spot!");
+            Debug.Log("Something is already here, going back to old spot!");
             obstacle.UndoLastMove();
         }
     }
@@ -160,6 +165,13 @@ public class GridController : Singleton<GridController>
     private HashSet<Vector2Int> GetCurrentStationaryObstacles()
     {
         HashSet<Vector2Int> allPositions = stationaryObstaclePositions;
+        // just preserve the last ones
+        while (movingObstaclePositionToControllerMap.Count != countMovingObstacles)
+        {
+            movingObstaclePositionToControllerMap.RemoveAt(0);
+
+
+        }
         foreach (Vector2Int location in movingObstaclePositionToControllerMap.Keys)
         {
             allPositions.Add(location);
