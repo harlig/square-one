@@ -20,6 +20,8 @@ public abstract class LevelManager : MonoBehaviour
     protected bool levelActive;
     protected List<Vector2Int> waypoints;
 
+    protected GameStateManager gsm;
+
     protected void SetupLevel()
     {
         int playerOffsetX = gridSizeX / 2;
@@ -48,6 +50,10 @@ public abstract class LevelManager : MonoBehaviour
         SetMoveCountText();
 
         levelActive = true;
+
+        gsm = new GameStateManager(playerController, gridController);
+
+        gsm.OnStateChange += OnStageChange;
     }
 
     /**
@@ -88,10 +94,13 @@ public abstract class LevelManager : MonoBehaviour
     protected virtual void OnPlayerMoveStart(Vector2Int playerPositionBeforeMove) { }
     protected virtual void OnPlayerMoveFinish(Vector2Int playerPositionAfterMove) { }
 
+    protected virtual void OnPlayerMoveFinishWithShouldCountMove(Vector2Int playerPositionAfterMove, bool shouldCountMove) { }
+
     // levels shouldn't have access to know about if a move should count
-    private void OnPlayerMoveFinish(Vector2Int playerPositionAfterMove, bool _)
+    private void OnPlayerMoveFinish(Vector2Int playerPositionAfterMove, bool shouldCountMove)
     {
         OnPlayerMoveFinish(playerPositionAfterMove);
+        OnPlayerMoveFinishWithShouldCountMove(playerPositionAfterMove, shouldCountMove);
     }
 
 #pragma warning disable IDE0051
@@ -109,6 +118,13 @@ public abstract class LevelManager : MonoBehaviour
         Debug.Log("Disabling player event");
         PlayerController.OnMoveStart -= OnPlayerMoveStart;
         PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
+
+        gsm.OnStateChange -= OnStageChange;
+    }
+    void Update()
+    {
+        SetMoveCountText();
+        gsm.CheckPlayerState();
     }
 #pragma warning restore IDE0051
 
@@ -134,6 +150,18 @@ public abstract class LevelManager : MonoBehaviour
         else
         {
             gridController.SpawnWaypoint(waypoints[0].x, waypoints[0].y, () => SpawnNextWaypoint(waypoints.GetRange(1, waypoints.Count - 1)));
+        }
+    }
+
+    protected void OnStageChange(GameStateManager.GameState state)
+    {
+        if (state == GameStateManager.GameState.FAILED)
+        {
+            SetTerminalGameState(failedElements);
+        }
+        else if (state == GameStateManager.GameState.SUCCESS)
+        {
+            SetTerminalGameState(successElements);
         }
     }
 }
