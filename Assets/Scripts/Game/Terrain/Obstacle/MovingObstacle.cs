@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO should have a non-aggressive moving obstacle which doesn't shove player
 public class MovingObstacle : ObstacleController
 {
     private enum MoveDirection
@@ -107,7 +106,17 @@ public class MovingObstacle : ObstacleController
         Cube.SetRollSpeed(playerController.GetRollSpeed());
         _moveTowardsPlayer = true;
         getCurrentStationaryObstacles = getCurrentStationaryObstaclesAction;
+        SetAggressive(aggressive);
+    }
+
+    private void SetAggressive(bool aggressive)
+    {
         this.aggressive = aggressive;
+        if (aggressive)
+        {
+            // red cubes will mess you up
+            GetComponent<MeshRenderer>().material.color = Color.red;
+        }
     }
 
     // TODO is this only applicable for _moveTowardsPlayer?
