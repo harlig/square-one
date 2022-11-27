@@ -135,22 +135,25 @@ public class MovingObstacle : ObstacleController
             if (curPosition.x > endPosition.x)
             {
                 directions.Add(Vector3.left);
-                directions.Add(Vector3.right);
+                // directions.Add(Vector3.right);
             }
             else
             {
                 directions.Add(Vector3.right);
-                directions.Add(Vector3.left);
+                // directions.Add(Vector3.left);
             }
 
-            bool backFirst = curPosition.y > endPosition.y;
-            if (backFirst)
+            if (yDiff != 0)
             {
-                directions.InsertRange(1, new List<Vector3>() { Vector3.back, Vector3.forward });
-            }
-            else
-            {
-                directions.InsertRange(1, new List<Vector3>() { Vector3.forward, Vector3.back });
+                bool backFirst = curPosition.y > endPosition.y;
+                if (backFirst)
+                {
+                    directions.InsertRange(1, new List<Vector3>() { Vector3.back, Vector3.forward });
+                }
+                else
+                {
+                    directions.InsertRange(1, new List<Vector3>() { Vector3.forward, Vector3.back });
+                }
             }
 
         }
@@ -162,21 +165,24 @@ public class MovingObstacle : ObstacleController
                 if (curPosition.y > endPosition.y)
                 {
                     directions.Add(Vector3.back);
-                    directions.Add(Vector3.forward);
+                    // directions.Add(Vector3.forward);
                 }
                 else
                 {
                     directions.Add(Vector3.forward);
-                    directions.Add(Vector3.back);
+                    // directions.Add(Vector3.back);
                 }
-                bool leftFirst = curPosition.x > endPosition.x;
-                if (leftFirst)
+                if (xDiff != 0)
                 {
-                    directions.InsertRange(1, new List<Vector3>() { Vector3.left, Vector3.right });
-                }
-                else
-                {
-                    directions.InsertRange(1, new List<Vector3>() { Vector3.right, Vector3.left });
+                    bool leftFirst = curPosition.x > endPosition.x;
+                    if (leftFirst)
+                    {
+                        directions.InsertRange(1, new List<Vector3>() { Vector3.left, Vector3.right });
+                    }
+                    else
+                    {
+                        directions.InsertRange(1, new List<Vector3>() { Vector3.right, Vector3.left });
+                    }
                 }
             }
         }
