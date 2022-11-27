@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// full ice level with following obstacle
-public class IceLevel4 : LevelManager
+// full ice level with two following obstacles
+public class IceChaseLevel3 : LevelManager
 {
 
 #pragma warning disable IDE0051
