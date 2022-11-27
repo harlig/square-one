@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO should have a non-aggressive moving obstacle which doesn't shove player
 public class MovingObstacle : ObstacleController
 {
     private enum MoveDirection
@@ -188,6 +189,9 @@ public class MovingObstacle : ObstacleController
         }
 
         Queue<Vector3> directionsQueue = new(directions);
+
+        // TODO need to take into account moving obstacles too
+        // if there is obstacle in direction that I would move player, don't move there
         MoveInNextDirectionIfNoBlocker(curPosition, directionsQueue, currentStationaryObstacles);
     }
 
