@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Game/Ice Level 3.unity
     guid: 7a36020dc44bf9442a827666b56cda33
   - enabled: 1
+    path: Assets/Scenes/Game/Ice Level 4.unity
+    guid: b2247697597610b429fff255f9376e74
+  - enabled: 1
     path: Assets/Scenes/Game/Ice Chase Level 3.unity
     guid: ae6449ba88c197b4b95047a15ac21efe
   - enabled: 1
