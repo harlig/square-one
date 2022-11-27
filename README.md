@@ -31,7 +31,7 @@ Here's what it looks like in its current state
 Should consider accessibility and write letters or some symbol on tiles to differentiate. 
 
 - [x] Full ice map with obstacles that stop you from sliding
-- [ ] Maze with stationary obstacles
+- [x] Maze with stationary obstacles
 - [ ] Maze with moving obstacles
 - [ ] Bigger wall moving level that continues to move towards you
 - [x] Different all ice puzzles, or mostly ice
