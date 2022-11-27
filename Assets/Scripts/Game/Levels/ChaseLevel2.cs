@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 // player has to complete tasks while keeping moving obstacle away
@@ -46,6 +45,8 @@ public class ChaseLevel2 : LevelManager
 
         gsm.ManageGameState();
 
+
+        // TODO we need to figure out how to handle these obstacles colliding with one another. The undo is working but looks janky
         MovingObstacle followerUpperLeft = gridController.AddMovingObstacleAtPosition(2, gridSizeY - 1);
         followerUpperLeft.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction());
 
