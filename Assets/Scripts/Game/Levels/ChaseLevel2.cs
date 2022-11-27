@@ -7,8 +7,6 @@ public class ChaseLevel2 : LevelManager
     private List<GameState> gameStateOrder;
     private GameState currentGameState;
 
-    private List<MovingObstacle> obstacles;
-
     enum GameState
     {
         START,
@@ -46,15 +44,24 @@ public class ChaseLevel2 : LevelManager
 
         for (int x = 0; x < gridSizeX; x++)
         {
-            if (x == 9) continue;
+            if (x > 3 && x < 7) continue;
             gridController.AddStationaryObstacleAtPosition(x, gridSizeY - 2);
         }
 
         for (int x = 0; x < gridSizeX; x++)
         {
-            if (x == 3) continue;
+            if (x > 2 && x < 5 || x == gridSizeX - 1) continue;
             gridController.AddStationaryObstacleAtPosition(x, gridSizeY - 4);
         }
+
+        for (int y = 2; y < 5; y++)
+        {
+            gridController.AddStationaryObstacleAtPosition(gridSizeX - 3, y);
+        }
+
+        gridController.AddStationaryObstacleAtPosition(2, 3);
+        gridController.AddStationaryObstacleAtPosition(3, 3);
+        gridController.AddStationaryObstacleAtPosition(3, 4);
 
         waypoints = new() {
             new Vector2Int(gridSizeX - 1, gridSizeY - 5),
@@ -65,9 +72,11 @@ public class ChaseLevel2 : LevelManager
 
         // TODO should setup level with waypoints
 
-        MovingObstacle follower = gridController.AddMovingObstacleAtPosition(2, gridSizeY - 1);
-        follower.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction());
-        obstacles.Add(follower);
+        MovingObstacle followerUpperLeft = gridController.AddMovingObstacleAtPosition(2, gridSizeY - 1);
+        followerUpperLeft.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
+
+        MovingObstacle followerLowerRight = gridController.AddMovingObstacleAtPosition(gridSizeX - 2, 3);
+        followerLowerRight.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
 
         // can maybe use disable button as bait?
         // gridController.PaintTileAtLocation(new Vector2Int(1, gridSizeY - 2), Color.white);
@@ -104,15 +113,16 @@ public class ChaseLevel2 : LevelManager
             currentGameState = GameState.FAILED;
         }
 
+        // TODO comment back in for button to disable moving obstacles
         // white tile color disables all moving obstacles
-        if (gridController.TileColorAtLocation(playerPos) == Color.white)
-        {
-            Debug.Log("Stopping obstacle movement!");
-            foreach (MovingObstacle obstacle in obstacles)
-            {
-                obstacle.StopMovement();
-            }
-        }
+        // if (gridController.TileColorAtLocation(playerPos) == Color.white)
+        // {
+        //     Debug.Log("Stopping obstacle movement!");
+        //     foreach (MovingObstacle obstacle in obstacles)
+        //     {
+        //         obstacle.StopMovement();
+        //     }
+        // }
 
         // game state handler
         switch (currentGameState)
