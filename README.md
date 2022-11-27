@@ -24,16 +24,17 @@ Here's what it looks like in its current state
 
 - [ ] Leaderboard per-level
 - [ ] Leaderboard for total turns remaining summation golf
+- [ ] Stars per level based on how well they do
 
 ## Level ideas
 
 Should consider accessibility and write letters or some symbol on tiles to differentiate. 
 
-- [ ] Full ice map with obstacles that stop you from sliding
+- [x] Full ice map with obstacles that stop you from sliding
 - [ ] Maze with stationary obstacles
 - [ ] Maze with moving obstacles
 - [ ] Bigger wall moving level that continues to move towards you
-- [ ] Different all ice puzzles, or mostly ice
+- [x] Different all ice puzzles, or mostly ice
 - [ ] enemy is blocked away from you and moving it like in x direction causes it to eventually come closer in y direction
 
 ## Mechanic ideas
