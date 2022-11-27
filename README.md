@@ -3,6 +3,11 @@ SquareOne
  
 SquareOne is an isometric puzzle game built for the [2022 Game Off](https://itch.io/jam/game-off-2022).
 
+Want to play? Head over to [Releases](/Releases/) and downloaded the latest release. Just unzip the file and run the SquareOne executable.
+
+------------
+
+ 
 - [SquareOne](#squareone)
 - [Demo](#demo)
 - [Ideas](#ideas)
