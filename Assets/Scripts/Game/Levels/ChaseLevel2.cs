@@ -40,8 +40,6 @@ public class ChaseLevel2 : LevelManager
 
         SetupLevel(1, 1);
 
-        obstacles = new List<MovingObstacle>();
-
         for (int x = 0; x < gridSizeX; x++)
         {
             if (x > 3 && x < 7) continue;
