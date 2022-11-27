@@ -110,8 +110,6 @@ public class GridController : Singleton<GridController>
         return obstacle;
     }
 
-    private int countMovingObstacles = 0;
-
     // TODO should be split into static and moving obstacles
     public MovingObstacle AddMovingObstacleAtPosition(int x, int y)
     {
@@ -123,9 +121,8 @@ public class GridController : Singleton<GridController>
         GameObject obj = Instantiate(obstaclePrefab, new Vector3Int(x, 1, y), Quaternion.identity);
         MovingObstacle obstacle = obj.AddComponent<MovingObstacle>();
         obstacle.SetName($"moving - row{x}col{y}");
-        obstacle.SetAfterRollAction((didFinishMove, _, beforeMovePosition) => AfterMovingObjectMoves(didFinishMove, beforeMovePosition));
+        obstacle.SetAfterRollAction((didFinishMove, _, beforeMovePosition) => AfterMovingObjectMoves(beforeMovePosition));
         movingObstaclePositionToControllerMap.Add(obstacle.GetPositionAsVector2Int(), obstacle);
-        countMovingObstacles++;
 
         // moving obstacle should call function to update something with its location
         // obstacle.SetLocationUpdaterFunction();
@@ -138,13 +135,12 @@ public class GridController : Singleton<GridController>
         return obstacle;
     }
 
-    void AfterMovingObjectMoves(bool didFinishMove, Vector3 beforeMovePosition3d)
+    void AfterMovingObjectMoves(Vector3 beforeMovePosition3d)
     {
         Vector2Int beforeMovePosition = new(Mathf.RoundToInt(beforeMovePosition3d.x), Mathf.RoundToInt(beforeMovePosition3d.z));
-        Debug.LogFormat("Object has moved, {0} {1}", didFinishMove, beforeMovePosition);
         if (!movingObstaclePositionToControllerMap.Contains(beforeMovePosition))
         {
-            Debug.LogAssertionFormat("Didn't find this obstacle previously in this position {0}", beforeMovePosition);
+            Debug.LogWarningFormat("Didn't find this obstacle previously in this position {0}", beforeMovePosition);
             return;
         }
         MovingObstacle obstacle = (MovingObstacle)movingObstaclePositionToControllerMap[beforeMovePosition];
@@ -157,26 +153,15 @@ public class GridController : Singleton<GridController>
         }
         else
         {
-            Debug.Log("Something is already here, going back to old spot!");
+            // TODO if two move to the same square, they can both end up in this else block... how? 
+            Debug.LogFormat("Something is already here {0}, going back to old spot!", beforeMovePosition);
             obstacle.UndoLastMove();
         }
     }
 
     private HashSet<Vector2Int> GetCurrentStationaryObstacles()
     {
-        HashSet<Vector2Int> allPositions = stationaryObstaclePositions;
-        // just preserve the last ones
-        while (movingObstaclePositionToControllerMap.Count != countMovingObstacles)
-        {
-            movingObstaclePositionToControllerMap.RemoveAt(0);
-
-
-        }
-        foreach (Vector2Int location in movingObstaclePositionToControllerMap.Keys)
-        {
-            allPositions.Add(location);
-        }
-        return allPositions;
+        return stationaryObstaclePositions;
     }
 
     public Func<HashSet<Vector2Int>> GetCurrentStationaryObstaclesAction()

@@ -9,7 +9,7 @@ public class ChaseLevel2 : LevelManager
     {
 #pragma warning restore IDE0051
         gridSizeX = gridSizeY = 13;
-        turnLimit = 70;
+        turnLimit = 40;
 
         SetupLevel(1, 1);
 
@@ -46,10 +46,10 @@ public class ChaseLevel2 : LevelManager
         gsm.ManageGameState();
 
         MovingObstacle followerUpperLeft = gridController.AddMovingObstacleAtPosition(2, gridSizeY - 1);
-        followerUpperLeft.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
+        followerUpperLeft.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction());
 
         MovingObstacle followerLowerRight = gridController.AddMovingObstacleAtPosition(gridSizeX - 2, 3);
-        followerLowerRight.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
+        followerLowerRight.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction());
 
         // can maybe use disable button as bait?
         // gridController.PaintTileAtLocation(new Vector2Int(1, gridSizeY - 2), Color.white);
