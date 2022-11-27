@@ -63,9 +63,9 @@ public class IceLevel3 : LevelManager
 
 #pragma warning restore IDE0051
 
-    override protected void OnPlayerMoveFinish(Vector2Int playerPosition)
+    override protected void OnPlayerMoveFinishWithShouldCountMove(Vector2Int playerPosition, bool shouldCountMove)
     {
-        if (levelActive)
+        if (shouldCountMove)
         {
             turnsLeft = turnLimit - playerController.GetMoveCount();
         }

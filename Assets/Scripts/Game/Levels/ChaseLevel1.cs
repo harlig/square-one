@@ -10,6 +10,7 @@ public class ChaseLevel1 : LevelManager
 #pragma warning disable IDE0051
     void Start()
     {
+#pragma warning restore IDE0051
         gridSizeX = gridSizeY = 11;
         turnLimit = 70;
 
@@ -37,8 +38,6 @@ public class ChaseLevel1 : LevelManager
 
         obstacles.Add(obstacle);
     }
-
-#pragma warning restore IDE0051
 
     override protected void OnPlayerMoveFinishWithShouldCountMove(Vector2Int playerPosition, bool shouldCountMove)
     {
