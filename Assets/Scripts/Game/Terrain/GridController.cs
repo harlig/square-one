@@ -16,7 +16,9 @@ public class GridController : Singleton<GridController>
     private List<List<TileController>> gridRows;
     private Color startingColor;
     private GameObject _obstacleGameObject;
+    // TODO need to keep track of moving obstacles too
     private HashSet<Vector2Int> stationaryObstaclePositions = new();
+    private Dictionary<Vector2Int, MovingObstacle> movingObstaclePositionToControllerMap = new();
 
     public void SetupGrid(int xSize, int ySize)
     {
@@ -118,6 +120,11 @@ public class GridController : Singleton<GridController>
         GameObject obj = Instantiate(obstaclePrefab, new Vector3Int(x, 1, y), Quaternion.identity);
         MovingObstacle obstacle = obj.AddComponent<MovingObstacle>();
         obstacle.SetName($"moving - row{x}col{y}");
+        obstacle.SetAfterRollAction((didFinishMove, _, beforeMovePosition) => AfterMovingObjectMoves(didFinishMove, beforeMovePosition));
+        movingObstaclePositionToControllerMap.Add(obstacle.GetPositionAsVector2Int(), obstacle);
+
+        // moving obstacle should call function to update something with its location
+        // obstacle.SetLocationUpdaterFunction();
 
         obstacle.transform.parent = _obstacleGameObject.transform;
 
@@ -127,9 +134,37 @@ public class GridController : Singleton<GridController>
         return obstacle;
     }
 
+    void AfterMovingObjectMoves(bool didFinishMove, Vector3 beforeMovePosition3d)
+    {
+        Vector2Int beforeMovePosition = new(Mathf.RoundToInt(beforeMovePosition3d.x), Mathf.RoundToInt(beforeMovePosition3d.z));
+        Debug.LogFormat("Object has moved, {0} {1}", didFinishMove, beforeMovePosition);
+        if (!movingObstaclePositionToControllerMap.ContainsKey(beforeMovePosition))
+        {
+            Debug.LogAssertionFormat("Didn't find this obstacle previously in this position {0}", beforeMovePosition);
+            return;
+        }
+        MovingObstacle obstacle = movingObstaclePositionToControllerMap[beforeMovePosition];
+
+        if (!movingObstaclePositionToControllerMap.ContainsKey(obstacle.GetPositionAsVector2Int()))
+        {
+            movingObstaclePositionToControllerMap.Remove(beforeMovePosition);
+            movingObstaclePositionToControllerMap.Add(obstacle.GetPositionAsVector2Int(), obstacle);
+        }
+        else
+        {
+            Debug.Log("Something was here, going back to old spot!");
+            obstacle.UndoLastMove();
+        }
+    }
+
     private HashSet<Vector2Int> GetCurrentStationaryObstacles()
     {
-        return stationaryObstaclePositions;
+        HashSet<Vector2Int> allPositions = stationaryObstaclePositions;
+        foreach (Vector2Int location in movingObstaclePositionToControllerMap.Keys)
+        {
+            allPositions.Add(location);
+        }
+        return allPositions;
     }
 
     public Func<HashSet<Vector2Int>> GetCurrentStationaryObstaclesAction()

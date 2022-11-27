@@ -32,8 +32,8 @@ public class PlayerController : Singleton<PlayerController>
 
         playerInstanceGameObject = gameObject;
 
-        // defines roll speed and allows to roll
-        Cube = new(this, 4.4f, () => BeforeRollActions(), (moveCompleted, moveShouldCount) => AfterRollActions(moveCompleted, moveShouldCount));
+        // defines roll speed and allows to roll. can pass through beforeMovePosition if we want it
+        Cube = new(this, 4.4f, () => BeforeRollActions(), (moveCompleted, moveShouldCount, beforeMovePosition) => AfterRollActions(moveCompleted, moveShouldCount));
         currentPosition = GetRawCurrentPosition();
         CameraController.OnCameraRotate += TrackCameraLocation;
     }

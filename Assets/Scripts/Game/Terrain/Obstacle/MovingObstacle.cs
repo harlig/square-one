@@ -13,6 +13,7 @@ public class MovingObstacle : ObstacleController
     }
 
     private bool _isPatrolling;
+    private bool _moveTowardsPlayer = false;
     private Func<HashSet<Vector2Int>> getCurrentStationaryObstacles;
     private bool aggressive = true;
 
@@ -115,7 +116,7 @@ public class MovingObstacle : ObstacleController
         _moveTowardsPlayer = false;
     }
 
-    public void SetAfterRollAction(Action<bool, bool> afterRoll)
+    public void SetAfterRollAction(Action<bool, bool, Vector3> afterRoll)
     {
         Cube.SetAfterRollAction(afterRoll);
     }
@@ -231,7 +232,10 @@ public class MovingObstacle : ObstacleController
         }
     }
 
-
+    public void UndoLastMove()
+    {
+        Cube.UndoLastMove();
+    }
 
     private void OnPlayerMoveFinish(Vector2Int playerPosition, bool moveShouldCount)
     {
@@ -256,6 +260,4 @@ public class MovingObstacle : ObstacleController
         PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
     }
 #pragma warning restore IDE0051
-
-    private bool _moveTowardsPlayer = false;
 }
