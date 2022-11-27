@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 
 public class GameStateManager
@@ -122,10 +122,7 @@ public class GameStateManager
 
     private void WaypointHit()
     {
-        if (OnWaypointHit != null)
-        {
-            OnWaypointHit(activeWaypoint, waypoints[activeWaypoint]);
-        }
+        OnWaypointHit?.Invoke(activeWaypoint, waypoints[activeWaypoint]);
 
         if (AutoSpawnEnabled)
         {
@@ -143,10 +140,7 @@ public class GameStateManager
 
 
         currentState = nextState;
-        if (OnStateChange != null)
-        {
-            OnStateChange(currentState);
-        }
+        OnStateChange?.Invoke(currentState);
     }
 
     public void CheckPlayerState()
