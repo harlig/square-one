@@ -18,7 +18,6 @@ public abstract class LevelManager : MonoBehaviour
 
     protected Vector2Int squareOne;
     protected bool levelActive;
-    protected List<Vector2Int> waypoints;
 
     protected GameStateManager gsm;
 

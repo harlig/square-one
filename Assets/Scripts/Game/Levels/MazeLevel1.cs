@@ -13,13 +13,14 @@ public class MazeLevel1 : LevelManager
 #pragma warning restore IDE0051
     {
         gridSizeX = gridSizeY = 12;
-        turnLimit = 40;
+        turnLimit = 60;
 
         SetupLevel(2, 4);
 
         Vector2Int[] waypointsInOrder = new[] {
-            new Vector2Int(gridSizeX - 1, gridSizeY - 2),
-            new Vector2Int(gridSizeX - 2, gridSizeY - 1),
+            new Vector2Int(10, 7),
+            new Vector2Int(9, 3),
+            new Vector2Int(3, 10),
             new Vector2Int(squareOne.x, squareOne.y)
         };
 
@@ -108,16 +109,24 @@ public class MazeLevel1 : LevelManager
             new Vector2Int(10, 10),
         };
 
+        obstacles = new();
         for (int x = 0; x < gridSizeX; x++)
         {
             for (int y = 0; y < gridSizeY; y++)
             {
-                if (!path.Contains(new Vector2Int(x, y)))
+                Vector2Int pos = new(x, y);
+                if (!path.Contains(pos))
                 {
+                    if (Array.IndexOf(waypointsInOrder, pos) >= 0)
+                    {
+                        Debug.LogErrorFormat("Tried to set a waypoint but cover it up with obstacle {0}", pos);
+                    }
                     obstacles.Add(gridController.AddStationaryObstacleAtPosition(x, y));
                 }
             }
         }
+
+        gridController.SpawnIceTile(5, 6, OnIceTileSteppedOn);
     }
 
 
