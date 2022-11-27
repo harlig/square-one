@@ -2,24 +2,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // full ice level with following obstacle
-public class IceLevel3 : LevelManager
+public class IceLevel4 : LevelManager
 {
 
 #pragma warning disable IDE0051
     void Start()
     {
-        gridSizeX = gridSizeY = 8;
+        gridSizeX = gridSizeY = 10;
         turnLimit = 20;
 
-        SetupLevel(1, 1);
+        SetupLevel(5, 5);
 
         // TODO should rotate camera?
         // TODO should rely on moving the obstacle around so you can hit it as a stopper
 
         Vector2Int[] waypointsInOrder = new[] {
-            new Vector2Int(gridSizeX - 2, 0),
-            new Vector2Int(4, gridSizeY - 5),
-            new Vector2Int(0, gridSizeY - 1),
+            new Vector2Int(gridSizeX - 2, 1),
+            new Vector2Int(1, 4),
             new Vector2Int(squareOne.x, squareOne.y),
         };
 
@@ -36,21 +35,30 @@ public class IceLevel3 : LevelManager
             }
         }
 
+        // TODO this is copied from IceLevel2, think of new puzzle
+
+        // player is at 5, 5 so this is hittable
         gridController.AddStationaryObstacleAtPosition(5, 0);
         gridController.AddStationaryObstacleAtPosition(gridSizeX - 1, 1);
         gridController.AddStationaryObstacleAtPosition(gridSizeX - 2, 6);
         gridController.AddStationaryObstacleAtPosition(2, 5);
-        gridController.AddStationaryObstacleAtPosition(4, gridSizeY);
+        // allows player to hit red
         gridController.AddStationaryObstacleAtPosition(3, 3);
         gridController.AddStationaryObstacleAtPosition(0, 4);
         gridController.AddStationaryObstacleAtPosition(1, gridSizeY);
+        // allows player to hit blue
         gridController.AddStationaryObstacleAtPosition(squareOne.x + 1, gridSizeY - 1);
-        gridController.AddStationaryObstacleAtPosition(-1, gridSizeY - 1);
 
         gridController.AddStationaryObstacleAtPosition(gridSizeX - 2, -1);
         gridController.AddStationaryObstacleAtPosition(-1, gridSizeY - 2);
         gridController.AddStationaryObstacleAtPosition(1, -1);
         gridController.AddStationaryObstacleAtPosition(gridSizeX - 1, 2);
+
+        MovingObstacle lowerQuadrantFollower = gridController.AddMovingObstacleAtPosition(0, 0);
+        lowerQuadrantFollower.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
+
+        MovingObstacle upperQuadrantFollower = gridController.AddMovingObstacleAtPosition(gridSizeX - 1, gridSizeY - 3);
+        upperQuadrantFollower.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
     }
 
 #pragma warning restore IDE0051
