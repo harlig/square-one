@@ -127,6 +127,13 @@ public class MazeLevel1 : LevelManager
         }
 
         gridController.SpawnIceTile(5, 6, OnIceTileSteppedOn);
+
+        MovingObstacle bottomRightQuadrantFollower = gridController.AddMovingObstacleAtPosition(10, 1);
+        bottomRightQuadrantFollower.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
+
+        // TODO not sure this is winnable
+        // MovingObstacle upperLeftQuadrantFollower = gridController.AddMovingObstacleAtPosition(1, 9);
+        // upperLeftQuadrantFollower.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
     }
 
 
