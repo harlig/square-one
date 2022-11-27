@@ -73,7 +73,8 @@ public abstract class LevelManager : MonoBehaviour
     protected void SetTerminalGameState(GameObject textElementToEnable, float waitDelaySeconds)
     {
         levelActive = false;
-        playerController.StopCountingMoves();
+        playerController.EnterTerminalGameState();
+
         StartCoroutine(SetElementAfterDelay(textElementToEnable, waitDelaySeconds));
 
         static IEnumerator SetElementAfterDelay(GameObject element, float waitDelaySeconds)
@@ -109,6 +110,7 @@ public abstract class LevelManager : MonoBehaviour
         Debug.Log("Enabling player event");
         PlayerController.OnMoveStart += OnPlayerMoveStart;
         PlayerController.OnMoveFinish += OnPlayerMoveFinish;
+        PlayerController.OnMoveFinish += OnPlayerMoveFinishWithShouldCountMove;
     }
 
     // make sure to deregister at disable time
@@ -117,6 +119,7 @@ public abstract class LevelManager : MonoBehaviour
         Debug.Log("Disabling player event");
         PlayerController.OnMoveStart -= OnPlayerMoveStart;
         PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
+        PlayerController.OnMoveFinish -= OnPlayerMoveFinishWithShouldCountMove;
 
         gsm.OnStateChange -= OnStageChange;
     }

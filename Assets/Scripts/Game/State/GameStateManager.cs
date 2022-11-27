@@ -16,7 +16,7 @@ public class GameStateManager
     }
 
     private GridController gridController;
-    private PlayerController playerController;
+    private readonly PlayerController playerController;
 
     private int turnLimit;
 
@@ -131,14 +131,18 @@ public class GameStateManager
         }
     }
 
+    private readonly HashSet<GameState> terminalGameStates = new() {
+        GameState.SUCCESS,
+        GameState.FAILED
+    };
+
     void TransitionState(GameState nextState)
     {
-        if (currentState == GameState.FAILED || currentState == GameState.SUCCESS)
+        if (terminalGameStates.Contains(currentState))
         {
             // do not allow to transition to failed / success states from failed / success states
             return;
         }
-
 
         currentState = nextState;
         OnStateChange?.Invoke(currentState);

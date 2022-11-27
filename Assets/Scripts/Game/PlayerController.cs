@@ -16,6 +16,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private Vector3 originalPosition;
 
+    private bool inTerminalGameState = false;
     private bool shouldCountMoves = true;
     private int moveCount;
     private GameObject playerInstanceGameObject;
@@ -57,7 +58,7 @@ public class PlayerController : Singleton<PlayerController>
         int movementY = Mathf.RoundToInt(movementVector.y);
 
         Vector3Int relativeMoveDirection = GetRelativeMoveDirectionWithCameraOffset(movementX, movementY);
-        Cube.MoveInDirectionIfNotMoving(relativeMoveDirection, Cube.MoveType.ROLL, shouldCountMoves);
+        Cube.MoveInDirectionIfNotMoving(relativeMoveDirection, Cube.MoveType.ROLL, shouldCountMoves && !inTerminalGameState);
 
         // TODO player can float by constant input, how to disallow? prev solution below
 
@@ -102,7 +103,6 @@ public class PlayerController : Singleton<PlayerController>
 
     void AfterRollActions(bool moveCompleted, bool shouldMoveBeCounted)
     {
-
         _isMoving = false;
 
         currentPosition = GetRawCurrentPosition();
@@ -170,6 +170,11 @@ public class PlayerController : Singleton<PlayerController>
     public void StopCountingMoves()
     {
         shouldCountMoves = false;
+    }
+
+    public void EnterTerminalGameState()
+    {
+        inTerminalGameState = true;
     }
 
     /**
