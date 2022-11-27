@@ -79,10 +79,10 @@ public class IceLevel3 : LevelManager
         gridController.AddStationaryObstacleAtPosition(gridSizeX - 1, 2);
 
         MovingObstacle lowerQuadrantFollower = gridController.AddMovingObstacleAtPosition(0, 0);
-        lowerQuadrantFollower.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction());
+        lowerQuadrantFollower.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
 
         MovingObstacle upperQuadrantFollower = gridController.AddMovingObstacleAtPosition(gridSizeX - 1, gridSizeY - 3);
-        upperQuadrantFollower.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction());
+        upperQuadrantFollower.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
 
 
         currentGameState = GameState.START;
