@@ -142,7 +142,6 @@ public class MazeLevel1 : LevelManager
         if (shouldCountMove)
         {
             turnsLeft = turnLimit - playerController.GetMoveCount();
-
         }
     }
 

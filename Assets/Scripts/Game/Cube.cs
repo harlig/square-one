@@ -146,6 +146,7 @@ public class Cube
         bool finishedMove = true;
         for (var i = 0; i < 90 / _rollSpeed; i++)
         {
+            // TODO could use circuit breaker to stop movement when you hit like a wall
             if (circuitBreakMovement) { finishedMove = false; break; };
 
             float rotationAngle = Mathf.Min(_rollSpeed, rotationRemaining);

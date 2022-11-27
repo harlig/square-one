@@ -111,7 +111,7 @@ public class PlayerController : Singleton<PlayerController>
         {
             if (shouldMoveBeCounted) moveCount++;
         }
-        OnMoveFinish?.Invoke(currentPosition, shouldMoveBeCounted);
+        OnMoveFinish?.Invoke(currentPosition, moveCompleted && shouldMoveBeCounted);
     }
 
     /**

@@ -219,7 +219,6 @@ public class MovingObstacle : ObstacleController
 
     private void MoveInNextDirectionIfNoBlocker(Vector2Int curPosition, Queue<Vector3> directions, HashSet<Vector2Int> currentStationaryObstacles, Vector2Int? playerPosition)
     {
-        Debug.Log("Check if we have a direction to go");
         // not possible to try other way to move now
         if (0 == directions.Count) return;
 
@@ -227,7 +226,6 @@ public class MovingObstacle : ObstacleController
         Vector3 desiredPosition3d = new Vector3Int(curPosition.x, 0, curPosition.y) + thisDir;
         Vector2Int desiredPosition = new(Mathf.RoundToInt(desiredPosition3d.x), Mathf.RoundToInt(desiredPosition3d.z));
 
-        Debug.LogFormat("Checking if we can move in this direction {0} at this position {1} with this desired pos {2}", thisDir, curPosition, desiredPosition);
         if (IsStationaryObstacleInWay(desiredPosition.x, desiredPosition.y, currentStationaryObstacles))
         {
             MoveInNextDirectionIfNoBlocker(curPosition, directions, currentStationaryObstacles, playerPosition);

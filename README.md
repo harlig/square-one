@@ -35,6 +35,7 @@ Here's what it looks like in its current state
 
 Should consider accessibility and write letters or some symbol on tiles to differentiate. 
 
+- [ ] Basic level or two that introduce concepts with little popups as you hit waypoints
 - [x] Full ice map with obstacles that stop you from sliding
 - [x] Maze with stationary obstacles
 - [ ] Maze with moving obstacles
