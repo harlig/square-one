@@ -117,7 +117,6 @@ public class PlayerController : Singleton<PlayerController>
     {
         _isMoving = false;
 
-
         currentPosition = GetRawCurrentPosition();
         OnSingleMoveFinish?.Invoke(currentPosition, moveCompleted && shouldMoveBeCounted);
 
@@ -135,14 +134,14 @@ public class PlayerController : Singleton<PlayerController>
             return;
         }
 
-        Debug.LogFormat("anyMoveCompleted {0}, shouldAnyMoveBeCounted {1}", anyMoveCompleted, shouldAnyMoveBeCounted);
+        bool moveHappenedAndShouldBeCount = anyMoveCompleted && shouldAnyMoveBeCounted;
 
-        if (anyMoveCompleted && shouldAnyMoveBeCounted)
+        if (moveHappenedAndShouldBeCount)
         {
             moveCount++;
         }
 
-        OnMoveFullyCompleted?.Invoke(currentPosition, shouldAnyMoveBeCounted);
+        OnMoveFullyCompleted?.Invoke(currentPosition, moveHappenedAndShouldBeCount);
 
         forcedStopMoving = false;
         anyMoveCompleted = false;
