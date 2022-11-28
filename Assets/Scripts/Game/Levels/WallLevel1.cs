@@ -17,14 +17,14 @@ public class WallLevel1 : LevelManager
 
         SetupLevel(2, 3);
 
-        Vector2Int[] waypointsInOrder = new[] {
+        Vector2Int[] waypointPositionsInOrder = new[] {
             new Vector2Int(gridSizeX - 1, gridSizeY - 2),
             new Vector2Int(gridSizeX - 2, gridSizeY - 1),
             new Vector2Int(squareOne.x, squareOne.y)
         };
 
         // setup GSM and make sure to turn off autospawn so we can control
-        gsm.SetWaypoints(waypointsInOrder, false);
+        gsm.SetWaypoints(waypointPositionsInOrder, false);
         gsm.SetTurnLimit(turnLimit);
         gsm.OnWaypointHit += OnWaypointHit;
 
@@ -44,15 +44,15 @@ public class WallLevel1 : LevelManager
 #pragma warning restore IDE0051
 
     // must implement since we don't want the GSM to auto manage the waypoints
-    void OnWaypointHit(int waypoint, Vector2Int pos)
+    void OnWaypointHit(int waypointNdx, Waypoint _)
     {
-        if (waypoint == 0)
+        if (waypointNdx == 0)
         {
             // if we hit the first waypoint, move the wall tiles
             int desiredObjectMoveCount = timesWallMoved + 2;
             StartCoroutine(WaitForObjectToMove(desiredObjectMoveCount, () => MoveObstacles(Vector3.right), () => gsm.SpawnNextWaypoint()));
         }
-        else if (waypoint == 1)
+        else if (waypointNdx == 1)
         {
             gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 2, OnIceTileSteppedOn);
             gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 3, OnIceTileSteppedOn);

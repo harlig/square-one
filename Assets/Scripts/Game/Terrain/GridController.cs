@@ -226,9 +226,9 @@ public class GridController : Singleton<GridController>
         ((PaintTile)gridRows[x][y]).Paint(color);
     }
 
-    public void SpawnWaypoint(Vector2Int position, WaypointController.OnTriggeredAction onTriggeredAction)
+    public void SpawnWaypoint(Waypoint waypoint, WaypointController.OnTriggeredAction onTriggeredAction)
     {
-        SpawnWaypoint(position.x, position.y, onTriggeredAction);
+        SpawnWaypoint(waypoint.Position.x, waypoint.Position.y, onTriggeredAction);
     }
 
     public void SpawnWaypoint(int x, int y, WaypointController.OnTriggeredAction onTriggeredAction)
