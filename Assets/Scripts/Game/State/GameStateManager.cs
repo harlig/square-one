@@ -204,7 +204,7 @@ public class GameStateManager
         List<Waypoint> waypoints = new();
         foreach (Vector2Int pos in waypointPositions)
         {
-            waypoints.Add(Waypoint.of(pos));
+            waypoints.Add(Waypoint.Of(pos));
         }
         return waypoints;
     }

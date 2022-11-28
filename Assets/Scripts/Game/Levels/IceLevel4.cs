@@ -14,11 +14,11 @@ public class IceLevel4 : LevelManager
 
         // TODO how to make waypoints smaller, that's the point of this level
         Waypoint[] waypointsInOrder = new[] {
-            Waypoint.of(gridSizeX - 1, gridSizeY - 1),
-            Waypoint.of(4, gridSizeY - 5),
-            Waypoint.of(0, gridSizeY - 1),
-            Waypoint.of(gridSizeX - 1, gridSizeY - 1),
-            Waypoint.of(squareOne.x, squareOne.y),
+            Waypoint.Of(gridSizeX - 1, gridSizeY - 1),
+            Waypoint.Of(4, gridSizeY - 5),
+            Waypoint.Of(0, gridSizeY - 1),
+            Waypoint.Of(gridSizeX - 1, gridSizeY - 1),
+            Waypoint.Of(squareOne.x, squareOne.y),
         };
 
 

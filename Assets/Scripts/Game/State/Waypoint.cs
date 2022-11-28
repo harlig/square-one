@@ -6,12 +6,12 @@ public class Waypoint
     public WaypointOptions Options { get; private set; }
     // after move action?
 
-    public static Waypoint of(Vector2Int pos)
+    public static Waypoint Of(Vector2Int pos)
     {
         return new Waypoint(pos);
     }
 
-    public static Waypoint of(int x, int y)
+    public static Waypoint Of(int x, int y)
     {
         return new Waypoint(x, y);
     }
