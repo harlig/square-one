@@ -236,9 +236,9 @@ public class GridController : Singleton<GridController>
         waypointGameObject.name = string.Format("Waypoint [{0}, {1}]", x, y);
         WaypointController waypointController = waypointGameObject.GetComponent<WaypointController>();
 
-        if (waypoint.Options != null && waypoint.Options.OnTriggeredAction != null)
+        if (waypoint.HasTriggeredAction)
         {
-            waypointController.OnTriggered += waypoint.Options.OnTriggeredAction;
+            waypointController.OnTriggered += waypoint.OnTriggeredAction;
         }
         else
         {

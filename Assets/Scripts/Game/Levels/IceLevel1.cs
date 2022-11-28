@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 // simple level which introduces player to ice
