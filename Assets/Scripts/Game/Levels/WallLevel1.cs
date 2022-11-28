@@ -17,10 +17,10 @@ public class WallLevel1 : LevelManager
 
         SetupLevel(2, 3);
 
-        Vector2Int[] waypointPositionsInOrder = new[] {
-            new Vector2Int(gridSizeX - 1, gridSizeY - 2),
-            new Vector2Int(gridSizeX - 2, gridSizeY - 1),
-            new Vector2Int(squareOne.x, squareOne.y)
+        Waypoint[] waypointPositionsInOrder = new[] {
+            Waypoint.Of(gridSizeX - 1, gridSizeY - 2),
+            Waypoint.Of(gridSizeX - 2, gridSizeY - 1, Waypoint.WaypointOptions.Of(0.2f, Color.cyan)),
+            Waypoint.Of(squareOne.x, squareOne.y)
         };
 
         // setup GSM and make sure to turn off autospawn so we can control
