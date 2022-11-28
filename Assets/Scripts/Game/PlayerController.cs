@@ -10,9 +10,9 @@ public class PlayerController : Singleton<PlayerController>
     public delegate void MoveStartAction(Vector2Int positionBeforeMove);
     public static event MoveStartAction OnMoveStart;
 
-    // currentPosition here is after player moves
-    public delegate void MoveFinishAction(Vector2Int positionAfterMove, bool moveShouldCount);
-    public static event MoveFinishAction OnMoveFinish;
+    // currentPosition here is after player moves one single movement. You probably want to use OnMoveFullyCompleted
+    public delegate void SingleMoveFinishAction(Vector2Int positionAfterMove, bool moveShouldCount);
+    public static event SingleMoveFinishAction OnSingleMoveFinish;
 
     // currentPosition here is after player moves
     public delegate void MoveFullyCompletedAction(Vector2Int positionAfterMove, bool oneMoveInThereShouldCount);
@@ -119,7 +119,7 @@ public class PlayerController : Singleton<PlayerController>
 
 
         currentPosition = GetRawCurrentPosition();
-        OnMoveFinish?.Invoke(currentPosition, moveCompleted && shouldMoveBeCounted);
+        OnSingleMoveFinish?.Invoke(currentPosition, moveCompleted && shouldMoveBeCounted);
 
         anyMoveCompleted |= moveCompleted;
         shouldAnyMoveBeCounted |= shouldMoveBeCounted;
@@ -250,14 +250,14 @@ public class PlayerController : Singleton<PlayerController>
     public void ForceMoveInDirection(Vector3 direction)
     {
         StopCountingMoves();
-        OnMoveFinish += StartCountingMovesAndDeregisterOnMoveFinish;
+        OnSingleMoveFinish += StartCountingMovesAndDeregisterOnMoveFinish;
         Cube.MoveInDirectionIfNotMoving(direction, Cube.MoveType.SLIDE, false);
     }
 
     private void StartCountingMovesAndDeregisterOnMoveFinish(Vector2Int pos, bool _)
     {
         StartCountingMoves();
-        OnMoveFinish -= StartCountingMovesAndDeregisterOnMoveFinish;
+        OnSingleMoveFinish -= StartCountingMovesAndDeregisterOnMoveFinish;
     }
 
     private void StartCountingMoves()

@@ -110,7 +110,7 @@ public abstract class LevelManager : MonoBehaviour
     {
         Debug.Log("Enabling player event");
         PlayerController.OnMoveStart += OnPlayerMoveStart;
-        PlayerController.OnMoveFinish += OnPlayerMoveFinish;
+        PlayerController.OnSingleMoveFinish += OnPlayerMoveFinish;
         PlayerController.OnMoveFullyCompleted += OnPlayerMoveFullyCompleted;
         // PlayerController.OnMoveFullyCompleted += OnPlayerMoveFullyCompleted;
     }
@@ -120,7 +120,7 @@ public abstract class LevelManager : MonoBehaviour
     {
         Debug.Log("Disabling player event");
         PlayerController.OnMoveStart -= OnPlayerMoveStart;
-        PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
+        PlayerController.OnSingleMoveFinish -= OnPlayerMoveFinish;
         PlayerController.OnMoveFullyCompleted -= OnPlayerMoveFullyCompleted;
         // PlayerController.OnMoveFinish -= OnPlayerMoveFullyCompleted;
 

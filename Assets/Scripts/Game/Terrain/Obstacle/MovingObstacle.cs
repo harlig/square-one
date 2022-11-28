@@ -257,14 +257,14 @@ public class MovingObstacle : ObstacleController
     // must be done at object enable time
     private void OnEnable()
     {
-        PlayerController.OnMoveFinish += OnPlayerMoveFinish;
+        PlayerController.OnMoveFullyCompleted += OnPlayerMoveFinish;
 
     }
 
     // make sure to deregister at disable time
     private void OnDisable()
     {
-        PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
+        PlayerController.OnMoveFullyCompleted -= OnPlayerMoveFinish;
     }
 #pragma warning restore IDE0051
 }

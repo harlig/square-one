@@ -62,13 +62,13 @@ public class IceTile : PaintTile
     void OnEnable()
     {
         PlayerController.OnMoveStart += OnPlayerMoveStart;
-        PlayerController.OnMoveFinish += OnPlayerMoveFinish;
+        PlayerController.OnSingleMoveFinish += OnPlayerMoveFinish;
     }
 
     void OnDisable()
     {
         PlayerController.OnMoveStart -= OnPlayerMoveStart;
-        PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
+        PlayerController.OnSingleMoveFinish -= OnPlayerMoveFinish;
     }
 #pragma warning restore IDE0051
 }
