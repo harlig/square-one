@@ -12,13 +12,12 @@ public class IceLevel4 : LevelManager
 
         SetupLevel();
 
-        // TODO how to make waypoints smaller, that's the point of this level
-        Vector2Int[] waypointsInOrder = new[] {
-            new Vector2Int(gridSizeX - 1, gridSizeY - 1),
-            new Vector2Int(4, gridSizeY - 5),
-            new Vector2Int(0, gridSizeY - 1),
-            new Vector2Int(gridSizeX - 1, gridSizeY - 1),
-            new Vector2Int(squareOne.x, squareOne.y),
+        Waypoint[] waypointsInOrder = new[] {
+            Waypoint.Of(gridSizeX - 1, gridSizeY - 1, Waypoint.WaypointOptions.Of(0.3f, Color.yellow)),
+            Waypoint.Of(4, gridSizeY - 5),
+            Waypoint.Of(0, gridSizeY - 1),
+            Waypoint.Of(gridSizeX - 1, gridSizeY - 1),
+            Waypoint.Of(squareOne.x, squareOne.y),
         };
 
 

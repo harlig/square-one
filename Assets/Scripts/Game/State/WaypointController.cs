@@ -14,4 +14,14 @@ public class WaypointController : MonoBehaviour
         OnTriggered?.Invoke();
     }
 #pragma warning restore IDE0051
+
+    public void SetSize(float size)
+    {
+        transform.localScale = new Vector3(size, size, size);
+    }
+
+    public void SetColor(Color color)
+    {
+        GetComponent<MeshRenderer>().material.color = color;
+    }
 }
