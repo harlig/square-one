@@ -1,25 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// full ice level with following obstacle
+// full ice level with hidden waypoints
 public class IceLevel4 : LevelManager
 {
 
 #pragma warning disable IDE0051
     void Start()
     {
-        gridSizeX = gridSizeY = 8;
+        gridSizeX = gridSizeY = 9;
         turnLimit = 20;
 
-        SetupLevel(1, 1);
+        SetupLevel();
 
-        // TODO should rotate camera?
-        // TODO should rely on moving the obstacle around so you can hit it as a stopper
-
+        // TODO should add mechanic where hitting a waypoint moves an obstacle 
         Vector2Int[] waypointsInOrder = new[] {
-            new Vector2Int(gridSizeX - 2, 0),
+            new Vector2Int(gridSizeX - 1, gridSizeY - 1),
             new Vector2Int(4, gridSizeY - 5),
             new Vector2Int(0, gridSizeY - 1),
+            new Vector2Int(gridSizeX - 1, gridSizeY - 1),
             new Vector2Int(squareOne.x, squareOne.y),
         };
 
@@ -36,26 +35,25 @@ public class IceLevel4 : LevelManager
             }
         }
 
-        gridController.AddStationaryObstacleAtPosition(5, 0);
-        gridController.AddStationaryObstacleAtPosition(gridSizeX - 1, 1);
-        gridController.AddStationaryObstacleAtPosition(gridSizeX - 2, 6);
-        gridController.AddStationaryObstacleAtPosition(2, 5);
-        gridController.AddStationaryObstacleAtPosition(4, gridSizeY);
-        gridController.AddStationaryObstacleAtPosition(3, 3);
-        gridController.AddStationaryObstacleAtPosition(0, 4);
-        gridController.AddStationaryObstacleAtPosition(1, gridSizeY);
-        gridController.AddStationaryObstacleAtPosition(squareOne.x + 1, gridSizeY - 1);
-        gridController.AddStationaryObstacleAtPosition(-1, gridSizeY - 1);
+        gridController.AddStationaryObstacleAtPosition(playerController.GetCurrentPosition().x, gridSizeY);
 
-        gridController.AddStationaryObstacleAtPosition(gridSizeX - 2, -1);
-        gridController.AddStationaryObstacleAtPosition(-1, gridSizeY - 2);
-        gridController.AddStationaryObstacleAtPosition(1, -1);
-        gridController.AddStationaryObstacleAtPosition(gridSizeX - 1, 2);
+        gridController.AddStationaryObstacleAtPosition(gridSizeX, gridSizeY - 1);
+        gridController.AddStationaryObstacleAtPosition(gridSizeX - 1, gridSizeY);
+
+        gridController.AddStationaryObstacleAtPosition(gridSizeX - 2, gridSizeY - 2);
+        gridController.AddStationaryObstacleAtPosition(gridSizeX - 3, gridSizeY - 2);
+        gridController.AddStationaryObstacleAtPosition(gridSizeX - 2, gridSizeY - 3);
+
+        gridController.AddStationaryObstacleAtPosition(gridSizeX - 1, 4);
+        gridController.AddStationaryObstacleAtPosition(3, 5);
+        gridController.AddStationaryObstacleAtPosition(4, -1);
+        gridController.AddStationaryObstacleAtPosition(-1, 0);
+        gridController.AddStationaryObstacleAtPosition(0, gridSizeY);
     }
 
 #pragma warning restore IDE0051
 
-    override protected void OnPlayerMoveFinishWithShouldCountMove(Vector2Int playerPosition, bool shouldCountMove)
+    override protected void OnPlayerMoveFullyCompleted(Vector2Int playerPosition, bool shouldCountMove)
     {
         if (shouldCountMove)
         {

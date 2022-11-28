@@ -11,6 +11,7 @@ Want to play? Head over to [Releases](/Releases/) and downloaded the latest rele
 - [SquareOne](#squareone)
 - [Demo](#demo)
 - [Ideas](#ideas)
+  - [MVP](#mvp)
   - [Level ideas](#level-ideas)
   - [Mechanic ideas](#mechanic-ideas)
   - [Meta ideas](#meta-ideas)
@@ -31,16 +32,21 @@ Here's what it looks like in its current state
 - [ ] Leaderboard for total turns remaining summation golf
 - [ ] Stars per level based on how well they do
 
+## MVP
+
+- [ ] How to page?
+- [ ] Basic level or two that introduce concepts with little popups as you hit waypoints
+- [x] Full ice map with obstacles that stop you from sliding
+- [x] Maze with stationary obstacles
+- [x] Maze with moving obstacle(s)
+- [x] Different all ice puzzles, or mostly ice
+- [ ] Credits page
+
 ## Level ideas
 
 Should consider accessibility and write letters or some symbol on tiles to differentiate. 
 
-- [ ] Basic level or two that introduce concepts with little popups as you hit waypoints
-- [x] Full ice map with obstacles that stop you from sliding
-- [x] Maze with stationary obstacles
-- [ ] Maze with moving obstacles
 - [ ] Bigger wall moving level that continues to move towards you
-- [x] Different all ice puzzles, or mostly ice
 - [ ] enemy is blocked away from you and moving it like in x direction causes it to eventually come closer in y direction
 
 ## Mechanic ideas
