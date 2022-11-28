@@ -43,6 +43,7 @@ public class Waypoint
     {
         public float? Size { get; private set; }
         public Color? WaypointColor { get; private set; }
+        public WaypointController.OnTriggeredAction OnTriggeredAction { get; set; }
 
         public static WaypointOptions Of(float size)
         {
@@ -54,6 +55,17 @@ public class Waypoint
             return new WaypointOptions(size, color);
         }
 
+        public static WaypointOptions Of(WaypointController.OnTriggeredAction onTriggeredAction)
+        {
+            return new WaypointOptions(onTriggeredAction);
+        }
+
+        public WaypointOptions WithOnTriggeredAction(WaypointController.OnTriggeredAction onTriggeredAction)
+        {
+            OnTriggeredAction = onTriggeredAction;
+            return this;
+        }
+
         private WaypointOptions(float size)
         {
             Size = size;
@@ -63,6 +75,11 @@ public class Waypoint
         {
             Size = size;
             WaypointColor = color;
+        }
+
+        private WaypointOptions(WaypointController.OnTriggeredAction onTriggeredAction)
+        {
+            OnTriggeredAction = onTriggeredAction;
         }
     }
 }

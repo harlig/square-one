@@ -235,7 +235,15 @@ public class GridController : Singleton<GridController>
         waypointGameObject.transform.localPosition = new Vector3(x, 1.0f, y);
         waypointGameObject.name = string.Format("Waypoint [{0}, {1}]", x, y);
         WaypointController waypointController = waypointGameObject.GetComponent<WaypointController>();
-        waypointController.OnTriggered += onTriggeredAction;
+
+        if (waypoint.Options != null && waypoint.Options.OnTriggeredAction != null)
+        {
+            waypointController.OnTriggered += waypoint.Options.OnTriggeredAction;
+        }
+        else
+        {
+            waypointController.OnTriggered += onTriggeredAction;
+        }
 
         // TODO animate this lil guy and make them spin or something
         if (waypoint.Options != null)

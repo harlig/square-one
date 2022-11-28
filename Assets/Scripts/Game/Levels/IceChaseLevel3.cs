@@ -23,7 +23,7 @@ public class IceChaseLevel3 : LevelManager
         };
 
 
-        gsm.SetWaypoints(waypointsInOrder, true);
+        gsm.SetWaypoints(waypointsInOrder);
         gsm.SetTurnLimit(turnLimit);
         gsm.ManageGameState();
 
