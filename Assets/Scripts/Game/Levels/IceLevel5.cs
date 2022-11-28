@@ -68,7 +68,7 @@ public class IceLevel5 : LevelManager
         gridController.AddStationaryObstacleAtPosition(1, 6);
         gridController.AddStationaryObstacleAtPosition(5, 2);
         gridController.AddStationaryObstacleAtPosition(2, 7);
-        gridController.AddStationaryObstacleAtPosition(2, 8);
+        gridController.AddStationaryObstacleAtPosition(1, 7);
 
         // TODO this is moving through stuff
         // MovingObstacle follower = gridController.AddMovingObstacleAtPosition(2, 6);

@@ -39,6 +39,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Game/Maze Level 1.unity
     guid: bba2071eab2e6b941a250aa59e698f03
   - enabled: 1
+    path: Assets/Scenes/Game/Ice Level 5.unity
+    guid: 38397bdc30235f84bb20e4e69a6a0c4a
+  - enabled: 1
     path: Assets/Scenes/UI/Game End.unity
     guid: 30c72ad4c38e83f4abd66b258144b6d5
   m_configObjects:
