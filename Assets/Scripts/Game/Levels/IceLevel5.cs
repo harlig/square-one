@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// full ice level with hidden waypoints
+// full ice level with certain waypoints moving obstacles
 public class IceLevel5 : LevelManager
 {
 
@@ -61,8 +61,9 @@ public class IceLevel5 : LevelManager
         gridController.AddStationaryObstacleAtPosition(1, 6);
         gridController.AddStationaryObstacleAtPosition(5, 2);
 
-        MovingObstacle follower = gridController.AddMovingObstacleAtPosition(2, 6);
-        follower.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
+        // TODO this is moving through stuff
+        // MovingObstacle follower = gridController.AddMovingObstacleAtPosition(2, 6);
+        // follower.StartPatrolling(new Vector2Int(6, 8), gridController.GetCurrentStationaryObstaclesAction());
     }
 
 #pragma warning restore IDE0051
