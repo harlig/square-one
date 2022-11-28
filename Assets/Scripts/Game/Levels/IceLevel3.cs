@@ -9,7 +9,7 @@ public class IceLevel3 : LevelManager
     void Start()
     {
         gridSizeX = gridSizeY = 8;
-        turnLimit = 17;
+        turnLimit = 20;
 
         SetupLevel(1, 1);
 
@@ -51,34 +51,15 @@ public class IceLevel3 : LevelManager
         gridController.AddStationaryObstacleAtPosition(-1, gridSizeY - 2);
         gridController.AddStationaryObstacleAtPosition(1, -1);
         gridController.AddStationaryObstacleAtPosition(gridSizeX - 1, 2);
-
-        PlayerController.OnStopMoving += OnPlayerStopMoving;
-    }
-
-    bool hasPlayerStoppedMoving = false;
-    void OnPlayerStopMoving()
-    {
-        hasPlayerStoppedMoving = true;
     }
 
 #pragma warning restore IDE0051
 
-    bool isProcessingMovement = false;
     override protected void OnPlayerMoveFinishWithShouldCountMove(Vector2Int playerPosition, bool shouldCountMove)
     {
-        Debug.LogFormat("playerStoppedMoving {0}, isIceTile {1}, isProcessing {2}", hasPlayerStoppedMoving, gridController.IsIceTile(playerPosition.x, playerPosition.y), isProcessingMovement);
-        if (!hasPlayerStoppedMoving && gridController.IsIceTile(playerPosition.x, playerPosition.y))
-        {
-            Debug.Log("alright we're processing");
-            isProcessingMovement = true;
-            return;
-        }
-
-        if (shouldCountMove || isProcessingMovement)
+        if (shouldCountMove)
         {
             turnsLeft = turnLimit - playerController.GetMoveCount();
-            isProcessingMovement = false;
-            hasPlayerStoppedMoving = false;
         }
     }
 }

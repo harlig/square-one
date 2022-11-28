@@ -95,7 +95,6 @@ public class GameStateManager
         {
             return;
         }
-        // should this happen if player is standing on an ice tile tho?
         if (moveShouldCount && playerController.GetMoveCount() >= turnLimit)
         {
             TransitionState(GameState.FAILED);

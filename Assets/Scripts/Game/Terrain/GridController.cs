@@ -169,16 +169,6 @@ public class GridController : Singleton<GridController>
         return () => GetCurrentStationaryObstacles();
     }
 
-    public bool IsIceTile(int x, int y)
-    {
-        TileController tile = TileAtLocation(x, y);
-        if (tile != null && tile is IceTile)
-        {
-            return true;
-        }
-        return false;
-    }
-
     public TileController TileAtLocation(int x, int y)
     {
         return TileAtLocation(new Vector2Int(x, y));

@@ -14,9 +14,6 @@ public class PlayerController : Singleton<PlayerController>
     public delegate void MoveFinishAction(Vector2Int positionAfterMove, bool moveShouldCount);
     public static event MoveFinishAction OnMoveFinish;
 
-    public delegate void StopMovingAction();
-    public static event StopMovingAction OnStopMoving;
-
     private Vector3 originalPosition;
 
     private bool inTerminalGameState = false;
@@ -109,8 +106,6 @@ public class PlayerController : Singleton<PlayerController>
         _isMoving = false;
 
         currentPosition = GetRawCurrentPosition();
-
-        // should deletermine if there's more movement to do, e.g. if we're on an ice tile?
 
         if (moveCompleted)
         {
@@ -238,7 +233,6 @@ public class PlayerController : Singleton<PlayerController>
     public void StopMoving()
     {
         Cube.StopMoving();
-        OnStopMoving?.Invoke();
     }
 
     public void StartMoving()
