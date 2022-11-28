@@ -50,9 +50,9 @@ public class GameStateManager
 
         activeWaypoint = -1;
 
-        this.waypoints = new List<Vector2Int>();
+        waypoints = new List<Vector2Int>();
 
-        PlayerController.OnMoveFinish += CheckTurnLimit;
+        PlayerController.OnMoveFullyCompleted += CheckTurnLimit;
 
         actions = new();
 
@@ -112,7 +112,7 @@ public class GameStateManager
 
         if (activeWaypoint == waypoints.Count)
         {
-            playerController.StopMoving();
+            playerController.FinishMovingThenStopMovement();
             TransitionState(GameState.SUCCESS);
         }
         else

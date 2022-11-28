@@ -265,6 +265,11 @@ public class PlayerController : Singleton<PlayerController>
         shouldCountMoves = true;
     }
 
+    public void FinishMovingThenStopMovement()
+    {
+        Cube.FinishMovingThenStopMovement();
+        forcedStopMoving = true;
+    }
 
     public void StopMoving()
     {

@@ -94,14 +94,14 @@ public abstract class LevelManager : MonoBehaviour
     protected virtual void OnPlayerMoveStart(Vector2Int playerPositionBeforeMove) { }
     protected virtual void OnPlayerMoveFinish(Vector2Int playerPositionAfterMove) { }
 
-    protected virtual void OnPlayerMoveFinishWithShouldCountMove(Vector2Int playerPositionAfterMove, bool shouldCountMove) { }
-    protected virtual void OnPlayerMoveFullyCompleted(Vector2Int playerPositionAfterMove, bool shouldCountOneMoveInThere) { }
+    protected virtual void OnPlayerMoveFullyCompleted(Vector2Int playerPositionAfterMove, bool shouldCountMove) { }
 
-    // levels shouldn't have access to know about if a move should count
+    // using this doesn't guarantee that a move has finished, so you get no access to know if the move should count
     private void OnPlayerMoveFinish(Vector2Int playerPositionAfterMove, bool shouldCountMove)
     {
         OnPlayerMoveFinish(playerPositionAfterMove);
-        OnPlayerMoveFinishWithShouldCountMove(playerPositionAfterMove, shouldCountMove);
+        // TODO should this be removed?? is this getting called twice?
+        // OnPlayerMoveFullyCompleted(playerPositionAfterMove, shouldCountMove);
     }
 
 #pragma warning disable IDE0051
@@ -111,8 +111,8 @@ public abstract class LevelManager : MonoBehaviour
         Debug.Log("Enabling player event");
         PlayerController.OnMoveStart += OnPlayerMoveStart;
         PlayerController.OnMoveFinish += OnPlayerMoveFinish;
-        PlayerController.OnMoveFinish += OnPlayerMoveFinishWithShouldCountMove;
         PlayerController.OnMoveFullyCompleted += OnPlayerMoveFullyCompleted;
+        // PlayerController.OnMoveFullyCompleted += OnPlayerMoveFullyCompleted;
     }
 
     // make sure to deregister at disable time
@@ -121,8 +121,8 @@ public abstract class LevelManager : MonoBehaviour
         Debug.Log("Disabling player event");
         PlayerController.OnMoveStart -= OnPlayerMoveStart;
         PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
-        PlayerController.OnMoveFinish -= OnPlayerMoveFinishWithShouldCountMove;
         PlayerController.OnMoveFullyCompleted -= OnPlayerMoveFullyCompleted;
+        // PlayerController.OnMoveFinish -= OnPlayerMoveFullyCompleted;
 
         gsm.OnStateChange -= OnStageChange;
     }
