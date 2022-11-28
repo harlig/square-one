@@ -39,16 +39,31 @@ public class IceLevel4 : LevelManager
 
         gridController.AddStationaryObstacleAtPosition(gridSizeX, gridSizeY - 1);
         gridController.AddStationaryObstacleAtPosition(gridSizeX - 1, gridSizeY);
-
         gridController.AddStationaryObstacleAtPosition(gridSizeX - 2, gridSizeY - 2);
         gridController.AddStationaryObstacleAtPosition(gridSizeX - 3, gridSizeY - 2);
         gridController.AddStationaryObstacleAtPosition(gridSizeX - 2, gridSizeY - 3);
+
+        gridController.AddStationaryObstacleAtPosition(-1, 0);
+        gridController.AddStationaryObstacleAtPosition(0, -1);
+
+        gridController.AddStationaryObstacleAtPosition(1, 2);
+        gridController.AddStationaryObstacleAtPosition(1, 1);
+        gridController.AddStationaryObstacleAtPosition(2, 1);
+        gridController.AddStationaryObstacleAtPosition(1, 2);
 
         gridController.AddStationaryObstacleAtPosition(gridSizeX - 1, 4);
         gridController.AddStationaryObstacleAtPosition(3, 5);
         gridController.AddStationaryObstacleAtPosition(4, -1);
         gridController.AddStationaryObstacleAtPosition(-1, 0);
         gridController.AddStationaryObstacleAtPosition(0, gridSizeY);
+        gridController.AddStationaryObstacleAtPosition(-1, gridSizeY - 1);
+
+        gridController.AddStationaryObstacleAtPosition(7, 0);
+        gridController.AddStationaryObstacleAtPosition(1, 6);
+        gridController.AddStationaryObstacleAtPosition(5, 2);
+
+        MovingObstacle follower = gridController.AddMovingObstacleAtPosition(2, 6);
+        follower.MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
     }
 
 #pragma warning restore IDE0051
