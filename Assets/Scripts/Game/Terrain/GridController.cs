@@ -228,16 +228,27 @@ public class GridController : Singleton<GridController>
 
     public void SpawnWaypoint(Waypoint waypoint, WaypointController.OnTriggeredAction onTriggeredAction)
     {
-        SpawnWaypoint(waypoint.Position.x, waypoint.Position.y, onTriggeredAction);
-    }
+        int x = waypoint.Position.x;
+        int y = waypoint.Position.y;
 
-    public void SpawnWaypoint(int x, int y, WaypointController.OnTriggeredAction onTriggeredAction)
-    {
-        GameObject waypoint = Instantiate(waypointPrefab);
-        waypoint.transform.localPosition = new Vector3(x, 1.0f, y);
-        waypoint.name = string.Format("Waypoint [{0}, {1}]", x, y);
-        waypoint.GetComponent<WaypointController>().OnTriggered += onTriggeredAction;
+        GameObject waypointGameObject = Instantiate(waypointPrefab);
+        waypointGameObject.transform.localPosition = new Vector3(x, 1.0f, y);
+        waypointGameObject.name = string.Format("Waypoint [{0}, {1}]", x, y);
+        WaypointController waypointController = waypointGameObject.GetComponent<WaypointController>();
+        waypointController.OnTriggered += onTriggeredAction;
+
         // TODO animate this lil guy and make them spin or something
+        if (waypoint.Options != null)
+        {
+            if (waypoint.Options.Size.HasValue)
+            {
+                waypointController.SetSize(waypoint.Options.Size.Value);
+            }
+            if (waypoint.Options.WaypointColor.HasValue)
+            {
+                waypointController.SetColor(waypoint.Options.WaypointColor.Value);
+            }
+        }
     }
 
     public void PaintTilesAdjacentToLocation(Vector2 position, Color color)

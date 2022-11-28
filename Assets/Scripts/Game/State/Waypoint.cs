@@ -11,25 +11,26 @@ public class Waypoint
         return new Waypoint(pos);
     }
 
-    public static Waypoint Of(int x, int y)
+    public static Waypoint Of(Vector2Int pos, WaypointOptions options)
     {
-        return new Waypoint(x, y);
+        return new Waypoint(pos, options);
     }
 
-    private Waypoint(int x, int y)
+    public static Waypoint Of(int x, int y)
     {
-        Position = new Vector2Int(x, y);
+        return Of(new Vector2Int(x, y));
+    }
+
+    public static Waypoint Of(int x, int y, WaypointOptions options)
+    {
+        return Of(new Vector2Int(x, y), options);
     }
 
     private Waypoint(Vector2Int position)
     {
         Position = position;
-    }
-
-    private Waypoint(int x, int y, WaypointOptions options)
-    {
-        Position = new Vector2Int(x, y);
-        Options = options;
+        // default size for waypoints
+        Options = WaypointOptions.Of(0.3f);
     }
 
     private Waypoint(Vector2Int position, WaypointOptions options)
@@ -40,10 +41,28 @@ public class Waypoint
 
     public class WaypointOptions
     {
-        private float _size;
-        public WaypointOptions(float size)
+        public float? Size { get; private set; }
+        public Color? WaypointColor { get; private set; }
+
+        public static WaypointOptions Of(float size)
         {
-            _size = size;
+            return new WaypointOptions(size);
+        }
+
+        public static WaypointOptions Of(float size, Color color)
+        {
+            return new WaypointOptions(size, color);
+        }
+
+        private WaypointOptions(float size)
+        {
+            Size = size;
+        }
+
+        private WaypointOptions(float size, Color color)
+        {
+            Size = size;
+            WaypointColor = color;
         }
     }
 }
