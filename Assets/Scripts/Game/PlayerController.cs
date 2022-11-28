@@ -126,8 +126,6 @@ public class PlayerController : Singleton<PlayerController>
         // ((GridController)GridController.Instance).TileWillMovePlayer(.)
 
         bool willTileMovePlayer = tileAtLocationWillMovePlayer.Invoke(currentPosition.x, currentPosition.y);
-        Debug.LogFormat("forcedStopMoving {0}, will tile move player {1}", forcedStopMoving, willTileMovePlayer);
-
 
         if (!forcedStopMoving && willTileMovePlayer)
         {

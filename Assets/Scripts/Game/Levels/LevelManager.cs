@@ -138,7 +138,6 @@ public abstract class LevelManager : MonoBehaviour
         // TODO ice should work when level inactive?
         if (levelActive)
         {
-            Debug.LogFormat("Stepped on ice tile in this direction: {0}", direction);
             playerController.ForceMoveInDirection(direction);
         }
     }

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class GameStateManager
 {
-    public delegate void WaypointHitAction(int idx, Waypoint pos);
-    public event WaypointHitAction OnWaypointHit;
-
     public delegate void StateChangeAction(GameState state);
     public event StateChangeAction OnStateChange;
 
