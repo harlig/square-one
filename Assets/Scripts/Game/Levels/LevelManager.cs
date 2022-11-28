@@ -9,10 +9,7 @@ public abstract class LevelManager : MonoBehaviour
     [SerializeField] protected PlayerController playerController;
     [SerializeField] protected CameraController cameraController;
 
-    [SerializeField] protected TextMeshProUGUI moveCountText;
-
-    [SerializeField] protected GameObject successElements;
-    [SerializeField] protected GameObject failedElements;
+    [SerializeField] protected LevelUIElements levelUIElements;
 
     protected int gridSizeX, gridSizeY, turnLimit, turnsLeft;
 
@@ -86,7 +83,7 @@ public abstract class LevelManager : MonoBehaviour
 
     protected void SetMoveCountText()
     {
-        moveCountText.text = $"Turns remaining: {turnsLeft}";
+        levelUIElements.SetMoveCountText($"Turns remaining: {turnsLeft}");
     }
 
     // handle player movement. override in child classes if they want to access these events
@@ -150,11 +147,11 @@ public abstract class LevelManager : MonoBehaviour
     {
         if (state == GameStateManager.GameState.FAILED)
         {
-            SetTerminalGameState(failedElements);
+            SetTerminalGameState(levelUIElements.GetFailedElements());
         }
         else if (state == GameStateManager.GameState.SUCCESS)
         {
-            SetTerminalGameState(successElements);
+            SetTerminalGameState(levelUIElements.GetSuccessElements());
         }
     }
 }
