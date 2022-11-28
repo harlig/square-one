@@ -198,7 +198,6 @@ public class Cube
 
     public void StopMoving()
     {
-        Debug.Log("Clearing queue");
         queuedMovements.Clear();
         ResetPhysics();
         circuitBreakMovement = true;
@@ -206,7 +205,6 @@ public class Cube
 
     public void StartMoving()
     {
-        Debug.Log("Starting moving");
         circuitBreakMovement = false;
     }
 

@@ -33,11 +33,22 @@ public class IceLevel1 : LevelManager
 
 #pragma warning restore IDE0051
 
+    private bool isProcessingMovement = false;
     override protected void OnPlayerMoveFinishWithShouldCountMove(Vector2Int playerPosition, bool shouldCountMove)
     {
-        if (shouldCountMove)
+        // TODO add if not on ice tile?
+        // TODO if stepped on ice tile, decrement movement, do all forced actions, then increment movement after
+
+        if (gridController.IsIceTile(playerPosition.x, playerPosition.y))
+        {
+            isProcessingMovement = true;
+            return;
+        }
+
+        if (shouldCountMove || isProcessingMovement)
         {
             turnsLeft = turnLimit - playerController.GetMoveCount();
+            isProcessingMovement = false;
         }
     }
 }
