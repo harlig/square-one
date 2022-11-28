@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 // simple level which introduces player to ice
@@ -19,7 +18,7 @@ public class IceLevel1 : LevelManager
         };
 
 
-        gsm.SetWaypoints(waypointsInOrder, true);
+        gsm.SetWaypoints(waypointsInOrder);
         gsm.SetTurnLimit(turnLimit);
         gsm.ManageGameState();
 

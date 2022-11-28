@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class GameStateManager
 {
     public delegate void WaypointHitAction(int idx, Waypoint pos);
@@ -10,11 +9,6 @@ public class GameStateManager
 
     public delegate void StateChangeAction(GameState state);
     public event StateChangeAction OnStateChange;
-
-    public bool AutoSpawnEnabled
-    {
-        get; set;
-    }
 
     public enum GameState
     {
@@ -66,17 +60,15 @@ public class GameStateManager
     }
 
     // TODO should remove autoTrack and automatically determine that. too dangerous
-    public void SetWaypoints(Waypoint[] waypoints, bool autoTrack)
+    public void SetWaypoints(Waypoint[] waypoints)
     {
         this.waypoints = new(waypoints);
-        AutoSpawnEnabled = autoTrack;
     }
 
     // DEPRECATED, should use the signature with Waypoint[] instead
-    public void SetWaypoints(Vector2Int[] waypointPositions, bool autoTrack)
+    public void SetWaypoints(Vector2Int[] waypointPositions)
     {
         waypoints = PositionsToWaypoints(waypointPositions);
-        AutoSpawnEnabled = autoTrack;
     }
 
     // Adds a tile to the current active path
@@ -124,19 +116,9 @@ public class GameStateManager
         }
         else
         {
-            gridController.SpawnWaypoint(waypoints[activeWaypoint], () => WaypointHit());
+            gridController.SpawnWaypoint(waypoints[activeWaypoint], () => SpawnNextWaypoint());
         }
 
-    }
-
-    private void WaypointHit()
-    {
-        OnWaypointHit?.Invoke(activeWaypoint, waypoints[activeWaypoint]);
-
-        if (AutoSpawnEnabled)
-        {
-            SpawnNextWaypoint();
-        }
     }
 
     private readonly HashSet<GameState> terminalGameStates = new() {
@@ -173,10 +155,7 @@ public class GameStateManager
             case GameState.START:
                 // welcome text or interaction?
                 // make an LevelUI or something if theres a new mechanic to introduce
-                if (AutoSpawnEnabled)
-                {
-                    SpawnNextWaypoint();
-                }
+                SpawnNextWaypoint();
                 TransitionState(GameState.PLAYING);
                 break;
             case GameState.PLAYING:

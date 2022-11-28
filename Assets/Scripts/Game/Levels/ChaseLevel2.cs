@@ -40,7 +40,7 @@ public class ChaseLevel2 : LevelManager
             Waypoint.Of(squareOne.x, squareOne.y),
         };
 
-        gsm.SetWaypoints(waypointsInOrder, true);
+        gsm.SetWaypoints(waypointsInOrder);
         gsm.SetTurnLimit(turnLimit);
 
         gsm.ManageGameState();
