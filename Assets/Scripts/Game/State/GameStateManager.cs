@@ -112,6 +112,7 @@ public class GameStateManager
 
         if (activeWaypoint == waypoints.Count)
         {
+            playerController.StopMoving();
             TransitionState(GameState.SUCCESS);
         }
         else

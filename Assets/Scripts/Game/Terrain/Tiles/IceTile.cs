@@ -8,6 +8,11 @@ public class IceTile : PaintTile
     public delegate void SteppedOnAction(Vector3Int direction);
     public event SteppedOnAction WhenSteppedOn;
 
+    public override bool WillMovePlayer()
+    {
+        return true;
+    }
+
     void OnPlayerMoveStart(Vector2Int playerPosition)
     {
         _beforeMovePosition = playerPosition;

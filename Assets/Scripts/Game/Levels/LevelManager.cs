@@ -37,7 +37,7 @@ public abstract class LevelManager : MonoBehaviour
 
         gridController.SetupGrid(gridSizeX, gridSizeY);
 
-        playerController.SpawnPlayer(playerOffsetX, playerOffsetY);
+        playerController.SpawnPlayer(playerOffsetX, playerOffsetY, (x, y) => gridController.TileWillMovePlayer(x, y));
         playerController.gameObject.SetActive(true);
 
         cameraController.CenterCameraOnOffset(gridSizeX / 2, gridSizeY / 2);
@@ -95,6 +95,7 @@ public abstract class LevelManager : MonoBehaviour
     protected virtual void OnPlayerMoveFinish(Vector2Int playerPositionAfterMove) { }
 
     protected virtual void OnPlayerMoveFinishWithShouldCountMove(Vector2Int playerPositionAfterMove, bool shouldCountMove) { }
+    protected virtual void OnPlayerMoveFullyCompleted(Vector2Int playerPositionAfterMove, bool shouldCountOneMoveInThere) { }
 
     // levels shouldn't have access to know about if a move should count
     private void OnPlayerMoveFinish(Vector2Int playerPositionAfterMove, bool shouldCountMove)
@@ -111,6 +112,7 @@ public abstract class LevelManager : MonoBehaviour
         PlayerController.OnMoveStart += OnPlayerMoveStart;
         PlayerController.OnMoveFinish += OnPlayerMoveFinish;
         PlayerController.OnMoveFinish += OnPlayerMoveFinishWithShouldCountMove;
+        PlayerController.OnMoveFullyCompleted += OnPlayerMoveFullyCompleted;
     }
 
     // make sure to deregister at disable time
@@ -120,6 +122,7 @@ public abstract class LevelManager : MonoBehaviour
         PlayerController.OnMoveStart -= OnPlayerMoveStart;
         PlayerController.OnMoveFinish -= OnPlayerMoveFinish;
         PlayerController.OnMoveFinish -= OnPlayerMoveFinishWithShouldCountMove;
+        PlayerController.OnMoveFullyCompleted -= OnPlayerMoveFullyCompleted;
 
         gsm.OnStateChange -= OnStageChange;
     }
