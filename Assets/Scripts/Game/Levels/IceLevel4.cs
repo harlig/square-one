@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 // full ice level with hidden waypoints
@@ -13,7 +12,7 @@ public class IceLevel4 : LevelManager
 
         SetupLevel();
 
-        // TODO should add mechanic where hitting a waypoint moves an obstacle 
+        // TODO how to make waypoints smaller, that's the point of this level
         Vector2Int[] waypointsInOrder = new[] {
             new Vector2Int(gridSizeX - 1, gridSizeY - 1),
             new Vector2Int(4, gridSizeY - 5),
