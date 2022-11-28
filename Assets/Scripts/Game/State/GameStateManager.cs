@@ -5,29 +5,16 @@ using UnityEngine;
 
 public class GameStateManager
 {
-
-    List<Vector2Int> waypoints;
-
-    int activeWaypoint;
-
-    public bool AutoSpawnEnabled
-    {
-        get; set;
-    }
-
-    private GridController gridController;
-    private readonly PlayerController playerController;
-
-    private int turnLimit;
-
-    private bool turnLimitEnabled = false;
-
     public delegate void WaypointHitAction(int idx, Vector2Int pos);
     public event WaypointHitAction OnWaypointHit;
 
     public delegate void StateChangeAction(GameState state);
     public event StateChangeAction OnStateChange;
 
+    public bool AutoSpawnEnabled
+    {
+        get; set;
+    }
 
     public enum GameState
     {
@@ -36,9 +23,18 @@ public class GameStateManager
         SUCCESS,
         FAILED
     };
-    GameState currentState;
 
-    List<Action> actions;
+    private readonly GridController gridController;
+    private readonly PlayerController playerController;
+
+    private int turnLimit;
+    private bool turnLimitEnabled = false;
+
+    private List<Vector2Int> waypoints;
+    private int activeWaypoint;
+
+    private GameState currentState;
+    private readonly List<Action> actions;
 
     /*
         Constructor that takes no default parameters
