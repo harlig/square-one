@@ -13,12 +13,12 @@ public class IceLevel5 : LevelManager
         SetupLevel();
 
         // TODO should add mechanic where hitting a waypoint moves an obstacle 
-        Vector2Int[] waypointsInOrder = new[] {
-            new Vector2Int(gridSizeX - 1, gridSizeY - 1),
-            new Vector2Int(4, gridSizeY - 5),
-            new Vector2Int(0, gridSizeY - 1),
-            new Vector2Int(gridSizeX - 1, gridSizeY - 1),
-            new Vector2Int(squareOne.x, squareOne.y),
+        Waypoint[] waypointsInOrder = new[] {
+            Waypoint.Of(gridSizeX - 1, gridSizeY - 1),
+            Waypoint.Of(4, gridSizeY - 5),
+            Waypoint.Of(0, gridSizeY - 1),
+            Waypoint.Of(gridSizeX - 1, gridSizeY - 1),
+            Waypoint.Of(squareOne.x, squareOne.y),
         };
 
 
