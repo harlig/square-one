@@ -132,6 +132,10 @@ public class GameStateManager
             // do not allow to transition to failed / success states from failed / success states
             return;
         }
+        if (terminalGameStates.Contains(nextState))
+        {
+            // TODO should disable any active waypoints here
+        }
 
         currentState = nextState;
         OnStateChange?.Invoke(currentState);
