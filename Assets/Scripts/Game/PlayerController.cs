@@ -57,7 +57,7 @@ public class PlayerController : Singleton<PlayerController>
     // OnMove comes from the InputActions action defined Move
     void OnMove(InputValue movementValue)
     {
-        if (_isMoving) return;
+        if (_isMoving || forcedStopMoving) return;
 
         Vector2 movementVector = movementValue.Get<Vector2>();
 
@@ -301,5 +301,14 @@ public class PlayerController : Singleton<PlayerController>
             return false;
         }
         return true;
+    }
+
+    public IEnumerator StopMovementThenStartMovement(float delayBeforeStartMovementSeconds, Action afterStopCallback, Action beforeStartCallback)
+    {
+        StopMoving();
+        afterStopCallback?.Invoke();
+        yield return new WaitForSeconds(delayBeforeStartMovementSeconds);
+        beforeStartCallback?.Invoke();
+        StartMoving();
     }
 }

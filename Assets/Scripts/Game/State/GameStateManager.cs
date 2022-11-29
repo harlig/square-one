@@ -19,7 +19,7 @@ public class GameStateManager
     private readonly PlayerController playerController;
 
     private int turnLimit;
-    private bool turnLimitEnabled = false;
+    public bool TurnLimitEnabled { get; private set; } = false;
 
     private List<Waypoint> waypoints;
     private int activeWaypoint;
@@ -79,15 +79,17 @@ public class GameStateManager
         waypoints.Add(waypoint);
     }
 
+    // TODO this is an antipattern, this is required to be set in many places which depend on it (setting move count text in levels)
+    // but it's not always set here. Make this required in constructor
     public void SetTurnLimit(int turnLimit)
     {
         this.turnLimit = turnLimit;
-        this.turnLimitEnabled = true;
+        this.TurnLimitEnabled = true;
     }
 
     private void CheckTurnLimit(Vector2Int positionAfterMove, bool moveShouldCount)
     {
-        if (!turnLimitEnabled)
+        if (!TurnLimitEnabled)
         {
             return;
         }
@@ -97,7 +99,7 @@ public class GameStateManager
         }
     }
     /**
-       * Spawns next waypoint in the waypoints arrray and paints correct color 
+       * Spawns next waypoint in the waypoints arrray
     */
     public void SpawnNextWaypoint()
     {
@@ -150,8 +152,6 @@ public class GameStateManager
         switch (currentState)
         {
             case GameState.START:
-                // welcome text or interaction?
-                // make an LevelUI or something if theres a new mechanic to introduce
                 SpawnNextWaypoint();
                 TransitionState(GameState.PLAYING);
                 break;

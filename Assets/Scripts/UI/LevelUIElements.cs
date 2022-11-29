@@ -12,6 +12,12 @@ public class LevelUIElements : Singleton<LevelUIElements>
         moveCountText.text = text;
     }
 
+    public void EnableMoveCountText()
+    {
+        if (!moveCountText.gameObject.activeSelf)
+            moveCountText.gameObject.SetActive(true);
+    }
+
     public GameObject GetSuccessElements()
     {
         return SuccessElements;

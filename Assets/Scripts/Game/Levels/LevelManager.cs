@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public abstract class LevelManager : MonoBehaviour
@@ -83,7 +82,11 @@ public abstract class LevelManager : MonoBehaviour
 
     protected void SetMoveCountText()
     {
-        levelUIElements.SetMoveCountText($"Turns remaining: {turnsLeft}");
+        if (gsm != null && gsm.TurnLimitEnabled)
+        {
+            levelUIElements.EnableMoveCountText();
+            levelUIElements.SetMoveCountText($"Turns remaining: {turnsLeft}");
+        }
     }
 
     // handle player movement. override in child classes if they want to access these events
