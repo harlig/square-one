@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/UI/Menu.unity
     guid: 98a16762d9446664183ded829c2a6d7a
   - enabled: 1
+    path: Assets/Scenes/Game/Intro Level 1.unity
+    guid: 37268d979061fde49a4ba30b24486230
+  - enabled: 1
     path: Assets/Scenes/Game/Ice Level 1.unity
     guid: 96860e84b0552764ab75b8ad44ac70e4
   - enabled: 1
