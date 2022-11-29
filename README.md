@@ -35,7 +35,8 @@ Here's what it looks like in its current state
 ## MVP
 
 - [ ] How to page?
-- [ ] Basic level or two that introduce concepts with little popups as you hit waypoints
+  - Opted not to do this in favor of IntroLevel
+- [x] Basic level or two that introduce concepts with little popups as you hit waypoints
 - [x] Full ice map with obstacles that stop you from sliding
 - [x] Maze with stationary obstacles
 - [x] Maze with moving obstacle(s)
