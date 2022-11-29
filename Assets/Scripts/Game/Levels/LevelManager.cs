@@ -8,8 +8,7 @@ public abstract class LevelManager : MonoBehaviour
     protected GridController gridController;
     protected PlayerController playerController;
     protected CameraController cameraController;
-
-    [SerializeField] protected LevelUIElements levelUIElements;
+    protected LevelUIElements levelUIElements;
 
     protected int gridSizeX, gridSizeY, turnLimit, turnsLeft;
 
@@ -31,6 +30,7 @@ public abstract class LevelManager : MonoBehaviour
         playerController = (PlayerController)PlayerController.Instance;
         gridController = (GridController)GridController.Instance;
         cameraController = (CameraController)CameraController.Instance;
+        levelUIElements = (LevelUIElements)LevelUIElements.Instance;
 
         gridController.SetupGrid(gridSizeX, gridSizeY);
 

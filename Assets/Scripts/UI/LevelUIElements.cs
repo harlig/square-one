@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class LevelUIElements : MonoBehaviour
+public class LevelUIElements : Singleton<LevelUIElements>
 {
     [SerializeField] private TextMeshProUGUI moveCountText;
     [SerializeField] private GameObject SuccessElements;
