@@ -134,6 +134,7 @@ public class GameStateManager
         }
         if (terminalGameStates.Contains(nextState))
         {
+            // TODO TODO
             // TODO should disable any active waypoints here
         }
 

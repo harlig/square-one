@@ -46,7 +46,6 @@ Here's what it looks like in its current state
 - [ ] Add esc functionality for when in game also should be clickable
 - [ ] Add `z` within level to restart level
 - [x] Fix screen scale
-- [ ] Lighting now looks gross and dark I think from the screen scale fix ^
 
 ## Level ideas
 
