@@ -45,6 +45,7 @@ Here's what it looks like in its current state
 - [ ] Cleanup Main Menu (remove options)
 - [ ] Add esc functionality for when in game also should be clickable
 - [ ] Add `z` within level to restart level
+- [ ] Fix screen scale
 
 ## Level ideas
 
