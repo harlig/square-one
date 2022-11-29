@@ -35,7 +35,7 @@ public class IntroLevel1 : LevelManager
                 helpElement.SetActive(true);
                 gsm.SpawnNextWaypoint();
             }),
-            Waypoint.Of(gridSizeX - 1, gridSizeY - 2).WithOptions(Waypoint.WaypointOptions.Of(0.1f, Color.white))
+            Waypoint.Of(gridSizeX - 1, gridSizeY - 2).WithOptions(Waypoint.WaypointOptions.Of(0.15f))
             .WithOnTriggeredAction(() => {
                 helpElement.SetActive(false);
                 gsm.SpawnNextWaypoint();
