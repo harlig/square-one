@@ -42,6 +42,7 @@ Here's what it looks like in its current state
 - [x] Maze with moving obstacle(s)
 - [x] Different all ice puzzles, or mostly ice
 - [ ] Credits page
+- [ ] Cleanup Main Menu (remove options)
 
 ## Level ideas
 
