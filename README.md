@@ -43,6 +43,8 @@ Here's what it looks like in its current state
 - [x] Different all ice puzzles, or mostly ice
 - [ ] Credits page
 - [ ] Cleanup Main Menu (remove options)
+- [ ] Add esc functionality for when in game also should be clickable
+- [ ] Add `z` within level to restart level
 
 ## Level ideas
 

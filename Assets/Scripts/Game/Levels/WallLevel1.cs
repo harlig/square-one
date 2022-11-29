@@ -21,15 +21,18 @@ public class WallLevel1 : LevelManager
             Waypoint.Of(gridSizeX - 1, gridSizeY - 2)
             .WithOnTriggeredAction(() => {
                 int desiredObjectMoveCount = timesWallMoved + 2;
-                StartCoroutine(WaitForObjectToMove(desiredObjectMoveCount, () => MoveObstacles(Vector3.right), () => gsm.SpawnNextWaypoint()));
+                StartCoroutine(WaitForObjectToMove(desiredObjectMoveCount, () => MoveObstacles(Vector3.right), () => {
+                    gsm.SpawnNextWaypoint();
+                    gsm.SpawnNextWaypoint();
+                }));
             }),
             Waypoint.Of(gridSizeX - 2, gridSizeY - 1)
             .WithOnTriggeredAction(() => {
                 gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 2, OnIceTileSteppedOn);
                 gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 3, OnIceTileSteppedOn);
                 gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 4, OnIceTileSteppedOn);
-                gsm.SpawnNextWaypoint();
             })
+            // TODO wanna make this smaller so we it's hidden before you have to rotate right
             .WithOptions(Waypoint.WaypointOptions.Of(0.2f, Color.cyan)),
             Waypoint.Of(squareOne.x, squareOne.y)
         };
@@ -38,6 +41,8 @@ public class WallLevel1 : LevelManager
         gsm.SetTurnLimit(turnLimit);
 
         gsm.ManageGameState();
+
+        // TODO add more ice that's visible before rotate, and another waypoint that makes player go further
 
         obstacles = new();
         for (int ndx = 0; ndx < gridSizeY; ndx++)
