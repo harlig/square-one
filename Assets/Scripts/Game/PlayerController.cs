@@ -210,7 +210,7 @@ public class PlayerController : Singleton<PlayerController>
     }
 
     /**
-        Get player's location taking into account roll animation. This position only updates once a roll animation completes.
+        Get player's location taking into account move animation. This position only updates once a move animation completes.
     */
     public Vector2Int GetCurrentPosition()
     {

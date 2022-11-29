@@ -5,9 +5,9 @@ using UnityEngine;
 
 public abstract class LevelManager : MonoBehaviour
 {
-    [SerializeField] protected GridController gridController;
-    [SerializeField] protected PlayerController playerController;
-    [SerializeField] protected CameraController cameraController;
+    protected GridController gridController;
+    protected PlayerController playerController;
+    protected CameraController cameraController;
 
     [SerializeField] protected LevelUIElements levelUIElements;
 
