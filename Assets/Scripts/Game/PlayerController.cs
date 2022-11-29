@@ -54,17 +54,43 @@ public class PlayerController : Singleton<PlayerController>
         CameraController.OnCameraRotate -= TrackCameraLocation;
     }
 
+    // this is handling raw input for ideally only webGL
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            TryMove(new Vector2Int(0, 1));
+        }
+        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            TryMove(new Vector2Int(-1, 0));
+        }
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            TryMove(new Vector2Int(0, -1));
+        }
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            TryMove(new Vector2Int(1, 0));
+        }
+    }
+
     // OnMove comes from the InputActions action defined Move
     void OnMove(InputValue movementValue)
     {
-        if (_isMoving || forcedStopMoving) return;
 
         Vector2 movementVector = movementValue.Get<Vector2>();
+        TryMove(movementVector);
+    }
 
+    void TryMove(Vector2 movementVector)
+    {
         if (Mathf.Abs(movementVector.x) != 1.0f && Mathf.Abs(movementVector.y) != 1.0f) return;
 
         int movementX = Mathf.RoundToInt(movementVector.x);
         int movementY = Mathf.RoundToInt(movementVector.y);
+
+        if (_isMoving || forcedStopMoving) return;
 
         Vector3Int relativeMoveDirection = GetRelativeMoveDirectionWithCameraOffset(movementX, movementY);
         Cube.MoveInDirectionIfNotMoving(relativeMoveDirection, Cube.MoveType.ROLL, shouldCountMoves && !inTerminalGameState);
