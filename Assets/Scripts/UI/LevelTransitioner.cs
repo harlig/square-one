@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelTransitioner : MonoBehaviour
 {
-    public void NextLevel()
+    public static void NextLevel()
     {
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Single);
     }
@@ -16,7 +16,7 @@ public class LevelTransitioner : MonoBehaviour
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 
-    public void ToMenu()
+    public static void ToMenu()
     {
         SceneManager.LoadSceneAsync("Menu", LoadSceneMode.Single);
     }

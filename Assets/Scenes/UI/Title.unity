@@ -435,7 +435,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 295656506}
         m_TargetAssemblyTypeName: LevelTransitioner, Assembly-CSharp
-        m_MethodName: NextLevel
+        m_MethodName: ToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
