@@ -10,7 +10,7 @@ public class LevelTransitioner : MonoBehaviour
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Single);
     }
 
-    public void RestartLevel()
+    public static void RestartLevel()
     {
         Debug.Log("Restarting level");
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
