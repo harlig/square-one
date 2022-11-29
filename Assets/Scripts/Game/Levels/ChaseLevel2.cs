@@ -9,7 +9,7 @@ public class ChaseLevel2 : LevelManager
     {
 #pragma warning restore IDE0051
         gridSizeX = gridSizeY = 13;
-        turnLimit = 40;
+        turnLimit = 90;
 
         SetupLevel(1, 1);
 
