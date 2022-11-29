@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/UI/World Oyster.unity
     guid: 2dc7e7080fe6e2c44a6e6721cbb4c27b
   - enabled: 1
-    path: Assets/Scenes/UI/Title.unity
+    path: Assets/Scenes/UI/Static Title.unity
     guid: fb5b6646a25260641b2eca2b82d48436
   - enabled: 1
     path: Assets/Scenes/UI/Menu.unity
