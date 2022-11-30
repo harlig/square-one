@@ -12,6 +12,9 @@ Want to play? Head over to [Releases](/Releases/) and downloaded the latest rele
 - [Demo](#demo)
 - [Ideas](#ideas)
   - [MVP](#mvp)
+    - [TODO](#todo)
+    - [Stretch](#stretch)
+    - [Done](#done)
   - [Level ideas](#level-ideas)
   - [Mechanic ideas](#mechanic-ideas)
   - [Meta ideas](#meta-ideas)
@@ -34,18 +37,24 @@ Here's what it looks like in its current state
 
 ## MVP
 
-- [ ] How to page?
-  - Opted not to do this in favor of IntroLevel
+### TODO
+- [ ] Control directions feel clunky
+- [ ] Credits page
+- [ ] Add esc functionality for when in game also should be clickable
+
+### Stretch
+
+- [ ] Add `z` within level to restart level 
+- [ ] Control remapping?
+
+### Done
 - [x] Basic level or two that introduce concepts with little popups as you hit waypoints
 - [x] Full ice map with obstacles that stop you from sliding
 - [x] Maze with stationary obstacles
 - [x] Maze with moving obstacle(s)
 - [x] Different all ice puzzles, or mostly ice
-- [ ] Credits page
-- [ ] Cleanup Main Menu (remove options)
-- [ ] Add esc functionality for when in game also should be clickable
-- [ ] Add `z` within level to restart level
 - [x] Fix screen scale
+- [x] Cleanup Main Menu (remove options)
 
 ## Level ideas
 
