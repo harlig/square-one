@@ -42,7 +42,8 @@ Here's what it looks like in its current state
 ### TODO
 - [ ] Control directions feel clunky
 - [ ] Credits page
-- [ ] Add esc functionality for when in game also should be clickable
+- [ ] Esc functionality for when in game also should be clickable
+- [ ] Intro for waypoint, ice tiles, and obstacles
 
 ### Stretch
 
