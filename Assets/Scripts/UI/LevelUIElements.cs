@@ -29,8 +29,13 @@ public class LevelUIElements : Singleton<LevelUIElements>
         return FailedElements;
     }
 
-    public GameObject GetPauseMenuElements()
+    public void ShowPauseMenu()
     {
-        return PauseMenuElements;
+        PauseMenuElements.SetActive(true);
+    }
+
+    public void HidePauseMenu()
+    {
+        PauseMenuElements.SetActive(false);
     }
 }

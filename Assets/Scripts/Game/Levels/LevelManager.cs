@@ -136,12 +136,37 @@ public abstract class LevelManager : MonoBehaviour
 
         gsm.OnStateChange -= OnStageChange;
     }
+
     void Update()
     {
         SetMoveCountText();
         gsm.CheckPlayerState();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
     }
 #pragma warning restore IDE0051
+
+    bool _isPaused = false;
+    private void TogglePause()
+    {
+        _isPaused = !_isPaused;
+
+        if (_isPaused)
+        {
+            playerController.MovementEnabled = false;
+            cameraController.RotationEnabled = false;
+            levelUIElements.ShowPauseMenu();
+        }
+        else
+        {
+            playerController.MovementEnabled = true;
+            cameraController.RotationEnabled = true;
+            levelUIElements.HidePauseMenu();
+        }
+    }
 
     // TODO TODO TODO bug bug bug
     // TODO if player needs to step on multiple ice tiles which result in 0 moves remaining but a victory,
