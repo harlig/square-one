@@ -6,6 +6,7 @@ public class LevelUIElements : Singleton<LevelUIElements>
     [SerializeField] private TextMeshProUGUI moveCountText;
     [SerializeField] private GameObject SuccessElements;
     [SerializeField] private GameObject FailedElements;
+    [SerializeField] private GameObject PauseMenuElements;
 
     public void SetMoveCountText(string text)
     {
@@ -26,5 +27,10 @@ public class LevelUIElements : Singleton<LevelUIElements>
     public GameObject GetFailedElements()
     {
         return FailedElements;
+    }
+
+    public GameObject GetPauseMenuElements()
+    {
+        return PauseMenuElements;
     }
 }

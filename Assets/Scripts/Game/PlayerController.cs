@@ -149,8 +149,6 @@ public class PlayerController : Singleton<PlayerController>
         anyMoveCompleted |= moveCompleted;
         shouldAnyMoveBeCounted |= shouldMoveBeCounted;
 
-        // ((GridController)GridController.Instance).TileWillMovePlayer(.)
-
         bool willTileMovePlayer = tileAtLocationWillMovePlayer.Invoke(currentPosition.x, currentPosition.y);
 
         if (!forcedStopMoving && willTileMovePlayer)
