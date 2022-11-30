@@ -56,7 +56,6 @@ public class GameStateManager
         waypoints = PositionsToWaypoints(waypointPositions);
     }
 
-    // TODO should remove autoTrack and automatically determine that. too dangerous
     public void SetWaypoints(Waypoint[] waypoints)
     {
         this.waypoints = new(waypoints);

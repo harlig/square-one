@@ -16,7 +16,6 @@ public class IceLevel5 : LevelManager
 
         MovingObstacle moving = gridController.AddMovingObstacleAtPosition(1, 4);
 
-        // TODO should add mechanic where hitting a waypoint moves an obstacle 
         Waypoint[] waypointsInOrder = new[] {
             Waypoint.Of(gridSizeX - 1, gridSizeY - 1),
             Waypoint.Of(4, gridSizeY - 5).WithOnTriggeredAction(() => {
