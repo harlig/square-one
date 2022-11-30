@@ -31,6 +31,8 @@ Here's what it looks like in its current state
 
 # Ideas
 
+- [ ] Saving. Use PlayerPrefs and it's super easy
+  - https://www.red-gate.com/simple-talk/development/dotnet-development/saving-game-data-with-unity/
 - [ ] Leaderboard per-level
 - [ ] Leaderboard for total turns remaining summation golf
 - [ ] Stars per level based on how well they do
