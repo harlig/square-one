@@ -76,14 +76,6 @@ public class IceLevel5 : LevelManager
 
 #pragma warning restore IDE0051
 
-    override protected void OnPlayerMoveFullyCompleted(Vector2Int playerPosition, bool shouldCountMove)
-    {
-        if (shouldCountMove)
-        {
-            turnsLeft = turnLimit - playerController.GetMoveCount();
-        }
-    }
-
     IEnumerator WaitForObjectToMove(MovingObstacle obstacle, Vector3 dir, Action afterObjectMoveAction)
     {
         bool isFinished = false;

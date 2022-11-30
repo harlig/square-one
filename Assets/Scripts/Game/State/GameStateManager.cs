@@ -105,7 +105,6 @@ public class GameStateManager
         activeWaypoint += 1;
 
         Debug.LogFormat("Next waypoint: {0}", activeWaypoint);
-        Debug.LogFormat("Waypoints count: {0}", waypoints.Count);
 
         if (activeWaypoint == waypoints.Count)
         {

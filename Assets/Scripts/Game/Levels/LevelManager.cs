@@ -94,14 +94,24 @@ public abstract class LevelManager : MonoBehaviour
     protected virtual void OnPlayerMoveStart(Vector2Int playerPositionBeforeMove) { }
     protected virtual void OnPlayerMoveFinish(Vector2Int playerPositionAfterMove) { }
 
-    protected virtual void OnPlayerMoveFullyCompleted(Vector2Int playerPositionAfterMove, bool shouldCountMove) { }
+    protected virtual void OnPlayerMoveFullyCompleted(Vector2Int playerPositionAfterMove, bool shouldCountMove)
+    {
+        UpdateTurnsLeft(shouldCountMove);
+    }
+
+    protected void UpdateTurnsLeft(bool shouldCountMove)
+    {
+        // TODO do we need to check if shouldCountMove? Shouldn't player move count be accurate?
+        if (shouldCountMove)
+        {
+            turnsLeft = turnLimit - playerController.GetMoveCount();
+        }
+    }
 
     // using this doesn't guarantee that a move has finished, so you get no access to know if the move should count
     private void OnPlayerMoveFinish(Vector2Int playerPositionAfterMove, bool shouldCountMove)
     {
         OnPlayerMoveFinish(playerPositionAfterMove);
-        // TODO should this be removed?? is this getting called twice?
-        // OnPlayerMoveFullyCompleted(playerPositionAfterMove, shouldCountMove);
     }
 
 #pragma warning disable IDE0051
