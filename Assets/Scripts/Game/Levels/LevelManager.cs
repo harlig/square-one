@@ -115,6 +115,11 @@ public abstract class LevelManager : MonoBehaviour
     // using this doesn't guarantee that a move has finished, so you get no access to know if the move should count
     private void OnPlayerMoveFinish(Vector2Int playerPositionAfterMove, bool shouldCountMove)
     {
+        if (shouldCountMove)
+        {
+            AudioController.Instance.PlayMoveAudio();
+
+        }
         OnPlayerMoveFinish(playerPositionAfterMove);
     }
 
@@ -171,10 +176,14 @@ public abstract class LevelManager : MonoBehaviour
         if (state == GameStateManager.GameState.FAILED)
         {
             SetTerminalGameState(levelUIElements.GetFailedElements());
+            AudioController.Instance.PlayLoseAudio();
+
         }
         else if (state == GameStateManager.GameState.SUCCESS)
         {
             SetTerminalGameState(levelUIElements.GetSuccessElements());
+            AudioController.Instance.PlayWinAudio();
+
         }
     }
 }
