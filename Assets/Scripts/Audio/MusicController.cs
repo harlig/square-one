@@ -29,6 +29,9 @@ public class MusicController : MonoBehaviour
 
         titleMusic = transform.GetChild(0).GetComponent<AudioSource>();
         gameMusic = transform.GetChild(1).GetComponent<AudioSource>();
+
+        titleMusic.volume = GameManager.DefaultVolume;
+        gameMusic.volume = GameManager.DefaultVolume;
     }
 
     public void PlayTitleMusic()
@@ -68,17 +71,15 @@ public class MusicController : MonoBehaviour
         _currentSource.Stop();
     }
 
-    public void AdjustVolume(float val)
+    public void AdjustVolume()
     {
-        titleMusic.volume = GetVolume(val);
-        gameMusic.volume = GetVolume(val);
-
-        Volume = GetVolume(val);
+        titleMusic.volume = GetVolume();
+        gameMusic.volume = GetVolume();
     }
 
-    private float GetVolume(float val)
+    private float GetVolume()
     {
-        return val * GameManager.DefaultVolume * GameManager.MainVolume;
+        return Volume * GameManager.MainVolume * GameManager.DefaultVolume;
     }
 
 

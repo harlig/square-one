@@ -38,6 +38,12 @@ public class AudioController : MonoBehaviour
         loseAudio = transform.GetChild(2).GetComponent<AudioSource>();
         moveAudio = transform.GetChild(3).GetComponent<AudioSource>();
         waypointAudio = transform.GetChild(4).GetComponent<AudioSource>();
+
+        menuClickAudio.volume = GameManager.DefaultVolume;
+        winAudio.volume = GameManager.DefaultVolume;
+        loseAudio.volume = GameManager.DefaultVolume;
+        moveAudio.volume = GameManager.DefaultVolume;
+        waypointAudio.volume = GameManager.DefaultVolume;
     }
 
     public void PlayMenuClick()
@@ -65,19 +71,19 @@ public class AudioController : MonoBehaviour
         waypointAudio.Play();
     }
 
-    public void AdjustVolume(float val)
+    public void AdjustVolume()
     {
-        menuClickAudio.volume = GetVolume(val);
-        winAudio.volume = GetVolume(val);
-        loseAudio.volume = GetVolume(val);
-        moveAudio.volume = GetVolume(val);
-        waypointAudio.volume = GetVolume(val);
 
-        Volume = GetVolume(val);
+        menuClickAudio.volume = GetVolume();
+        winAudio.volume = GetVolume();
+        loseAudio.volume = GetVolume();
+        moveAudio.volume = GetVolume();
+        waypointAudio.volume = GetVolume();
+
     }
 
-    private float GetVolume(float val)
+    private float GetVolume()
     {
-        return val * GameManager.MainVolume * GameManager.DefaultVolume;
+        return Volume * GameManager.MainVolume * GameManager.DefaultVolume;
     }
 }

@@ -33,6 +33,14 @@ public class MainMenuController : MonoBehaviour
         }
     }
 
+
+    void OnDestroy()
+    {
+        mainVolumeSlider.onValueChanged.RemoveAllListeners();
+        musicVolumeSlider.onValueChanged.RemoveAllListeners();
+        sfxVolumeSlider.onValueChanged.RemoveAllListeners();
+    }
+
     public void PlayGame()
     {
         AudioController.Instance.PlayMenuClick();
@@ -72,14 +80,16 @@ public class MainMenuController : MonoBehaviour
         {
             case "main":
                 GameManager.MainVolume = slider.value;
-                MusicController.Instance.AdjustVolume(slider.value);
-                AudioController.Instance.AdjustVolume(slider.value);
+                MusicController.Instance.AdjustVolume();
+                AudioController.Instance.AdjustVolume();
                 break;
             case "music":
-                MusicController.Instance.AdjustVolume(slider.value);
+                MusicController.Volume = slider.value;
+                MusicController.Instance.AdjustVolume();
                 break;
             case "sfx":
-                AudioController.Instance.AdjustVolume(slider.value);
+                AudioController.Volume = slider.value;
+                AudioController.Instance.AdjustVolume();
                 break;
         }
     }
