@@ -36,7 +36,6 @@ public class MusicController : MonoBehaviour
 
     public void PlayTitleMusic()
     {
-        Debug.Log("Playing title music!");
         if (titleMusic.isPlaying)
         {
             return;
@@ -52,7 +51,6 @@ public class MusicController : MonoBehaviour
 
     public void PlayGameMusic()
     {
-        Debug.Log("Playing game music!");
         if (gameMusic.isPlaying)
         {
             return;

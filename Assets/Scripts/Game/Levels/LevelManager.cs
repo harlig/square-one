@@ -164,9 +164,6 @@ public abstract class LevelManager : MonoBehaviour
         cameraController.RotationEnabled = !isPaused;
     }
 
-    // TODO TODO TODO bug bug bug
-    // TODO if player needs to step on multiple ice tiles which result in 0 moves remaining but a victory,
-    // they actually only traverse the first tile before the game state is checked. need to rethink
     protected void OnIceTileSteppedOn(Vector3Int direction)
     {
         playerController.ForceMoveInDirection(direction);

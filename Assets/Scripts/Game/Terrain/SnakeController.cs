@@ -18,7 +18,6 @@ public class SnakeController
         this.gridController = gridController;
 
         this.paintedTiles = new();
-        Debug.Log("Instantiating tiles again");
 
         PlayerController.OnSingleMoveFinish += OnPlayerMoveFinish;
     }

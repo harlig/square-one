@@ -12,7 +12,6 @@ public class LevelTransitioner : MonoBehaviour
 
     public static void RestartLevel()
     {
-        Debug.Log("Restarting level");
         AudioController.Instance.PlayMenuClick();
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }

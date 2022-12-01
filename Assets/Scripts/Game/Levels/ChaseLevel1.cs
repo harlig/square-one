@@ -68,7 +68,6 @@ public class ChaseLevel1 : LevelManager
         // white tile color disables all moving obstacles
         if (gridController.TileColorAtLocation(playerPosition) == Color.white)
         {
-            Debug.Log("Stopping obstacle movement!");
             foreach (MovingObstacle obstacle in obstacles)
             {
                 obstacle.StopMovement();
