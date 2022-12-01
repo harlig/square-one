@@ -12,6 +12,7 @@ public class LevelUIElements : Singleton<LevelUIElements>
     [SerializeField] private GameObject FailedElements;
     [SerializeField] private GameObject PauseMenuElements;
     [SerializeField] private GameObject PauseButton;
+    [SerializeField] private GameObject Compass;
 
 #pragma warning disable IDE0051
     void Update()
