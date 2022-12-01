@@ -18,7 +18,7 @@ public class GameStateManager
     private readonly GridController gridController;
     private readonly PlayerController playerController;
 
-    private int turnLimit;
+    public int TurnLimit { get; set; }
     public bool TurnLimitEnabled { get; private set; } = false;
 
     private List<Waypoint> waypoints;
@@ -81,8 +81,8 @@ public class GameStateManager
     public void SetTurnLimit(int turnLimit)
     {
         playerController.ResetMoveCount();
-        this.turnLimit = turnLimit;
-        this.TurnLimitEnabled = true;
+        TurnLimit = turnLimit;
+        TurnLimitEnabled = true;
     }
 
     private void CheckTurnLimit(Vector2Int positionAfterMove, bool moveShouldCount)
@@ -91,7 +91,7 @@ public class GameStateManager
         {
             return;
         }
-        if (moveShouldCount && playerController.GetMoveCount() >= turnLimit)
+        if (moveShouldCount && playerController.GetMoveCount() >= TurnLimit)
         {
             TransitionState(GameState.FAILED);
         }

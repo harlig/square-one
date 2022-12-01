@@ -15,12 +15,12 @@ public class GameManager : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Debug.LogFormat("destroy {0}", GetType().ToString());
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
         else
         {
             Instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
         }
     }
 

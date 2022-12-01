@@ -9,7 +9,7 @@ public abstract class LevelManager : MonoBehaviour
     protected CameraController cameraController;
     protected LevelUIElements levelUIElements;
 
-    protected int gridSizeX, gridSizeY, turnLimit, turnsLeft;
+    protected int gridSizeX, gridSizeY, turnsLeft;
 
     protected Vector2Int squareOne;
     protected bool levelActive;
@@ -41,8 +41,6 @@ public abstract class LevelManager : MonoBehaviour
         cameraController.CenterCameraOnOffset(gridSizeX / 2, gridSizeY / 2);
 
         squareOne = new(playerOffsetX, playerOffsetY);
-
-        turnsLeft = turnLimit;
 
         SetMoveCountText();
 
@@ -104,12 +102,10 @@ public abstract class LevelManager : MonoBehaviour
 
     protected void UpdateTurnsLeft(bool shouldCountMove)
     {
-        Debug.LogFormat("Updating turns left: turnsLeft {0} turnLimit {1} moveCount {2} shouldCOuntMove {3}", turnsLeft, turnLimit, playerController.GetMoveCount(), shouldCountMove);
         // TODO do we need to check if shouldCountMove? Shouldn't player move count be accurate?
         if (shouldCountMove)
         {
-
-            turnsLeft = turnLimit - playerController.GetMoveCount();
+            turnsLeft = gsm.TurnLimit - playerController.GetMoveCount();
         }
     }
 

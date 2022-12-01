@@ -13,7 +13,6 @@ public class WallLevel1 : LevelManager
     void Start()
     {
         gridSizeX = gridSizeY = 6;
-        turnLimit = 13;
 
         SetupLevel(2, 3);
 
@@ -38,7 +37,7 @@ public class WallLevel1 : LevelManager
         };
 
         gsm.SetWaypoints(waypointPositionsInOrder);
-        gsm.SetTurnLimit(turnLimit);
+        gsm.SetTurnLimit(13);
 
         gsm.ManageGameState();
 

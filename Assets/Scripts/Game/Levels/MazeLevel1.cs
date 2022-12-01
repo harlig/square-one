@@ -13,7 +13,6 @@ public class MazeLevel1 : LevelManager
 #pragma warning restore IDE0051
     {
         gridSizeX = gridSizeY = 12;
-        turnLimit = 60;
 
         SetupLevel(2, 4);
 
@@ -25,7 +24,7 @@ public class MazeLevel1 : LevelManager
         };
 
         gsm.SetWaypoints(waypointsInOrder);
-        gsm.SetTurnLimit(turnLimit);
+        gsm.SetTurnLimit(60);
 
         gsm.ManageGameState();
 

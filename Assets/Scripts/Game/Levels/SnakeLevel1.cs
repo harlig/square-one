@@ -10,7 +10,6 @@ public class SnakeLevel1 : LevelManager
     void Start()
     {
         gridSizeX = gridSizeY = 8;
-        turnLimit = 25;
 
         SetupLevel(5, 4);
 
@@ -23,7 +22,7 @@ public class SnakeLevel1 : LevelManager
 
 
         gsm.SetWaypoints(waypointsInOrder);
-        gsm.SetTurnLimit(turnLimit);
+        gsm.SetTurnLimit(25);
         gsm.ManageGameState();
 
         snakeController = new SnakeController(playerController, gridController);
@@ -32,13 +31,6 @@ public class SnakeLevel1 : LevelManager
 
 #pragma warning restore IDE0051
 
-    protected override void OnPlayerMoveFullyCompleted(Vector2Int playerPositionAfterMove, bool shouldCountMove)
-    {
-        if (shouldCountMove)
-        {
-            turnsLeft = turnLimit - playerController.GetMoveCount();
-        }
-    }
 
     private void OnPaintedTileHit(Vector2Int playerPos)
     {
