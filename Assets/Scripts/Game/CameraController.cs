@@ -102,8 +102,6 @@ public class CameraController : Singleton<CameraController>
 
         _isRotating = false;
         progress = 0;
-
-        yield return null;
     }
 
 }

@@ -40,16 +40,13 @@ Here's what it looks like in its current state
 ## MVP
 
 ### TODO
-- [x] Control directions feel clunky
-- [x] Credits page
-- [x] Esc functionality for when in game also should be clickable
-- [ ] Intro for turn limit, waypoint, ice tiles, and obstacles
-- [ ] Movement tied to realtime seconds, not frames
 
 ### Stretch
 
 - [ ] Add `z` within level to restart level 
 - [ ] Control remapping?
+- [ ] Movement tied to realtime seconds, not frames
+  - Won't do, need to remove physics in a later version
 
 ### Done
 - [x] Basic level or two that introduce concepts with little popups as you hit waypoints
@@ -59,6 +56,11 @@ Here's what it looks like in its current state
 - [x] Different all ice puzzles, or mostly ice
 - [x] Fix screen scale
 - [x] Cleanup Main Menu (remove options)
+- [x] Control directions feel clunky
+  - Added compass but still could be updated
+- [x] Credits page
+- [x] Esc functionality for when in game also should be clickable
+- [x] Intro for turn limit, waypoint, ice tiles, and obstacles
 
 ## Level ideas
 

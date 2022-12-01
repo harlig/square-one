@@ -144,7 +144,8 @@ public class Cube
         Vector3 beforeMovePos = _mb.gameObject.transform.position;
 
         bool finishedMove = true;
-        for (var i = 0; i < 90 / _rollSpeed; i++)
+        int numSteps = (int)(90 / _rollSpeed);
+        for (var i = 0; i < numSteps; i++)
         {
             // TODO could use circuit breaker to stop movement when you hit like a wall
             if (circuitBreakMovement) { finishedMove = false; break; };
@@ -152,6 +153,7 @@ public class Cube
             float rotationAngle = Mathf.Min(_rollSpeed, rotationRemaining);
             _mb.gameObject.transform.RotateAround(anchor, axis, rotationAngle);
             rotationRemaining -= _rollSpeed;
+
             yield return null;
         }
         FinishMovement(finishedMove, moveShouldCount, beforeMovePos);
