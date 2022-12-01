@@ -38,7 +38,7 @@ public abstract class LevelManager : MonoBehaviour
         playerController.SpawnPlayer(playerOffsetX, playerOffsetY, (x, y) => gridController.TileWillMovePlayer(x, y));
         playerController.gameObject.SetActive(true);
 
-        cameraController.CenterCameraOnOffset(gridSizeX / 2, gridSizeY / 2);
+        cameraController.CenterCameraOnOffset(gridSizeX / 2.0f, gridSizeY / 2.0f);
 
         squareOne = new(playerOffsetX, playerOffsetY);
 

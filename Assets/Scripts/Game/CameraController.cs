@@ -74,7 +74,7 @@ public class CameraController : Singleton<CameraController>
     }
 #pragma warning restore IDE0051
 
-    public void CenterCameraOnOffset(int x, int z)
+    public void CenterCameraOnOffset(float x, float z)
     {
         Vector3 pos = transform.position;
         transform.localPosition = new Vector3(pos.x + x, pos.y, pos.z + z);
