@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class LevelManager : MonoBehaviour
@@ -142,8 +141,9 @@ public abstract class LevelManager : MonoBehaviour
         SetMoveCountText();
         gsm.CheckPlayerState();
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (levelActive && Input.GetKeyDown(KeyCode.Escape))
         {
+            // TODO should instead subscribe to OnTogglePause from LevelUIElements
             TogglePause();
         }
     }

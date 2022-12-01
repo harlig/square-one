@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class LevelUIElements : Singleton<LevelUIElements>
 {
+    // public delegate void 
+
     [SerializeField] private TextMeshProUGUI moveCountText;
     [SerializeField] private GameObject SuccessElements;
     [SerializeField] private GameObject FailedElements;
