@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
-    public static readonly int MenuSceneIndex = 4;
+    public static readonly int MenuSceneIndex = 5;
 
     public Slider mainVolumeSlider;
     public Slider musicVolumeSlider;
