@@ -38,6 +38,11 @@ public class IntroLevel1 : LevelManager
                 gsm.SpawnNextWaypoint();
             }),
             Waypoint.Of(2, gridSizeY - 1),
+            Waypoint.Of(gridSizeX - 4, 3)
+            .WithOnTriggeredAction(() => {
+                helpText.text = "You can turn the compass off\nin the pause menu (esc)";
+                gsm.SpawnNextWaypoint();
+            }),
             Waypoint.Of(1, 2)
             .WithOnTriggeredAction(() => {
                 helpText.text = "Some waypoints can be hard to find!";

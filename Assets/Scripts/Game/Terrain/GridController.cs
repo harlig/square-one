@@ -314,7 +314,6 @@ public class GridController : Singleton<GridController>
 
     public List<Vector2Int> PaintTilesAdjacentToLocation(Vector2 position, List<Color> colors)
     {
-        // TODO return positions
         return PaintTilesAdjacentToLocation((int)position.x, (int)position.y, colors);
     }
 
