@@ -15,7 +15,6 @@ public abstract class LevelManager : MonoBehaviour
     protected bool levelActive;
 
     protected GameStateManager gsm;
-    private List<Vector2Int> directionalTileLocations = new();
 
     protected void SetupLevel()
     {
@@ -25,6 +24,8 @@ public abstract class LevelManager : MonoBehaviour
         SetupLevel(playerOffsetX, playerOffsetY);
     }
 
+    // TODO should have a way to setup pre-setup and post-setup commands for children. children shouldn't have to call Start
+    // add like an interface for them to implement
     protected void SetupLevel(int playerOffsetX, int playerOffsetY)
     {
         playerController = (PlayerController)PlayerController.Instance;
@@ -52,8 +53,6 @@ public abstract class LevelManager : MonoBehaviour
         gsm.OnStateChange += OnStageChange;
         LevelUIElements.OnTogglePause += TogglePause;
 
-        // TODO this should happen after level configuration is setup; e.g. after ice tiles spawn
-        SetupDirectionalTileLocations();
     }
 
     /**
@@ -102,20 +101,6 @@ public abstract class LevelManager : MonoBehaviour
     protected virtual void OnPlayerMoveFullyCompleted(Vector2Int playerPositionAfterMove, bool shouldCountMove)
     {
         UpdateTurnsLeft(shouldCountMove);
-
-        foreach (Vector2Int existingDirectionalTile in directionalTileLocations)
-        {
-            gridController.PaintLastColorForTileAtLocation(existingDirectionalTile);
-        }
-        SetupDirectionalTileLocations();
-    }
-
-    void SetupDirectionalTileLocations()
-    {
-        // TODO how should players look different
-        // TODO paint tiles around player for movement?
-        List<Color> directionalTileColors = new() { Color.white, Color.black, Color.blue, Color.red };
-        directionalTileLocations = gridController.PaintTilesAdjacentToLocation(playerController.GetCurrentPosition(), directionalTileColors);
     }
 
     protected void UpdateTurnsLeft(bool shouldCountMove)
