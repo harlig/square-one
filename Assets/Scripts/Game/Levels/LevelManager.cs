@@ -112,11 +112,9 @@ public abstract class LevelManager : MonoBehaviour
 
     protected void UpdateTurnsLeft(bool shouldCountMove)
     {
-        Debug.LogFormat("Updating turns left: turnsLeft {0} turnLimit {1} moveCount {2} shouldCOuntMove {3}", turnsLeft, turnLimit, playerController.GetMoveCount(), shouldCountMove);
         // TODO do we need to check if shouldCountMove? Shouldn't player move count be accurate?
         if (shouldCountMove)
         {
-
             turnsLeft = turnLimit - playerController.GetMoveCount();
         }
     }
@@ -136,7 +134,6 @@ public abstract class LevelManager : MonoBehaviour
     // must be done at object enable time
     void OnEnable()
     {
-        Debug.Log("Enabling player event");
         PlayerController.OnMoveStart += OnPlayerMoveStart;
         PlayerController.OnSingleMoveFinish += OnPlayerMoveFinish;
         PlayerController.OnMoveFullyCompleted += OnPlayerMoveFullyCompleted;
@@ -146,7 +143,6 @@ public abstract class LevelManager : MonoBehaviour
     // make sure to deregister at disable time
     void OnDisable()
     {
-        Debug.Log("Disabling player event");
         PlayerController.OnMoveStart -= OnPlayerMoveStart;
         PlayerController.OnSingleMoveFinish -= OnPlayerMoveFinish;
         PlayerController.OnMoveFullyCompleted -= OnPlayerMoveFullyCompleted;
