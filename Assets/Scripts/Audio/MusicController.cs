@@ -7,6 +7,8 @@ public class MusicController : MonoBehaviour
 
     AudioSource _currentSource;
 
+    private float defaultVolume;
+
     public static MusicController Instance { get; private set; }
 
     void Awake()
@@ -27,6 +29,8 @@ public class MusicController : MonoBehaviour
 
         titleMusic = transform.GetChild(0).GetComponent<AudioSource>();
         gameMusic = transform.GetChild(1).GetComponent<AudioSource>();
+
+        defaultVolume = titleMusic.volume;
     }
 
     public void PlayTitleMusic()
@@ -64,5 +68,12 @@ public class MusicController : MonoBehaviour
     public void StopMusic()
     {
         _currentSource.Stop();
+    }
+
+    public void AdjustVolume(float val)
+    {
+        float padding = 0.5f;
+        titleMusic.volume = val * padding * defaultVolume;
+        gameMusic.volume = val * padding * defaultVolume;
     }
 }
