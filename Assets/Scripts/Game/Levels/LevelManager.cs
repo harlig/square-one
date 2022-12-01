@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class LevelManager : MonoBehaviour
@@ -14,6 +15,7 @@ public abstract class LevelManager : MonoBehaviour
     protected bool levelActive;
 
     protected GameStateManager gsm;
+    private List<Vector2Int> directionalTileLocations = new();
 
     protected void SetupLevel()
     {
@@ -34,6 +36,8 @@ public abstract class LevelManager : MonoBehaviour
 
         playerController.SpawnPlayer(playerOffsetX, playerOffsetY, (x, y) => gridController.TileWillMovePlayer(x, y));
         playerController.gameObject.SetActive(true);
+        // TODO this should happen after level configuration is setup; e.g. after ice tiles spawn
+        directionalTileLocations = gridController.PaintTilesAdjacentToLocation(playerController.GetCurrentPosition(), Color.white);
 
         cameraController.CenterCameraOnOffset(gridSizeX / 2, gridSizeY / 2);
 
@@ -97,6 +101,15 @@ public abstract class LevelManager : MonoBehaviour
     protected virtual void OnPlayerMoveFullyCompleted(Vector2Int playerPositionAfterMove, bool shouldCountMove)
     {
         UpdateTurnsLeft(shouldCountMove);
+
+        foreach (Vector2Int existingDirectionalTile in directionalTileLocations)
+        {
+            gridController.PaintLastColorForTileAtLocation(existingDirectionalTile);
+        }
+
+        // TODO how should players look different
+        // TODO paint tiles around player for movement?
+        directionalTileLocations = gridController.PaintTilesAdjacentToLocation(playerController.GetCurrentPosition(), Color.white);
     }
 
     protected void UpdateTurnsLeft(bool shouldCountMove)
