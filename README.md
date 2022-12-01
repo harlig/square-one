@@ -41,7 +41,7 @@ Here's what it looks like in its current state
 
 ### TODO
 - [ ] Control directions feel clunky
-- [ ] Credits page
+- [x] Credits page
 - [x] Esc functionality for when in game also should be clickable
 - [ ] Intro for turn limit, waypoint, ice tiles, and obstacles
 - [ ] Movement tied to realtime seconds, not frames
