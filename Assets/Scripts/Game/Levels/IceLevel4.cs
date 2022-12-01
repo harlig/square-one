@@ -22,7 +22,7 @@ public class IceLevel4 : LevelManager
 
 
         gsm.SetWaypoints(waypointsInOrder);
-        gsm.SetTurnLimit(turnLimit);
+        SetTurnLimit(turnLimit);
         gsm.ManageGameState();
 
         for (int x = 0; x < gridSizeX; x++)

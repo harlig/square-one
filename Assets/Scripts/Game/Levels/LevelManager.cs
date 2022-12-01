@@ -83,6 +83,12 @@ public abstract class LevelManager : MonoBehaviour
         }
     }
 
+    protected void SetTurnLimit(int turnLimit)
+    {
+        this.turnLimit = turnLimit;
+        gsm.SetTurnLimit(turnLimit);
+    }
+
     protected void SetMoveCountText()
     {
         if (gsm != null && gsm.TurnLimitEnabled)

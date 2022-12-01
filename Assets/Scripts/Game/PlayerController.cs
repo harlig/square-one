@@ -235,6 +235,11 @@ public class PlayerController : Singleton<PlayerController>
         return shouldCountMoves;
     }
 
+    public void StartCountingMoves()
+    {
+        shouldCountMoves = true;
+    }
+
     public void StopCountingMoves()
     {
         shouldCountMoves = false;
@@ -291,11 +296,6 @@ public class PlayerController : Singleton<PlayerController>
     {
         StartCountingMoves();
         OnSingleMoveFinish -= StartCountingMovesAndDeregisterOnMoveFinish;
-    }
-
-    private void StartCountingMoves()
-    {
-        shouldCountMoves = true;
     }
 
     public void FinishMovingThenStopMovement()

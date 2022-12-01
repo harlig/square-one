@@ -23,7 +23,7 @@ public class SnakeLevel1 : LevelManager
 
 
         gsm.SetWaypoints(waypointsInOrder);
-        gsm.SetTurnLimit(turnLimit);
+        SetTurnLimit(turnLimit);
         gsm.ManageGameState();
 
         snakeController = new SnakeController(playerController, gridController);

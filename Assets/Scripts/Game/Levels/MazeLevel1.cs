@@ -25,7 +25,7 @@ public class MazeLevel1 : LevelManager
         };
 
         gsm.SetWaypoints(waypointsInOrder);
-        gsm.SetTurnLimit(turnLimit);
+        SetTurnLimit(turnLimit);
 
         gsm.ManageGameState();
 

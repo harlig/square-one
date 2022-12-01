@@ -19,7 +19,7 @@ public class IceLevel1 : LevelManager
 
 
         gsm.SetWaypoints(waypointsInOrder);
-        gsm.SetTurnLimit(turnLimit);
+        SetTurnLimit(turnLimit);
         gsm.ManageGameState();
 
         gridController.SpawnIceTilesAroundPosition(waypointsInOrder[0].Position.x, waypointsInOrder[0].Position.y, OnIceTileSteppedOn);

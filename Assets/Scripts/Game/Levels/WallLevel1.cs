@@ -38,7 +38,7 @@ public class WallLevel1 : LevelManager
         };
 
         gsm.SetWaypoints(waypointPositionsInOrder);
-        gsm.SetTurnLimit(turnLimit);
+        SetTurnLimit(turnLimit);
 
         gsm.ManageGameState();
 

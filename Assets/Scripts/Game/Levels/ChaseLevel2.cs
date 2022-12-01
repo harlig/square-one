@@ -12,6 +12,7 @@ public class ChaseLevel2 : LevelManager
         turnLimit = 90;
 
         SetupLevel(1, 1);
+        SetTurnLimit(turnLimit);
 
         for (int x = 0; x < gridSizeX; x++)
         {
@@ -41,7 +42,6 @@ public class ChaseLevel2 : LevelManager
         };
 
         gsm.SetWaypoints(waypointsInOrder);
-        gsm.SetTurnLimit(turnLimit);
 
         gsm.ManageGameState();
 

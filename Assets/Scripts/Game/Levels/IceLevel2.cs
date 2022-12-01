@@ -12,6 +12,7 @@ public class IceLevel2 : LevelManager
         turnLimit = 10;
 
         SetupLevel(5, 5);
+        SetTurnLimit(turnLimit);
 
         Waypoint[] waypointsInOrder = new[] {
             Waypoint.Of(gridSizeX - 2, 1),
@@ -21,7 +22,6 @@ public class IceLevel2 : LevelManager
 
 
         gsm.SetWaypoints(waypointsInOrder);
-        gsm.SetTurnLimit(turnLimit);
         gsm.ManageGameState();
 
         for (int x = 0; x < gridSizeX; x++)
