@@ -20,6 +20,7 @@ public class LevelTransitioner : MonoBehaviour
     public static void ToMenu()
     {
         AudioController.Instance.PlayMenuClick();
+        GameManager.Instance.LastBuildIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadSceneAsync("Menu", LoadSceneMode.Single);
     }
 

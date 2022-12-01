@@ -6,10 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public float mainVolume, musicVolume, sfxVolume;
-
     public static float MainVolume = 1f;
     public static readonly float DefaultVolume = 0.5f;
+
+    public int LastBuildIndex = -1;
 
 #pragma warning disable IDE0051
     void Awake()

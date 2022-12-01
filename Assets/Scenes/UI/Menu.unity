@@ -1810,6 +1810,7 @@ MonoBehaviour:
   mainVolumeSlider: {fileID: 1167352351}
   musicVolumeSlider: {fileID: 385453199}
   sfxVolumeSlider: {fileID: 1920294685}
+  playButtonText: {fileID: 157201525}
 --- !u!1 &1470983399
 GameObject:
   m_ObjectHideFlags: 0

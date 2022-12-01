@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ public class MainMenuController : MonoBehaviour
     public Slider musicVolumeSlider;
     public Slider sfxVolumeSlider;
 
+    public TextMeshProUGUI playButtonText;
+
     void Start()
     {
         MusicController.Instance.PlayTitleMusic();
@@ -21,13 +24,26 @@ public class MainMenuController : MonoBehaviour
         mainVolumeSlider.value = GameManager.MainVolume;
         musicVolumeSlider.value = MusicController.Volume;
         sfxVolumeSlider.value = AudioController.Volume;
+
+        if (GameManager.Instance.LastBuildIndex > -1)
+        {
+            playButtonText.text = "Continue";
+        }
     }
 
     public void PlayGame()
     {
         AudioController.Instance.PlayMenuClick();
         Debug.LogFormat("If play button is not working, is the first level right after menu?");
-        LevelTransitioner.NextLevel();
+        if (GameManager.Instance.LastBuildIndex > -1)
+        {
+            SceneManager.LoadSceneAsync(GameManager.Instance.LastBuildIndex, LoadSceneMode.Single);
+        }
+        else
+        {
+            LevelTransitioner.NextLevel();
+
+        }
     }
 
     public void QuitGame()
