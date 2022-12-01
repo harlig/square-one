@@ -28,6 +28,11 @@ public class LevelTransitioner : MonoBehaviour
         SceneManager.LoadSceneAsync("Menu", LoadSceneMode.Single);
     }
 
+    public static void ClearBuildIndex()
+    {
+        GameManager.Instance.LastBuildIndex = null;
+    }
+
     private static int GetNextPossibleSceneBuildIndex()
     {
         return SceneManager.GetActiveScene().buildIndex + 1;

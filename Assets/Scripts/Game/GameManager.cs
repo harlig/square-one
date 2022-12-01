@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public static float MainVolume = 1f;
     public static readonly float DefaultVolume = 0.5f;
 
-    public int LastBuildIndex = -1;
+    public int? LastBuildIndex = null;
 
 #pragma warning disable IDE0051
     void Awake()

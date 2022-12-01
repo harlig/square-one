@@ -25,7 +25,7 @@ public class MainMenuController : MonoBehaviour
         musicVolumeSlider.value = MusicController.Volume;
         sfxVolumeSlider.value = AudioController.Volume;
 
-        if (GameManager.Instance.LastBuildIndex > -1)
+        if (GameManager.Instance.LastBuildIndex.HasValue)
         {
             playButtonText.text = "CONTINUE";
         }
@@ -35,9 +35,9 @@ public class MainMenuController : MonoBehaviour
     {
         AudioController.Instance.PlayMenuClick();
         Debug.LogFormat("If play button is not working, is the first level right after menu?");
-        if (GameManager.Instance.LastBuildIndex > -1)
+        if (GameManager.Instance.LastBuildIndex.HasValue)
         {
-            SceneManager.LoadSceneAsync(GameManager.Instance.LastBuildIndex, LoadSceneMode.Single);
+            SceneManager.LoadSceneAsync(GameManager.Instance.LastBuildIndex.Value, LoadSceneMode.Single);
         }
         else
         {
@@ -81,5 +81,4 @@ public class MainMenuController : MonoBehaviour
                 break;
         }
     }
-
 }
