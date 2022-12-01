@@ -7,7 +7,7 @@ public class MusicController : MonoBehaviour
 
     AudioSource _currentSource;
 
-    private float defaultVolume;
+    public static float Volume = 1f;
 
     public static MusicController Instance { get; private set; }
 
@@ -29,8 +29,6 @@ public class MusicController : MonoBehaviour
 
         titleMusic = transform.GetChild(0).GetComponent<AudioSource>();
         gameMusic = transform.GetChild(1).GetComponent<AudioSource>();
-
-        defaultVolume = titleMusic.volume;
     }
 
     public void PlayTitleMusic()
@@ -72,8 +70,16 @@ public class MusicController : MonoBehaviour
 
     public void AdjustVolume(float val)
     {
-        float padding = 0.5f;
-        titleMusic.volume = val * padding * defaultVolume;
-        gameMusic.volume = val * padding * defaultVolume;
+        titleMusic.volume = GetVolume(val);
+        gameMusic.volume = GetVolume(val);
+
+        Volume = GetVolume(val);
     }
+
+    private float GetVolume(float val)
+    {
+        return val * GameManager.DefaultVolume * GameManager.MainVolume;
+    }
+
+
 }

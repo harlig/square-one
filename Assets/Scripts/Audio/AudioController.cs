@@ -10,6 +10,7 @@ public class AudioController : MonoBehaviour
     AudioSource winAudio;
     AudioSource waypointAudio;
     // SINGLETON
+    public static float Volume = 1f;
     public static AudioController Instance { get; private set; }
 
 #pragma warning disable IDE0051
@@ -37,8 +38,6 @@ public class AudioController : MonoBehaviour
         loseAudio = transform.GetChild(2).GetComponent<AudioSource>();
         moveAudio = transform.GetChild(3).GetComponent<AudioSource>();
         waypointAudio = transform.GetChild(4).GetComponent<AudioSource>();
-
-
     }
 
     public void PlayMenuClick()
@@ -61,7 +60,24 @@ public class AudioController : MonoBehaviour
         loseAudio.Play();
     }
 
-    public void PlayWaypointAudio() {
+    public void PlayWaypointAudio()
+    {
         waypointAudio.Play();
+    }
+
+    public void AdjustVolume(float val)
+    {
+        menuClickAudio.volume = GetVolume(val);
+        winAudio.volume = GetVolume(val);
+        loseAudio.volume = GetVolume(val);
+        moveAudio.volume = GetVolume(val);
+        waypointAudio.volume = GetVolume(val);
+
+        Volume = GetVolume(val);
+    }
+
+    private float GetVolume(float val)
+    {
+        return val * GameManager.MainVolume * GameManager.DefaultVolume;
     }
 }

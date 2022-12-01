@@ -6,13 +6,21 @@ public class MainMenuController : MonoBehaviour
 {
     public static readonly int MenuSceneIndex = 2;
 
-    public Slider volumeSlider;
+    public Slider mainVolumeSlider;
+    public Slider musicVolumeSlider;
+    public Slider sfxVolumeSlider;
 
     void Start()
     {
         MusicController.Instance.PlayTitleMusic();
 
-        volumeSlider.onValueChanged.AddListener(delegate { AdjustVolume(); });
+        mainVolumeSlider.onValueChanged.AddListener(delegate { AdjustVolume(mainVolumeSlider, "main"); });
+        musicVolumeSlider.onValueChanged.AddListener(delegate { AdjustVolume(musicVolumeSlider, "music"); });
+        sfxVolumeSlider.onValueChanged.AddListener(delegate { AdjustVolume(sfxVolumeSlider, "sfx"); });
+
+        mainVolumeSlider.value = GameManager.MainVolume;
+        musicVolumeSlider.value = MusicController.Volume;
+        sfxVolumeSlider.value = AudioController.Volume;
     }
 
     public void PlayGame()
@@ -33,10 +41,22 @@ public class MainMenuController : MonoBehaviour
         GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(null);
     }
 
-    void AdjustVolume()
+    void AdjustVolume(Slider slider, string type)
     {
-        Debug.LogFormat("Slider val {0}", volumeSlider.value);
-        MusicController.Instance.AdjustVolume(volumeSlider.value);
+        switch (type)
+        {
+            case "main":
+                GameManager.MainVolume = slider.value;
+                MusicController.Instance.AdjustVolume(slider.value);
+                AudioController.Instance.AdjustVolume(slider.value);
+                break;
+            case "music":
+                MusicController.Instance.AdjustVolume(slider.value);
+                break;
+            case "sfx":
+                AudioController.Instance.AdjustVolume(slider.value);
+                break;
+        }
     }
 
 }
