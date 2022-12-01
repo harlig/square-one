@@ -290,11 +290,16 @@ public class GridController : Singleton<GridController>
 
     public List<Vector2Int> PaintTilesAdjacentToLocation(Vector2 position, Color color)
     {
-        // TODO return positions
-        return PaintTilesAdjacentToLocation((int)position.x, (int)position.y, color);
+        return PaintTilesAdjacentToLocation((int)position.x, (int)position.y, new() { color });
     }
 
-    public List<Vector2Int> PaintTilesAdjacentToLocation(int x, int y, Color color)
+    public List<Vector2Int> PaintTilesAdjacentToLocation(Vector2 position, List<Color> colors)
+    {
+        // TODO return positions
+        return PaintTilesAdjacentToLocation((int)position.x, (int)position.y, colors);
+    }
+
+    public List<Vector2Int> PaintTilesAdjacentToLocation(int x, int y, List<Color> colors)
     {
         Vector2Int[] possibleLocations = new[]{
             new Vector2Int(x-1,y),
@@ -304,8 +309,19 @@ public class GridController : Singleton<GridController>
         };
 
         List<Vector2Int> paintedTiles = new();
-        foreach (Vector2Int location in possibleLocations)
+        for (int ndx = 0; ndx < possibleLocations.Length; ndx++)
         {
+            Vector2Int location = possibleLocations[ndx];
+            Color color;
+            if (ndx >= colors.Count)
+            {
+                color = colors[ndx];
+            }
+            else
+            {
+                color = colors[ndx];
+            }
+
             if (PaintTileAtLocation(location, color))
             {
                 paintedTiles.Add(location);

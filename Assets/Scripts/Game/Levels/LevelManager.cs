@@ -36,8 +36,6 @@ public abstract class LevelManager : MonoBehaviour
 
         playerController.SpawnPlayer(playerOffsetX, playerOffsetY, (x, y) => gridController.TileWillMovePlayer(x, y));
         playerController.gameObject.SetActive(true);
-        // TODO this should happen after level configuration is setup; e.g. after ice tiles spawn
-        directionalTileLocations = gridController.PaintTilesAdjacentToLocation(playerController.GetCurrentPosition(), Color.white);
 
         cameraController.CenterCameraOnOffset(gridSizeX / 2, gridSizeY / 2);
 
@@ -53,6 +51,9 @@ public abstract class LevelManager : MonoBehaviour
 
         gsm.OnStateChange += OnStageChange;
         LevelUIElements.OnTogglePause += TogglePause;
+
+        // TODO this should happen after level configuration is setup; e.g. after ice tiles spawn
+        SetupDirectionalTileLocations();
     }
 
     /**
@@ -106,10 +107,15 @@ public abstract class LevelManager : MonoBehaviour
         {
             gridController.PaintLastColorForTileAtLocation(existingDirectionalTile);
         }
+        SetupDirectionalTileLocations();
+    }
 
+    void SetupDirectionalTileLocations()
+    {
         // TODO how should players look different
         // TODO paint tiles around player for movement?
-        directionalTileLocations = gridController.PaintTilesAdjacentToLocation(playerController.GetCurrentPosition(), Color.white);
+        List<Color> directionalTileColors = new() { Color.white, Color.black, Color.blue, Color.red };
+        directionalTileLocations = gridController.PaintTilesAdjacentToLocation(playerController.GetCurrentPosition(), directionalTileColors);
     }
 
     protected void UpdateTurnsLeft(bool shouldCountMove)
