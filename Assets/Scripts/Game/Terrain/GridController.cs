@@ -290,8 +290,12 @@ public class GridController : Singleton<GridController>
             {
                 waypointController.EnableAudio = waypoint.Options.EnableAudio.Value;
             }
+            if (waypoint.Options.VerticalTransform.HasValue)
+            {
+                Vector3 currentLocation = waypointGameObject.transform.localPosition;
+                waypointGameObject.transform.localPosition = new Vector3(currentLocation.x, currentLocation.y + waypoint.Options.VerticalTransform.Value, currentLocation.z);
+            }
         }
-
         waypointControllers.Add(waypointController);
     }
 

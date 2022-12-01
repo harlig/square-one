@@ -43,6 +43,7 @@ public class Waypoint
         public float? Size { get; private set; }
         public Color? WaypointColor { get; private set; }
         public bool? EnableAudio { get; private set; }
+        public float? VerticalTransform { get; private set; }
 
         public static WaypointOptions Of()
         {
@@ -62,6 +63,12 @@ public class Waypoint
         public WaypointOptions WithEnableAudio(bool enableAudio)
         {
             EnableAudio = enableAudio;
+            return this;
+        }
+
+        public WaypointOptions WithVerticalTransform(float verticalTransform)
+        {
+            VerticalTransform = verticalTransform;
             return this;
         }
 
