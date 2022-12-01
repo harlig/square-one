@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class LevelUIElements : Singleton<LevelUIElements>
 {
@@ -78,4 +79,13 @@ public class LevelUIElements : Singleton<LevelUIElements>
         }
     }
 
+    public void ToggleCompass()
+    {
+        Compass.SetActive(!Compass.activeSelf);
+    }
+
+    public void DeselectClickedButton()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+    }
 }
