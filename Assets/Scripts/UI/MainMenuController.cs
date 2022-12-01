@@ -25,15 +25,22 @@ public class MainMenuController : MonoBehaviour
 
     public void PlayGame()
     {
+        AudioController.Instance.PlayMenuClick();
         Debug.LogFormat("If play button is not working, is the first level right after menu?");
         LevelTransitioner.NextLevel();
     }
 
     public void QuitGame()
     {
+        AudioController.Instance.PlayMenuClick();
         Application.Quit();
 
         DeselectCurrentlySelectedGameObject();
+    }
+
+    public void PlayClickSound()
+    {
+        AudioController.Instance.PlayMenuClick();
     }
 
     public void DeselectCurrentlySelectedGameObject()

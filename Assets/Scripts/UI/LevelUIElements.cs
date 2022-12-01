@@ -99,6 +99,7 @@ public class LevelUIElements : Singleton<LevelUIElements>
 
     public void ToggleCompass()
     {
+        AudioController.Instance.PlayMenuClick();
         bool compassWillBeEnabled = !Compass.activeSelf;
         Compass.SetActive(compassWillBeEnabled);
         GameManager.Instance.CompassEnabled = compassWillBeEnabled;
