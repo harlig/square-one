@@ -4,10 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private bool toggledToMenu = false;
-
     public static GameManager Instance { get; private set; }
+#pragma warning disable IDE0051
     void Awake()
+#pragma warning restore IDE0051
     {
         // If there is an instance and it's not me, delete myself.
         Debug.LogFormat("Spawning instance of {0}", GetType().ToString());
@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+#pragma warning disable IDE0051
     void Start()
     {
         PlayMusic();
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     }
 
     void OnDisable()
+#pragma warning restore IDE0051
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }

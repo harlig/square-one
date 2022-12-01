@@ -26,7 +26,6 @@ public class ObstacleController : MonoBehaviour
     // TODO should be in moving obstacle?
     protected void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Entering trigger");
         if (!PlayerController.IsColliderPlayer(other)) return;
 
         PlayerController playerController = other.GetComponent<PlayerController>();
