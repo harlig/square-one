@@ -11,7 +11,8 @@ public class MainMenuController : MonoBehaviour
     public Slider musicVolumeSlider;
     public Slider sfxVolumeSlider;
 
-    public TextMeshProUGUI playButtonText;
+    [SerializeField] private GameObject freshGameMenu;
+    [SerializeField] private GameObject hasSavedGameMenu;
 
     void Start()
     {
@@ -27,7 +28,8 @@ public class MainMenuController : MonoBehaviour
 
         if (GameManager.Instance.LastBuildIndex.HasValue)
         {
-            playButtonText.text = "CONTINUE";
+            freshGameMenu.SetActive(false);
+            hasSavedGameMenu.SetActive(true);
         }
     }
 
@@ -80,5 +82,10 @@ public class MainMenuController : MonoBehaviour
                 AudioController.Instance.AdjustVolume(slider.value);
                 break;
         }
+    }
+
+    public void ClearBuildIndex()
+    {
+        LevelTransitioner.ClearBuildIndex();
     }
 }
