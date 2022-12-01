@@ -53,13 +53,15 @@ public class IntroLevel1 : LevelManager
                 gsm.SetTurnLimit(20);
                 gsm.SpawnNextWaypoint();
             }),
-            Waypoint.Of(3, gridSizeY - 4).WithOptions(Waypoint.WaypointOptions.Of(0.15f))
+            Waypoint.Of(3, gridSizeY - 4)
             .WithOnTriggeredAction(() => {
                 helpElement.SetActive(true);
                 helpText.text = "Watch out for slippery ice\nand obstacles!";
 
                 gridController.AddStationaryObstacleAtPosition(0, 1);
                 gridController.SpawnIceTile(gridSizeX - 2, 4, OnIceTileSteppedOn);
+                gridController.SpawnIceTile(gridSizeX - 3, 4, OnIceTileSteppedOn);
+                gridController.SpawnIceTile(gridSizeX - 3, 3, OnIceTileSteppedOn);
 
                 gsm.SpawnNextWaypoint();
             }),
