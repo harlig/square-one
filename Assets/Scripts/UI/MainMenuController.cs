@@ -27,7 +27,7 @@ public class MainMenuController : MonoBehaviour
 
         if (GameManager.Instance.LastBuildIndex > -1)
         {
-            playButtonText.text = "Continue";
+            playButtonText.text = "CONTINUE";
         }
     }
 
