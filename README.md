@@ -40,8 +40,6 @@ Here's what it looks like in its current state
 ## MVP
 
 ### TODO
-- [ ] Shouldn't hit waypoints once level in terminal state
-- [x] should slide on ice once in terminal state
 
 ### Stretch
 
@@ -63,6 +61,8 @@ Here's what it looks like in its current state
 - [x] Credits page
 - [x] Esc functionality for when in game also should be clickable
 - [x] Intro for turn limit, waypoint, ice tiles, and obstacles
+- [x] should slide on ice once in terminal state
+- [x] Shouldn't hit waypoints once level in terminal state
 
 ## Level ideas
 

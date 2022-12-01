@@ -19,6 +19,7 @@ public class GridController : Singleton<GridController>
     private HashSet<Vector2Int> stationaryObstaclePositions = new();
     // TODO need to keep track of moving obstacles too
     private OrderedDictionary movingObstaclePositionToControllerMap = new();
+    private List<WaypointController> waypointControllers = new();
 
     public bool TileWillMovePlayer(int x, int y)
     {
@@ -289,6 +290,16 @@ public class GridController : Singleton<GridController>
             {
                 waypointController.EnableAudio = waypoint.Options.EnableAudio.Value;
             }
+        }
+
+        waypointControllers.Add(waypointController);
+    }
+
+    public void DespawnAllWaypoints()
+    {
+        foreach (WaypointController waypointController in waypointControllers)
+        {
+            waypointController.gameObject.SetActive(false);
         }
     }
 

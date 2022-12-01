@@ -82,7 +82,7 @@ public class GameStateManager
     {
         playerController.ResetMoveCount();
         this.turnLimit = turnLimit;
-        this.TurnLimitEnabled = true;
+        TurnLimitEnabled = true;
     }
 
     private void CheckTurnLimit(Vector2Int positionAfterMove, bool moveShouldCount)
@@ -117,6 +117,11 @@ public class GameStateManager
 
     }
 
+    public bool IsTerminalGameState(GameState gameState)
+    {
+        return terminalGameStates.Contains(gameState);
+    }
+
     private readonly HashSet<GameState> terminalGameStates = new() {
         GameState.SUCCESS,
         GameState.FAILED
@@ -124,15 +129,14 @@ public class GameStateManager
 
     void TransitionState(GameState nextState)
     {
-        if (terminalGameStates.Contains(currentState))
+        if (IsTerminalGameState(currentState))
         {
             // do not allow to transition to failed / success states from failed / success states
             return;
         }
-        if (terminalGameStates.Contains(nextState))
+        if (IsTerminalGameState(nextState))
         {
-            // TODO TODO
-            // TODO should disable any active waypoints here
+            gridController.DespawnAllWaypoints();
         }
 
         currentState = nextState;

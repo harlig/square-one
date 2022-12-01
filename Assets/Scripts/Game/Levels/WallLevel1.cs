@@ -32,6 +32,7 @@ public class WallLevel1 : LevelManager
                 gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 3, OnIceTileSteppedOn);
                 gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 4, OnIceTileSteppedOn);
             })
+            // TODO!!
             // TODO wanna make this smaller so we it's hidden before you have to rotate right
             .WithOptions(Waypoint.WaypointOptions.Of(0.2f, Color.cyan)),
             Waypoint.Of(squareOne.x, squareOne.y)
