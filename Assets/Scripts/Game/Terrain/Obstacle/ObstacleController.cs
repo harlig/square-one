@@ -35,7 +35,6 @@ public class ObstacleController : MonoBehaviour
 
     protected void OnTriggerExit(Collider other)
     {
-        Debug.Log("Exiting trigger");
         if (!PlayerController.IsColliderPlayer(other)) return;
 
         PlayerController playerController = other.GetComponent<PlayerController>();

@@ -85,7 +85,9 @@ public abstract class LevelManager : MonoBehaviour
 
     protected void SetTurnLimit(int turnLimit)
     {
+        playerController.ResetMoveCount();
         this.turnLimit = turnLimit;
+        turnsLeft = turnLimit;
         gsm.SetTurnLimit(turnLimit);
     }
 

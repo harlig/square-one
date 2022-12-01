@@ -12,7 +12,6 @@ public class IntroLevel1 : LevelManager
     void Start()
     {
         gridSizeX = gridSizeY = 8;
-        // turnLimit = 30;
 
         SetupLevel();
 
@@ -46,20 +45,22 @@ public class IntroLevel1 : LevelManager
                 helpElement.SetActive(true);
                 helpText.text = "Some waypoints can be hard to find!";
                 gsm.SpawnNextWaypoint();
+                playerController.StopCountingMoves();
             }),
             Waypoint.Of(gridSizeX - 1, gridSizeY - 2).WithOptions(Waypoint.WaypointOptions.Of(0.15f))
             .WithOnTriggeredAction(() => {
                 helpElement.SetActive(true);
                 helpText.text = "Levels have a turn limit\ndisplayed in the top left";
-                gsm.SetTurnLimit(20);
+                SetTurnLimit(30);
                 gsm.SpawnNextWaypoint();
+                playerController.StartCountingMoves();
             }),
             Waypoint.Of(3, gridSizeY - 4)
             .WithOnTriggeredAction(() => {
                 helpElement.SetActive(true);
                 helpText.text = "Watch out for slippery ice\nand obstacles!";
 
-                gridController.AddStationaryObstacleAtPosition(0, 1);
+                gridController.AddMovingObstacleAtPosition(gridSizeX - 2, gridSizeY - 1).MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
                 gridController.SpawnIceTile(gridSizeX - 2, 4, OnIceTileSteppedOn);
                 gridController.SpawnIceTile(gridSizeX - 3, 4, OnIceTileSteppedOn);
                 gridController.SpawnIceTile(gridSizeX - 3, 3, OnIceTileSteppedOn);
