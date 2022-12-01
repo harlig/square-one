@@ -240,6 +240,11 @@ public class GridController : Singleton<GridController>
         return true;
     }
 
+    private bool PaintTileExists(Vector2Int pos)
+    {
+        return PaintTileExists(pos.x, pos.y);
+    }
+
     private bool PaintTileExists(int x, int y)
     {
         if (!IsWithinGrid(x, y))
@@ -328,6 +333,11 @@ public class GridController : Singleton<GridController>
             }
         }
         return paintedTiles;
+    }
+    public void SetTextOnTile(Vector2Int position, string text)
+    {
+        if (!PaintTileExists(position)) { return; }
+        ((PaintTile)gridRows[position.x][position.y]).SetText(text);
     }
 
     public bool IsWithinGrid(Vector2Int position)

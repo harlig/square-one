@@ -28,4 +28,9 @@ public class PaintTile : TileController
             Paint(LastColor.Value);
         }
     }
+
+    public void SetText(string text)
+    {
+        gameObject.GetComponent<TextMesh>().text = text;
+    }
 }
