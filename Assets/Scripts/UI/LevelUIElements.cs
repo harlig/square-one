@@ -16,6 +16,20 @@ public class LevelUIElements : Singleton<LevelUIElements>
     [SerializeField] private GameObject Compass;
 
 #pragma warning disable IDE0051
+    void Start()
+#pragma warning restore
+    {
+        if (GameManager.Instance.CompassEnabled)
+        {
+            Compass.SetActive(true);
+        }
+        else
+        {
+            Compass.SetActive(false);
+        }
+    }
+
+#pragma warning disable IDE0051
     void Update()
     {
 #pragma warning restore
@@ -85,7 +99,9 @@ public class LevelUIElements : Singleton<LevelUIElements>
 
     public void ToggleCompass()
     {
-        Compass.SetActive(!Compass.activeSelf);
+        bool compassWillBeEnabled = !Compass.activeSelf;
+        Compass.SetActive(compassWillBeEnabled);
+        GameManager.Instance.CompassEnabled = compassWillBeEnabled;
     }
 
     public void DeselectClickedButton()

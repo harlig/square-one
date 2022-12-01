@@ -68,4 +68,6 @@ public class GameManager : MonoBehaviour
 
         }
     }
+
+    public bool CompassEnabled { get; set; } = true;
 }
