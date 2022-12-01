@@ -169,11 +169,7 @@ public abstract class LevelManager : MonoBehaviour
     // they actually only traverse the first tile before the game state is checked. need to rethink
     protected void OnIceTileSteppedOn(Vector3Int direction)
     {
-        // TODO ice should work when level inactive?
-        if (levelActive)
-        {
-            playerController.ForceMoveInDirection(direction);
-        }
+        playerController.ForceMoveInDirection(direction);
     }
 
     protected void OnStageChange(GameStateManager.GameState state)

@@ -41,7 +41,7 @@ Here's what it looks like in its current state
 
 ### TODO
 - [ ] Shouldn't hit waypoints once level in terminal state
-- [ ] should slide on ice once in terminal state
+- [x] should slide on ice once in terminal state
 
 ### Stretch
 
