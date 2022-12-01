@@ -9,7 +9,13 @@ EditorBuildSettings:
     path: Assets/Scenes/UI/World Oyster.unity
     guid: 2dc7e7080fe6e2c44a6e6721cbb4c27b
   - enabled: 1
-    path: Assets/Scenes/UI/Static Title.unity
+    path: Assets/Scenes/UI/Cold Turkey.unity
+    guid: 6f6af47d2ef905043bf98f5e5636e1bd
+  - enabled: 1
+    path: Assets/Scenes/UI/Forbidden Fruit.unity
+    guid: c511caa79a2106d489dfd3456929e926
+  - enabled: 1
+    path: Assets/Scenes/UI/Static Title Light.unity
     guid: fb5b6646a25260641b2eca2b82d48436
   - enabled: 1
     path: Assets/Scenes/UI/Menu.unity

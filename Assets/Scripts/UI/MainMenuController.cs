@@ -1,11 +1,10 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
-    public static readonly int MenuSceneIndex = 2;
+    public static readonly int MenuSceneIndex = 4;
 
     public Slider mainVolumeSlider;
     public Slider musicVolumeSlider;
