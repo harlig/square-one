@@ -80,6 +80,7 @@ public class GameStateManager
 
     public void SetTurnLimit(int turnLimit)
     {
+        playerController.ResetMoveCount();
         this.turnLimit = turnLimit;
         this.TurnLimitEnabled = true;
     }

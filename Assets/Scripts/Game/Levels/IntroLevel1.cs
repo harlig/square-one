@@ -49,7 +49,24 @@ public class IntroLevel1 : LevelManager
             }),
             Waypoint.Of(gridSizeX - 1, gridSizeY - 2).WithOptions(Waypoint.WaypointOptions.Of(0.15f))
             .WithOnTriggeredAction(() => {
-                helpElement.SetActive(false);
+                helpElement.SetActive(true);
+                helpText.text = "Levels have a turn limit\ndisplayed in the top left";
+                gsm.SetTurnLimit(20);
+                gsm.SpawnNextWaypoint();
+            }),
+            Waypoint.Of(3, gridSizeY - 4).WithOptions(Waypoint.WaypointOptions.Of(0.15f))
+            .WithOnTriggeredAction(() => {
+                helpElement.SetActive(true);
+                helpText.text = "Watch out for slippery ice\nand obstacles!";
+
+                gridController.AddStationaryObstacleAtPosition(0, 1);
+                gridController.SpawnIceTile(gridSizeX - 2, 4, OnIceTileSteppedOn);
+
+                gsm.SpawnNextWaypoint();
+            }),
+            Waypoint.Of(gridSizeX - 2, 2)
+            .WithOnTriggeredAction(() => {
+                helpElement.SetActive(true);
                 gsm.SpawnNextWaypoint();
             }),
             Waypoint.Of(squareOne.x, squareOne.y)

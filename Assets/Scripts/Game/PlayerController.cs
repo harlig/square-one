@@ -131,6 +131,11 @@ public class PlayerController : Singleton<PlayerController>
         return moveCount;
     }
 
+    public void ResetMoveCount()
+    {
+        moveCount = 0;
+    }
+
     public void ResetPosition()
     {
         playerInstanceGameObject.transform.localPosition = originalPosition;
