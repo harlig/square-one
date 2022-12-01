@@ -40,7 +40,7 @@ Here's what it looks like in its current state
 ## MVP
 
 ### TODO
-- [ ] Control directions feel clunky
+- [x] Control directions feel clunky
 - [x] Credits page
 - [x] Esc functionality for when in game also should be clickable
 - [ ] Intro for turn limit, waypoint, ice tiles, and obstacles
