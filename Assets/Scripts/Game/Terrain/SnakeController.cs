@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SnakeController
 {
-
-    PlayerController playerController;
     GridController gridController;
 
     private HashSet<Vector2Int> paintedTiles;
@@ -15,20 +13,19 @@ public class SnakeController
     public delegate void HitPaintedTileEvent(Vector2Int position);
     public event HitPaintedTileEvent OnPaintedTileHit;
 
-    public SnakeController(PlayerController player, GridController gridController)
+    public SnakeController(GridController gridController)
     {
-        this.playerController = player;
         this.gridController = gridController;
 
         this.paintedTiles = new();
         Debug.Log("Instantiating tiles again");
 
-        PlayerController.OnMoveFullyCompleted += OnPlayerMoveFinish;
+        PlayerController.OnSingleMoveFinish += OnPlayerMoveFinish;
     }
 
     public void Reset()
     {
-        PlayerController.OnMoveFullyCompleted -= OnPlayerMoveFinish;
+        PlayerController.OnSingleMoveFinish -= OnPlayerMoveFinish;
     }
 
     private void OnPlayerMoveFinish(Vector2Int playerPosition, bool shouldCountMove)

@@ -52,7 +52,7 @@ public class SnakeLevel2 : LevelManager
         gridController.AddStationaryObstacleAtPosition(gridSizeX - 1, gridSizeY);
         gridController.AddStationaryObstacleAtPosition(-1, gridSizeY - 1);
 
-        snakeController = new SnakeController(playerController, gridController);
+        snakeController = new SnakeController(gridController);
         snakeController.OnPaintedTileHit += OnPaintedTileHit;
     }
 

@@ -26,7 +26,7 @@ public class SnakeLevel1 : LevelManager
         SetTurnLimit(turnLimit);
         gsm.ManageGameState();
 
-        snakeController = new SnakeController(playerController, gridController);
+        snakeController = new SnakeController(gridController);
         snakeController.OnPaintedTileHit += OnPaintedTileHit;
     }
 

@@ -40,6 +40,8 @@ Here's what it looks like in its current state
 ## MVP
 
 ### TODO
+- [ ] Shouldn't hit waypoints once level in terminal state
+- [ ] should slide on ice once in terminal state
 
 ### Stretch
 

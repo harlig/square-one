@@ -57,6 +57,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Game/Ice Level 5.unity
     guid: 38397bdc30235f84bb20e4e69a6a0c4a
   - enabled: 1
+    path: Assets/Scenes/Game/Snake Level 1.unity
+    guid: 85392b62713a342c6a5c191a88f33197
+  - enabled: 1
+    path: Assets/Scenes/Game/Snake Level 2.unity
+    guid: cf405720494274955b612ea84b1cb8ae
+  - enabled: 1
     path: Assets/Scenes/UI/Game End.unity
     guid: 30c72ad4c38e83f4abd66b258144b6d5
   m_configObjects:
