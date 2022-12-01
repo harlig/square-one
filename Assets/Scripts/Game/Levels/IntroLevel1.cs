@@ -61,9 +61,13 @@ public class IntroLevel1 : LevelManager
                 helpText.text = "Watch out for slippery ice\nand obstacles!";
 
                 gridController.AddMovingObstacleAtPosition(gridSizeX - 2, gridSizeY - 1).MoveTowardsPlayer(playerController, gridController.GetCurrentStationaryObstaclesAction(), false);
+
                 gridController.SpawnIceTile(gridSizeX - 2, 4, OnIceTileSteppedOn);
                 gridController.SpawnIceTile(gridSizeX - 3, 4, OnIceTileSteppedOn);
                 gridController.SpawnIceTile(gridSizeX - 3, 3, OnIceTileSteppedOn);
+
+                gridController.SpawnIceTile(gridSizeX - 4, gridSizeY - 2, OnIceTileSteppedOn);
+                gridController.SpawnIceTile(gridSizeX - 4, gridSizeY - 3, OnIceTileSteppedOn);
 
                 gsm.SpawnNextWaypoint();
             }),
