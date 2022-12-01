@@ -116,7 +116,7 @@ public abstract class LevelManager : MonoBehaviour
         // TODO paint tiles around player for movement?
         List<Color> directionalTileColors = new() { Color.white, Color.black, Color.blue, Color.red };
         directionalTileLocations = gridController.PaintTilesAdjacentToLocation(playerController.GetCurrentPosition(), directionalTileColors);
-        gridController.SetTextOnTile(new Vector2Int(1, 1), "hi");
+        // gridController.SetTextOnTile(new Vector2Int(1, 1), "hi");
     }
 
     protected void UpdateTurnsLeft(bool shouldCountMove)
