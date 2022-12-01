@@ -24,18 +24,18 @@ public class IntroLevel1 : LevelManager
                 helpText.text = "Move with WASD or arrow keys";
                 helpElement.SetActive(true);
                 StartCoroutine(WaitForNumberOfMoves(3, () => {
-                    helpText.text = "Your obective is to collect all of the waypoints";
+                    helpText.text = "Your obective is to collect\nall of the waypoints";
                     gsm.SpawnNextWaypoint();
                 }));
             }),
             Waypoint.Of(1, 1)
             .WithOnTriggeredAction(() => {
-                helpElement.SetActive(true);
+                helpElement.SetActive(false);
                 gsm.SpawnNextWaypoint();
             }),
             Waypoint.Of(gridSizeX - 2, 0)
             .WithOnTriggeredAction(() => {
-                helpElement.SetActive(false);
+                helpElement.SetActive(true);
                 helpText.text = "Rotate the camera with Q/E\nThe compass in the bottom left shows your orientation";
                 gsm.SpawnNextWaypoint();
             }),
