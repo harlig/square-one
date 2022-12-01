@@ -7,6 +7,7 @@ public class IceLevel1 : LevelManager
     void Start()
     {
         gridSizeX = gridSizeY = 6;
+        turnLimit = 11;
 
         SetupLevel(5, 4);
 
@@ -18,7 +19,7 @@ public class IceLevel1 : LevelManager
 
 
         gsm.SetWaypoints(waypointsInOrder);
-        gsm.SetTurnLimit(11);
+        gsm.SetTurnLimit(turnLimit);
         gsm.ManageGameState();
 
         gridController.SpawnIceTilesAroundPosition(waypointsInOrder[0].Position.x, waypointsInOrder[0].Position.y, OnIceTileSteppedOn);

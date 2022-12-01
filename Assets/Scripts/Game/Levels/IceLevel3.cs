@@ -9,6 +9,7 @@ public class IceLevel3 : LevelManager
     void Start()
     {
         gridSizeX = gridSizeY = 8;
+        turnLimit = 17;
 
         SetupLevel(1, 1);
 
@@ -24,7 +25,7 @@ public class IceLevel3 : LevelManager
 
 
         gsm.SetWaypoints(waypointsInOrder);
-        gsm.SetTurnLimit(17);
+        gsm.SetTurnLimit(turnLimit);
         gsm.ManageGameState();
 
         for (int x = 0; x < gridSizeX; x++)

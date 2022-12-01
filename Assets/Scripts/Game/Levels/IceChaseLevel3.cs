@@ -9,6 +9,7 @@ public class IceChaseLevel3 : LevelManager
     void Start()
     {
         gridSizeX = gridSizeY = 10;
+        turnLimit = 20;
 
         SetupLevel(5, 5);
 
@@ -23,7 +24,7 @@ public class IceChaseLevel3 : LevelManager
 
 
         gsm.SetWaypoints(waypointsInOrder);
-        gsm.SetTurnLimit(20);
+        gsm.SetTurnLimit(turnLimit);
         gsm.ManageGameState();
 
         for (int x = 0; x < gridSizeX; x++)

@@ -9,6 +9,7 @@ public class ChaseLevel2 : LevelManager
     {
 #pragma warning restore IDE0051
         gridSizeX = gridSizeY = 13;
+        turnLimit = 90;
 
         SetupLevel(1, 1);
 
@@ -40,7 +41,7 @@ public class ChaseLevel2 : LevelManager
         };
 
         gsm.SetWaypoints(waypointsInOrder);
-        gsm.SetTurnLimit(90);
+        gsm.SetTurnLimit(turnLimit);
 
         gsm.ManageGameState();
 
