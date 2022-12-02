@@ -1,14 +1,16 @@
-SquareOne
+Square One
 ===============
- 
-SquareOne is an isometric puzzle game built for the [2022 Game Off](https://itch.io/jam/game-off-2022).
 
-Want to play? Head over to [Releases](/Releases/) and downloaded the latest release. Just unzip the file and run the SquareOne executable.
+You can play Square One here: https://harlig.itch.io/squareone
+ 
+Square One is an isometric puzzle game built for the [2022 Game Off](https://itch.io/jam/game-off-2022).
+
+Want to play from the source? Head over to [Releases](/Releases/) and downloaded the latest release. Just unzip the file and run the SquareOne executable.
 
 ------------
 
  
-- [SquareOne](#squareone)
+- [Square One](#square-one)
 - [Demo](#demo)
 - [Ideas](#ideas)
   - [MVP](#mvp)
