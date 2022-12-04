@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// TODO add furthest index
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }

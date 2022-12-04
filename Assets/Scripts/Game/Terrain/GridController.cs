@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class GridController : Singleton<GridController>
 {
-    // TODO will change to BaseTile and use a bare TileController
 #pragma warning disable IDE0044
     [SerializeField] private GameObject paintTilePrefab;
     [SerializeField] private GameObject iceTilePrefab;
