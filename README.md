@@ -39,6 +39,9 @@ Here's what it looks like in its current state
 - [ ] Leaderboard for total turns remaining summation golf
 - [ ] Stars per level based on how well they do
 
+## Bug Reports
+- [ ] On MacOS in Firefox, the ice level with 2 moving non-aggressive cubes was allowing the player to roll (not slide) and was not counting turns
+
 ## MVP
 
 ### TODO
