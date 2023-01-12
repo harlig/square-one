@@ -58,26 +58,89 @@ public class PlayerController : Singleton<PlayerController>
         CameraController.OnCameraRotate -= TrackCameraLocation;
     }
 
+    Vector2? startTouchPosition, endTouchPosition;
+
     // this is handling raw input for ideally only webGL
     void Update()
     {
         if (MovementEnabled)
         {
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            if (Application.isMobilePlatform)
             {
-                TryMove(new Vector2Int(0, 1));
+                if (Input.touches.Length != 0)
+                {
+                    Debug.Log("user has touched screen");
+                    Touch touch = Input.touches[0];
+                    if (touch.phase == UnityEngine.TouchPhase.Began)
+                    {
+                        Debug.Log("start touch");
+                        startTouchPosition = touch.position;
+                    }
+                    else if (touch.phase == UnityEngine.TouchPhase.Ended)
+                    {
+                        Debug.Log("end touch");
+                        endTouchPosition = touch.position;
+
+                    }
+                    else if (touch.phase == UnityEngine.TouchPhase.Canceled)
+                    {
+                        Debug.Log("canceled touch");
+                        startTouchPosition = endTouchPosition = null;
+                    }
+                    else
+                    {
+                        Debug.LogFormat("unhandled touch: {0}", touch.phase);
+                    }
+                }
+
+                if (startTouchPosition != null && endTouchPosition != null)
+                {
+                    Debug.Log("we have both a start and end touch position, time to calculate");
+                    float xDiff = (float)(endTouchPosition?.x - startTouchPosition?.x);
+                    float yDiff = (float)(endTouchPosition?.y - startTouchPosition?.y);
+                    Debug.LogFormat("xDiff {0}; yDiff {1}", xDiff, yDiff);
+                    // up
+                    if (xDiff <= 0 && yDiff >= 0)
+                    {
+                        TryMove(new Vector2Int(0, 1));
+                    }
+                    // left
+                    else if (xDiff <= 0 && yDiff <= 0)
+                    {
+                        TryMove(new Vector2Int(-1, 0));
+                    }
+                    // down
+                    else if (xDiff >= 0 && yDiff <= 0)
+                    {
+                        TryMove(new Vector2Int(0, -1));
+                    }
+                    // right
+                    else
+                    {
+                        TryMove(new Vector2Int(1, 0));
+                    }
+
+                    startTouchPosition = endTouchPosition = null;
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            else
             {
-                TryMove(new Vector2Int(-1, 0));
-            }
-            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                TryMove(new Vector2Int(0, -1));
-            }
-            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                TryMove(new Vector2Int(1, 0));
+                if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    TryMove(new Vector2Int(0, 1));
+                }
+                else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    TryMove(new Vector2Int(-1, 0));
+                }
+                else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    TryMove(new Vector2Int(0, -1));
+                }
+                else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    TryMove(new Vector2Int(1, 0));
+                }
             }
         }
     }
