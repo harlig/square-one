@@ -18,19 +18,88 @@ public class CameraController : Singleton<CameraController>
         Application.targetFrameRate = 100;
     }
 
+    private static readonly int MIN_MOVEMENT_SWIPE_THRESHOLD = 100;
+
+    Vector2? startTouchPosition, endTouchPosition;
     // this is handling raw input for ideally only webGL
     void Update()
     {
         if (RotationEnabled)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Application.isMobilePlatform)
             {
-                TryRotate(1.0f);
+                if (Input.touches.Length != 0)
+                {
+                    Debug.Log("user has touched screen");
+                    Touch touch = Input.touches[0];
+                    if (touch.phase == UnityEngine.TouchPhase.Began)
+                    {
+                        Debug.Log("start touch");
+                        startTouchPosition = touch.position;
+                    }
+                    else if (touch.phase == UnityEngine.TouchPhase.Ended)
+                    {
+                        Debug.Log("end touch");
+                        endTouchPosition = touch.position;
+
+                    }
+                    else if (touch.phase == UnityEngine.TouchPhase.Canceled)
+                    {
+                        Debug.Log("canceled touch");
+                        startTouchPosition = endTouchPosition = null;
+                    }
+                    else
+                    {
+                        Debug.LogFormat("unhandled touch: {0}", touch.phase);
+                    }
+                }
+
+                // TODO need to merge this with PlayerController somehow so they don't both accidentally operate on the same swipe. bugs will follow
+                if (startTouchPosition != null && endTouchPosition != null)
+                {
+                    Debug.Log("CAMERA: we have both a start and end touch position, time to calculate");
+                    float xDiff = (float)(endTouchPosition?.x - startTouchPosition?.x);
+                    float yDiff = (float)(endTouchPosition?.y - startTouchPosition?.y);
+                    if (Mathf.Abs(yDiff) > MIN_MOVEMENT_SWIPE_THRESHOLD)
+                    {
+                        Debug.LogWarningFormat("Swipe was vertical, let's not do any camera movement here. xDiff: {0}, yDiff: {1}", xDiff, yDiff);
+                    }
+                    else if (Mathf.Abs(xDiff) <= MIN_MOVEMENT_SWIPE_THRESHOLD)
+                    {
+                        Debug.LogWarningFormat("Swipe was tiny horizontal, let's not do any camera movement here. xDiff: {0}, yDiff: {1}", xDiff, yDiff);
+                    }
+                    else if (xDiff < 0)
+                    {
+                        RotateLeft();
+                    }
+                    else
+                    {
+                        RotateRight();
+                    }
+
+                    startTouchPosition = endTouchPosition = null;
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.Q))
+            else
             {
-                TryRotate(-1.0f);
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    RotateRight();
+                }
+                else if (Input.GetKeyDown(KeyCode.Q))
+                {
+                    RotateLeft();
+                }
             }
+        }
+
+        void RotateLeft()
+        {
+            TryRotate(-1.0f);
+        }
+        void RotateRight()
+        {
+            TryRotate(1.0f);
         }
     }
 

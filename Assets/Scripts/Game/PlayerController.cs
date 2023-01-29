@@ -60,6 +60,8 @@ public class PlayerController : Singleton<PlayerController>
 
     Vector2? startTouchPosition, endTouchPosition;
 
+    private static readonly int MIN_MOVEMENT_SWIPE_THRESHOLD = 100;
+
     // this is handling raw input for ideally only webGL
     void Update()
     {
@@ -95,11 +97,10 @@ public class PlayerController : Singleton<PlayerController>
 
                 if (startTouchPosition != null && endTouchPosition != null)
                 {
-                    Debug.Log("we have both a start and end touch position, time to calculate");
+                    Debug.Log("PLAYER: we have both a start and end touch position, time to calculate");
                     float xDiff = (float)(endTouchPosition?.x - startTouchPosition?.x);
                     float yDiff = (float)(endTouchPosition?.y - startTouchPosition?.y);
-                    Debug.LogFormat("xDiff {0}; yDiff {1}", xDiff, yDiff);
-                    if (Mathf.Abs(xDiff) <= 100 && Mathf.Abs(yDiff) <= 100)
+                    if (Mathf.Abs(xDiff) <= MIN_MOVEMENT_SWIPE_THRESHOLD || Mathf.Abs(yDiff) <= MIN_MOVEMENT_SWIPE_THRESHOLD)
                     {
                         Debug.LogWarningFormat("Swipe was tiny, let's just not count this one. xDiff: {0}, yDiff: {1}", xDiff, yDiff);
                     }
