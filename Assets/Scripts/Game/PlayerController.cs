@@ -99,25 +99,25 @@ public class PlayerController : Singleton<PlayerController>
                     float xDiff = (float)(endTouchPosition?.x - startTouchPosition?.x);
                     float yDiff = (float)(endTouchPosition?.y - startTouchPosition?.y);
                     Debug.LogFormat("xDiff {0}; yDiff {1}", xDiff, yDiff);
-                    // up
-                    if (xDiff <= 0 && yDiff >= 0)
+                    if (Mathf.Abs(xDiff) <= 100 && Mathf.Abs(yDiff) <= 100)
                     {
-                        TryMove(new Vector2Int(0, 1));
+                        Debug.LogWarningFormat("Swipe was tiny, let's just not count this one. xDiff: {0}, yDiff: {1}", xDiff, yDiff);
                     }
-                    // left
+                    else if (xDiff <= 0 && yDiff >= 0)
+                    {
+                        MoveUp();
+                    }
                     else if (xDiff <= 0 && yDiff <= 0)
                     {
-                        TryMove(new Vector2Int(-1, 0));
+                        MoveLeft();
                     }
-                    // down
                     else if (xDiff >= 0 && yDiff <= 0)
                     {
-                        TryMove(new Vector2Int(0, -1));
+                        MoveDown();
                     }
-                    // right
                     else
                     {
-                        TryMove(new Vector2Int(1, 0));
+                        MoveRight();
                     }
 
                     startTouchPosition = endTouchPosition = null;
@@ -127,30 +127,39 @@ public class PlayerController : Singleton<PlayerController>
             {
                 if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
                 {
-                    TryMove(new Vector2Int(0, 1));
+                    MoveUp();
                 }
                 else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    TryMove(new Vector2Int(-1, 0));
+                    MoveLeft();
                 }
                 else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
                 {
-                    TryMove(new Vector2Int(0, -1));
+                    MoveDown();
                 }
                 else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    TryMove(new Vector2Int(1, 0));
+                    MoveRight();
                 }
             }
+
+            void MoveUp()
+            {
+                TryMove(new Vector2Int(0, 1));
+            }
+            void MoveLeft()
+            {
+                TryMove(new Vector2Int(-1, 0));
+            }
+            void MoveDown()
+            {
+                TryMove(new Vector2Int(0, -1));
+            }
+            void MoveRight()
+            {
+                TryMove(new Vector2Int(1, 0));
+            }
         }
-    }
-
-    // OnMove comes from the InputActions action defined Move
-    void OnMove(InputValue movementValue)
-    {
-
-        Vector2 movementVector = movementValue.Get<Vector2>();
-        TryMove(movementVector);
     }
 
     void TryMove(Vector2 movementVector)
