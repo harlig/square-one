@@ -134,7 +134,7 @@ public class Cube
             if (circuitBreakMovement) { finishedMove = false; break; };
 
             _mb.gameObject.transform.position = Vector3.Lerp(beforeMovePos, targetPos, 1.0f / numSteps * i);
-            yield return null;
+            yield return new WaitForSeconds(0.005f);
         }
         FinishMovement(finishedMove, moveShouldCount, beforeMovePos);
     }
@@ -154,7 +154,8 @@ public class Cube
             _mb.gameObject.transform.RotateAround(anchor, axis, rotationAngle);
             rotationRemaining -= _rollSpeed;
 
-            yield return null;
+            yield return new WaitForSeconds(0.003f);
+            // yield return null;
         }
         FinishMovement(finishedMove, moveShouldCount, beforeMovePos);
     }
