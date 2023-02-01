@@ -39,10 +39,7 @@ public class SnakeController
         // check to see if we have already hit this tile
         if (paintedTiles.Contains(playerPosition))
         {
-            if (OnPaintedTileHit != null)
-            {
-                OnPaintedTileHit(playerPosition);
-            }
+            OnPaintedTileHit?.Invoke(playerPosition);
         }
 
         if (gridController.TileAtLocation(playerPosition) != null)

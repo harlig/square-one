@@ -174,12 +174,16 @@ public abstract class LevelManager : MonoBehaviour
         }
         else if (state == LevelStateManager.GameState.SUCCESS)
         {
-            int numStars = GetStarsForVictory(playerController.GetMoveCount());
-            levelUIElements.SetSuccessElementsStarsAchieved(numStars);
-            SetTerminalGameState(levelUIElements.GetSuccessElements());
-            AudioController.Instance.PlayWinAudio();
-
+            OnLevelSuccess();
         }
+    }
+
+    private void OnLevelSuccess()
+    {
+        int numStars = GetStarsForVictory(playerController.GetMoveCount());
+        levelUIElements.SetSuccessElementsStarsAchieved(numStars);
+        SetTerminalGameState(levelUIElements.GetSuccessElements());
+        AudioController.Instance.PlayWinAudio();
     }
 
     private int GetStarsForVictory(int numTurnsTakenToCompleteLevel)
