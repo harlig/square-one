@@ -1,4 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public abstract class LevelManager : MonoBehaviour
@@ -134,6 +138,22 @@ public abstract class LevelManager : MonoBehaviour
         PlayerController.OnMoveStart += OnPlayerMoveStart;
         PlayerController.OnSingleMoveFinish += OnPlayerMoveFinish;
         PlayerController.OnMoveFullyCompleted += OnPlayerMoveFullyCompleted;
+
+        Debug.Log("trying to get some saved data");
+        if (File.Exists(LEVEL_DATA_FILE_SAVE_LOCATION))
+        {
+            Debug.Log("Holy shit we have saved data");
+            using var stream = File.Open(LEVEL_DATA_FILE_SAVE_LOCATION, FileMode.Open);
+            using var reader = new BinaryReader(stream, Encoding.UTF8, false);
+            var fileContents = reader.ReadString();
+            Debug.Log($"We have data!! {fileContents}");
+            allLevelsSaveData = JsonConvert.DeserializeObject<AllLevelsSaveData>(fileContents);
+        }
+        else
+        {
+            Debug.Log("No data exists here, let's make new stuff");
+            allLevelsSaveData = new();
+        }
     }
 
     // make sure to deregister at disable time
@@ -178,10 +198,62 @@ public abstract class LevelManager : MonoBehaviour
         }
     }
 
+    // TODO this is becoming such a cluster, really gotta refactor this shortly
+    // TODO should probably move this to the overall GameManager
+    string LEVEL_DATA_FILE_SAVE_LOCATION;
+
+    private void Awake()
+    {
+        LEVEL_DATA_FILE_SAVE_LOCATION = $"{Application.persistentDataPath}/LevelData.dat";
+    }
+
+    AllLevelsSaveData allLevelsSaveData;
+
+    class AllLevelsSaveData
+    {
+        public Dictionary<string, LevelSaveData> levelNameToSaveData;
+
+        public AllLevelsSaveData()
+        {
+            levelNameToSaveData = new();
+        }
+
+        public class LevelSaveData
+        {
+            // fields must be public to properly get serialized to JSON
+            public string name;
+            public int numStars;
+
+            public LevelSaveData(string name, int numStars)
+            {
+                this.name = name;
+                this.numStars = numStars;
+            }
+        }
+    }
+
     private void OnLevelSuccess()
     {
         int numStars = GetStarsForVictory(playerController.GetMoveCount());
         levelUIElements.SetSuccessElementsStarsAchieved(numStars);
+
+        Debug.Log("Writing a save file");
+
+        // if this is a higher score than what we've already achieved, save it as high score for this level
+        // TODO are we gonna overwrite?
+        AllLevelsSaveData.LevelSaveData levelSaveData = new(GetType().Name, numStars);
+        allLevelsSaveData.levelNameToSaveData[levelSaveData.name] = levelSaveData;
+        var asJson = JsonConvert.SerializeObject(allLevelsSaveData);
+
+        Debug.Log($"Wrote some json {asJson}");
+
+        // locally this is stored at ~/Library/Application Support/DefaultCompany/SquareOne/LevelData.dat
+        using (var stream = File.Open(LEVEL_DATA_FILE_SAVE_LOCATION, FileMode.Create))
+        {
+            using var writer = new BinaryWriter(stream, Encoding.UTF8, false);
+            writer.Write(asJson);
+        }
+
         SetTerminalGameState(levelUIElements.GetSuccessElements());
         AudioController.Instance.PlayWinAudio();
     }

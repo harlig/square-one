@@ -108,8 +108,6 @@ public class LevelStateManager
     {
         activeWaypoint += 1;
 
-        Debug.LogFormat("Next waypoint: {0}", activeWaypoint);
-
         if (activeWaypoint == waypoints.Count)
         {
             playerController.FinishMovingThenStopMovement();
