@@ -243,6 +243,8 @@ public class PlayerController : Singleton<PlayerController>
 
         bool moveHappenedAndShouldBeCount = anyMoveCompleted && shouldAnyMoveBeCounted;
 
+        Debug.Log($"Finished rolling and should count move {moveHappenedAndShouldBeCount}. Before updating my moveCount is {moveCount}");
+
         if (moveHappenedAndShouldBeCount)
         {
             moveCount++;

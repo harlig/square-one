@@ -184,15 +184,17 @@ public abstract class LevelManager : MonoBehaviour
 
     private int GetStarsForVictory(int numTurnsTakenToCompleteLevel)
     {
-        if (numTurnsTakenToCompleteLevel <= turnLimit)
+        // TODO race condition with player finishing move and game counting as completed
+        Debug.LogFormat("Took {0} turns to complete when turn limit is {1}", numTurnsTakenToCompleteLevel, turnLimit);
+        if (numTurnsTakenToCompleteLevel <= turnLimit - 5)
         {
             return 3;
         }
-        else if (numTurnsTakenToCompleteLevel < turnLimit * 1.15)
+        else if (numTurnsTakenToCompleteLevel < turnLimit && numTurnsTakenToCompleteLevel > turnLimit - 5)
         {
             return 2;
         }
-        else if (numTurnsTakenToCompleteLevel < turnLimit * 1.3)
+        else if (numTurnsTakenToCompleteLevel <= turnLimit)
         {
             return 1;
         }
