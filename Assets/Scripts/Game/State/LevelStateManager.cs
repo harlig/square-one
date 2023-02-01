@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStateManager
+public class LevelStateManager
 {
     public delegate void StateChangeAction(GameState state);
     public event StateChangeAction OnStateChange;
@@ -30,7 +30,7 @@ public class GameStateManager
     /*
         Constructor that takes no default parameters
     */
-    public GameStateManager(PlayerController player, GridController grid)
+    public LevelStateManager(PlayerController player, GridController grid)
     {
         playerController = player;
         gridController = grid;
@@ -46,12 +46,12 @@ public class GameStateManager
         TransitionState(GameState.START);
     }
 
-    public GameStateManager(PlayerController player, GridController grid, Waypoint[] waypoints) : this(player, grid)
+    public LevelStateManager(PlayerController player, GridController grid, Waypoint[] waypoints) : this(player, grid)
     {
         this.waypoints = new(waypoints);
     }
 
-    public GameStateManager(PlayerController player, GridController grid, Vector2Int[] waypointPositions) : this(player, grid)
+    public LevelStateManager(PlayerController player, GridController grid, Vector2Int[] waypointPositions) : this(player, grid)
     {
         waypoints = PositionsToWaypoints(waypointPositions);
     }

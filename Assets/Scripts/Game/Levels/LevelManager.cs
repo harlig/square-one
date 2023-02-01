@@ -13,7 +13,7 @@ public abstract class LevelManager : MonoBehaviour
     protected Vector2Int squareOne;
     protected bool levelActive;
 
-    protected GameStateManager gsm;
+    protected LevelStateManager gsm;
 
     protected int turnLimit, turnsLeft;
 
@@ -49,7 +49,7 @@ public abstract class LevelManager : MonoBehaviour
 
         levelActive = true;
 
-        gsm = new GameStateManager(playerController, gridController);
+        gsm = new LevelStateManager(playerController, gridController);
 
         gsm.OnStateChange += OnStageChange;
         LevelUIElements.OnTogglePause += TogglePause;
@@ -164,15 +164,15 @@ public abstract class LevelManager : MonoBehaviour
         playerController.ForceMoveInDirection(direction);
     }
 
-    private void OnStageChange(GameStateManager.GameState state)
+    private void OnStageChange(LevelStateManager.GameState state)
     {
-        if (state == GameStateManager.GameState.FAILED)
+        if (state == LevelStateManager.GameState.FAILED)
         {
             SetTerminalGameState(levelUIElements.GetFailedElements());
             AudioController.Instance.PlayLoseAudio();
 
         }
-        else if (state == GameStateManager.GameState.SUCCESS)
+        else if (state == LevelStateManager.GameState.SUCCESS)
         {
             int numStars = GetStarsForVictory(playerController.GetMoveCount());
             levelUIElements.SetSuccessElementsStarsAchieved(numStars);
