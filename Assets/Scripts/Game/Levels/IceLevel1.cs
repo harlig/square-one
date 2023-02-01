@@ -7,7 +7,7 @@ public class IceLevel1 : LevelManager
     void Start()
     {
         gridSizeX = gridSizeY = 6;
-        turnLimit = 11;
+        turnLimit = 15;
 
         SetupLevel(5, 4);
 

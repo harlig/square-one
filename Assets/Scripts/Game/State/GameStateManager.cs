@@ -87,6 +87,11 @@ public class GameStateManager
 
     private void CheckTurnLimit(Vector2Int positionAfterMove, bool moveShouldCount)
     {
+        if (activeWaypoint == waypoints.Count)
+        {
+            TransitionState(GameState.SUCCESS);
+        }
+
         if (!TurnLimitEnabled)
         {
             return;
@@ -108,7 +113,6 @@ public class GameStateManager
         if (activeWaypoint == waypoints.Count)
         {
             playerController.FinishMovingThenStopMovement();
-            TransitionState(GameState.SUCCESS);
         }
         else
         {
