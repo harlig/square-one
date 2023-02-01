@@ -9,6 +9,7 @@ public class LevelUIElements : Singleton<LevelUIElements>
     bool _isPaused = false;
 
     [SerializeField] private TextMeshProUGUI MoveCountText;
+    // TODO this isn't using the SuccessElements prefab, and is instead using the instance of SuccessElements in the GameLevelCanvas. Probably same for FailedElements. Should fix bc it's a problem
     [SerializeField] private GameObject SuccessElements;
     [SerializeField] private GameObject FailedElements;
     [SerializeField] private GameObject PauseMenuElements;
@@ -49,6 +50,35 @@ public class LevelUIElements : Singleton<LevelUIElements>
     {
         if (!MoveCountText.gameObject.activeSelf)
             MoveCountText.gameObject.SetActive(true);
+    }
+
+    // TODO possibly need a SuccessElements class if this gets annoying
+    public void SetSuccessElementsStarsAchieved(int numStars)
+    {
+        TextMeshProUGUI starsAchievedText = null;
+        TextMeshProUGUI[] childElements = SuccessElements.GetComponentsInChildren<TextMeshProUGUI>();
+        foreach (TextMeshProUGUI element in childElements)
+        {
+            if (element.gameObject.tag == "Stars")
+            {
+                starsAchievedText = element;
+                break;
+            }
+        }
+
+        if (starsAchievedText == null)
+        {
+            throw new System.Exception("Not able to find text element to set stars achieved. Something is wrong with success elements.");
+        }
+
+        if (numStars == 1)
+        {
+            starsAchievedText.text = "1 star";
+        }
+        else
+        {
+            starsAchievedText.text = $"{numStars} stars";
+        }
     }
 
     public GameObject GetSuccessElements()
@@ -97,6 +127,7 @@ public class LevelUIElements : Singleton<LevelUIElements>
         }
     }
 
+    // TODO remove compass altogether for mobile
     public void ToggleCompass()
     {
         AudioController.Instance.PlayMenuClick();

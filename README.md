@@ -112,6 +112,10 @@ Should consider accessibility and write letters or some symbol on tiles to diffe
 
 # Contributing
 
+## TODO code stuff
+
+- [ ] Hard wrap lines, can't be bothered rn
+
 Unity editor version: 2021.3.13f1
 
 Please enable C# auto-formatting in your text editor, and avoid checking in unformatted code.

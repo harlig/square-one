@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class LevelManager : MonoBehaviour
@@ -9,12 +8,14 @@ public abstract class LevelManager : MonoBehaviour
     protected CameraController cameraController;
     protected LevelUIElements levelUIElements;
 
-    protected int gridSizeX, gridSizeY, turnLimit, turnsLeft;
+    protected int gridSizeX, gridSizeY;
 
     protected Vector2Int squareOne;
     protected bool levelActive;
 
     protected GameStateManager gsm;
+
+    protected int turnLimit, turnsLeft;
 
     protected void SetupLevel()
     {
@@ -55,21 +56,17 @@ public abstract class LevelManager : MonoBehaviour
     }
 
     /**
-    handles setting the game to SUCCESS or FAILED
-    ideas included below
+        handles setting the game to SUCCESS or FAILED
     */
-    // set back to square one text
-    // stop input from this script, now we should spawn a NextGamePortal and head there
-    // also spawn a plane below you which can reset you into middle of map if you fall off at this point
-    protected void SetTerminalGameState(GameObject textElementToEnable)
+    private void SetTerminalGameState(GameObject textElementToEnable)
     {
         SetTerminalGameState(textElementToEnable, 0.2f);
     }
 
     /**
-    handles setting the game to SUCCESS or FAILED with a variable waitDelaySeconds
+        handles setting the game to SUCCESS or FAILED with a variable waitDelaySeconds
     */
-    protected void SetTerminalGameState(GameObject textElementToEnable, float waitDelaySeconds)
+    private void SetTerminalGameState(GameObject textElementToEnable, float waitDelaySeconds)
     {
         levelActive = false;
         playerController.EnterTerminalGameState();
@@ -137,7 +134,6 @@ public abstract class LevelManager : MonoBehaviour
         PlayerController.OnMoveStart += OnPlayerMoveStart;
         PlayerController.OnSingleMoveFinish += OnPlayerMoveFinish;
         PlayerController.OnMoveFullyCompleted += OnPlayerMoveFullyCompleted;
-        // PlayerController.OnMoveFullyCompleted += OnPlayerMoveFullyCompleted;
     }
 
     // make sure to deregister at disable time
@@ -146,7 +142,6 @@ public abstract class LevelManager : MonoBehaviour
         PlayerController.OnMoveStart -= OnPlayerMoveStart;
         PlayerController.OnSingleMoveFinish -= OnPlayerMoveFinish;
         PlayerController.OnMoveFullyCompleted -= OnPlayerMoveFullyCompleted;
-        // PlayerController.OnMoveFinish -= OnPlayerMoveFullyCompleted;
 
         gsm.OnStateChange -= OnStageChange;
     }
@@ -169,7 +164,7 @@ public abstract class LevelManager : MonoBehaviour
         playerController.ForceMoveInDirection(direction);
     }
 
-    protected void OnStageChange(GameStateManager.GameState state)
+    private void OnStageChange(GameStateManager.GameState state)
     {
         if (state == GameStateManager.GameState.FAILED)
         {
@@ -179,9 +174,32 @@ public abstract class LevelManager : MonoBehaviour
         }
         else if (state == GameStateManager.GameState.SUCCESS)
         {
+            int numStars = GetStarsForVictory(playerController.GetMoveCount());
+            levelUIElements.SetSuccessElementsStarsAchieved(numStars);
             SetTerminalGameState(levelUIElements.GetSuccessElements());
             AudioController.Instance.PlayWinAudio();
 
+        }
+    }
+
+    private int GetStarsForVictory(int numTurnsTakenToCompleteLevel)
+    {
+        if (numTurnsTakenToCompleteLevel <= turnLimit)
+        {
+            return 3;
+        }
+        else if (numTurnsTakenToCompleteLevel < turnLimit * 1.15)
+        {
+            return 2;
+        }
+        else if (numTurnsTakenToCompleteLevel < turnLimit * 1.3)
+        {
+            return 1;
+        }
+        else
+        {
+            Debug.LogAssertion($"Player took too many turns: {numTurnsTakenToCompleteLevel}. How'd we even end up in this method?");
+            return 0;
         }
     }
 }
