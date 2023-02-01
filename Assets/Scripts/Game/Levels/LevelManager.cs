@@ -57,6 +57,26 @@ public abstract class LevelManager : MonoBehaviour
 
         gsm.OnStateChange += OnStageChange;
         LevelUIElements.OnTogglePause += TogglePause;
+
+
+        // this is not an ideal time for this but we need to make sure the level UI elements have been awakened, so can't do this in OnEnable
+        if (allLevelsSaveData.levelNameToSaveData.ContainsKey(GetType().Name))
+        {
+            var prevBest = allLevelsSaveData.levelNameToSaveData[GetType().Name].numStars;
+
+            string starsText;
+            if (prevBest == 1)
+            {
+                starsText = "1 star";
+            }
+            else
+            {
+                starsText = $"{prevBest} stars";
+            }
+            Debug.LogFormat("Level UI Elements: {0}", levelUIElements);
+            levelUIElements.SetPreviousBestStarsText($"Prev best: {starsText}");
+            levelUIElements.EnablePreviousBestStarsText();
+        }
     }
 
     /**
@@ -240,9 +260,16 @@ public abstract class LevelManager : MonoBehaviour
         Debug.Log("Writing a save file");
 
         // if this is a higher score than what we've already achieved, save it as high score for this level
-        // TODO are we gonna overwrite?
         AllLevelsSaveData.LevelSaveData levelSaveData = new(GetType().Name, numStars);
-        allLevelsSaveData.levelNameToSaveData[levelSaveData.name] = levelSaveData;
+        if (!allLevelsSaveData.levelNameToSaveData.ContainsKey(levelSaveData.name) || allLevelsSaveData.levelNameToSaveData[levelSaveData.name].numStars < numStars)
+        {
+            Debug.LogFormat("New high score for the level named {0} with a score of {1}", levelSaveData.name, levelSaveData.numStars);
+            allLevelsSaveData.levelNameToSaveData[levelSaveData.name] = levelSaveData;
+        }
+        else
+        {
+            Debug.LogFormat("NOT a new high score for the level named {0} with a score of {1}", levelSaveData.name, levelSaveData.numStars);
+        }
         var asJson = JsonConvert.SerializeObject(allLevelsSaveData);
 
         Debug.Log($"Wrote some json {asJson}");

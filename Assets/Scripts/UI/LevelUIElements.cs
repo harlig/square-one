@@ -9,6 +9,7 @@ public class LevelUIElements : Singleton<LevelUIElements>
     bool _isPaused = false;
 
     [SerializeField] private TextMeshProUGUI MoveCountText;
+    [SerializeField] private TextMeshProUGUI PreviousBestStarsText;
     // TODO this isn't using the SuccessElements prefab, and is instead using the instance of SuccessElements in the GameLevelCanvas. Probably same for FailedElements. Should fix bc it's a problem
     [SerializeField] private GameObject SuccessElements;
     [SerializeField] private GameObject FailedElements;
@@ -50,6 +51,17 @@ public class LevelUIElements : Singleton<LevelUIElements>
     {
         if (!MoveCountText.gameObject.activeSelf)
             MoveCountText.gameObject.SetActive(true);
+    }
+
+    public void SetPreviousBestStarsText(string text)
+    {
+        PreviousBestStarsText.text = text;
+    }
+
+    public void EnablePreviousBestStarsText()
+    {
+        if (!PreviousBestStarsText.gameObject.activeSelf)
+            PreviousBestStarsText.gameObject.SetActive(true);
     }
 
     // TODO possibly need a SuccessElements class if this gets annoying
