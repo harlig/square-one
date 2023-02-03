@@ -1,4 +1,4 @@
-using TMPro;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -26,13 +26,22 @@ public class MainMenuController : MonoBehaviour
         musicVolumeSlider.value = MusicController.Volume;
         sfxVolumeSlider.value = AudioController.Volume;
 
+        SetActiveMenu();
+    }
+
+    public void SetActiveMenu()
+    {
         if (GameManager.Instance.LastBuildIndex.HasValue)
         {
             freshGameMenu.SetActive(false);
             hasSavedGameMenu.SetActive(true);
         }
+        else
+        {
+            freshGameMenu.SetActive(true);
+            hasSavedGameMenu.SetActive(false);
+        }
     }
-
 
     void OnDestroy()
     {
@@ -97,5 +106,21 @@ public class MainMenuController : MonoBehaviour
     public void ClearBuildIndex()
     {
         LevelTransitioner.ClearBuildIndex();
+    }
+
+    public void DeleteSaveData()
+    {
+        if (File.Exists(GameManager.LEVEL_DATA_FILE_SAVE_LOCATION))
+        {
+            File.Delete(GameManager.LEVEL_DATA_FILE_SAVE_LOCATION);
+            Debug.Log("Deleted save data!");
+        }
+        else
+        {
+            Debug.Log("No save data exists!");
+        }
+
+        GameManager.Instance.LastBuildIndex = null;
+        SetActiveMenu();
     }
 }
