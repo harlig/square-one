@@ -160,10 +160,10 @@ public abstract class LevelManager : MonoBehaviour
         PlayerController.OnMoveFullyCompleted += OnPlayerMoveFullyCompleted;
 
         Debug.Log("trying to get some saved data");
-        if (File.Exists(LEVEL_DATA_FILE_SAVE_LOCATION))
+        if (File.Exists(GameManager.LEVEL_DATA_FILE_SAVE_LOCATION))
         {
             Debug.Log("Holy shit we have saved data");
-            using var stream = File.Open(LEVEL_DATA_FILE_SAVE_LOCATION, FileMode.Open);
+            using var stream = File.Open(GameManager.LEVEL_DATA_FILE_SAVE_LOCATION, FileMode.Open);
             using var reader = new BinaryReader(stream, Encoding.UTF8, false);
             var fileContents = reader.ReadString();
             Debug.Log($"We have data!! {fileContents}");
@@ -218,15 +218,6 @@ public abstract class LevelManager : MonoBehaviour
         }
     }
 
-    // TODO this is becoming such a cluster, really gotta refactor this shortly
-    // TODO should probably move this to the overall GameManager
-    string LEVEL_DATA_FILE_SAVE_LOCATION;
-
-    private void Awake()
-    {
-        LEVEL_DATA_FILE_SAVE_LOCATION = $"{Application.persistentDataPath}/LevelData.dat";
-    }
-
     AllLevelsSaveData allLevelsSaveData;
 
     class AllLevelsSaveData
@@ -274,8 +265,7 @@ public abstract class LevelManager : MonoBehaviour
 
         Debug.Log($"Wrote some json {asJson}");
 
-        // locally this is stored at ~/Library/Application Support/DefaultCompany/SquareOne/LevelData.dat
-        using (var stream = File.Open(LEVEL_DATA_FILE_SAVE_LOCATION, FileMode.Create))
+        using (var stream = File.Open(GameManager.LEVEL_DATA_FILE_SAVE_LOCATION, FileMode.Create))
         {
             using var writer = new BinaryWriter(stream, Encoding.UTF8, false);
             writer.Write(asJson);

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static readonly float DefaultVolume = 0.5f;
 
     public int? LastBuildIndex = null;
+    public static string LEVEL_DATA_FILE_SAVE_LOCATION;
 
 #pragma warning disable IDE0051
     void Awake()
@@ -27,6 +28,9 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        // locally this is stored at ~/Library/Application Support/DefaultCompany/SquareOne/LevelData.dat
+        LEVEL_DATA_FILE_SAVE_LOCATION = $"{Application.persistentDataPath}/LevelData.dat";
     }
 
 #pragma warning disable IDE0051
