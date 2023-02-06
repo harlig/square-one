@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -158,10 +158,10 @@ RectTransform:
   m_Father: {fileID: 1963614042}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1110, y: -640}
-  m_SizeDelta: {x: 300, y: 120}
+  m_AnchorMin: {x: 0.03354906, y: 0.03179689}
+  m_AnchorMax: {x: 0.1706076, y: 0.1022031}
+  m_AnchoredPosition: {x: 0, y: -1.5}
+  m_SizeDelta: {x: 0, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7528543
 MonoBehaviour:
@@ -292,7 +292,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00012207031, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &47597814
@@ -505,7 +505,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a4afbaa7e0ecac469e706270af3bde1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicSource: {fileID: 8300000, guid: d1a7011efe3b64d0e9d13e569fdaddf4, type: 3}
 --- !u!1 &958099917
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,10 +654,10 @@ RectTransform:
   m_Father: {fileID: 1963614042}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 72.454, y: -413.091}
-  m_SizeDelta: {x: 594.99, y: 174.145}
+  m_AnchorMin: {x: 0.41178125, y: 0.14884536}
+  m_AnchorMax: {x: 0.64273447, y: 0.26653606}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1162790364
 MonoBehaviour:
