@@ -21,7 +21,11 @@ public class LevelUIElements : Singleton<LevelUIElements>
     void Start()
 #pragma warning restore
     {
-        if (GameManager.Instance.CompassEnabled)
+        if (Application.isMobilePlatform)
+        {
+            Compass.SetActive(false);
+        }
+        else if (GameManager.Instance.CompassEnabled)
         {
             Compass.SetActive(true);
         }
@@ -139,7 +143,6 @@ public class LevelUIElements : Singleton<LevelUIElements>
         }
     }
 
-    // TODO remove compass altogether for mobile
     public void ToggleCompass()
     {
         AudioController.Instance.PlayMenuClick();
