@@ -155,4 +155,21 @@ public class LevelUIElements : Singleton<LevelUIElements>
     {
         EventSystem.current.SetSelectedGameObject(null);
     }
+
+    public void RotateCameraLeft()
+    {
+        ((CameraController)CameraController.Instance).RotateLeft();
+        DisableButton();
+    }
+
+    public void RotateCameraRight()
+    {
+        ((CameraController)CameraController.Instance).RotateRight();
+        DisableButton();
+    }
+
+    void DisableButton()
+    {
+        GameObject.Find("EventSystem").GetComponent<UnityEngine.EventSystems.EventSystem>().SetSelectedGameObject(null);
+    }
 }

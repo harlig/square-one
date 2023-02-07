@@ -60,7 +60,7 @@ public class PlayerController : Singleton<PlayerController>
 
     Vector2? startTouchPosition, endTouchPosition;
 
-    private static readonly int MIN_MOVEMENT_SWIPE_THRESHOLD = 100;
+    private static readonly int MIN_MOVEMENT_SWIPE_THRESHOLD = 20;
 
     // this is handling raw input for ideally only webGL
     void Update()

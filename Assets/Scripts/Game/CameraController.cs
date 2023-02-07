@@ -28,6 +28,8 @@ public class CameraController : Singleton<CameraController>
         {
             if (Application.isMobilePlatform)
             {
+                // for now, disable ability to swipe to turn camera
+                return;
                 if (Input.touches.Length != 0)
                 {
                     Debug.Log("user has touched screen");
@@ -93,14 +95,15 @@ public class CameraController : Singleton<CameraController>
             }
         }
 
-        void RotateLeft()
-        {
-            TryRotate(-1.0f);
-        }
-        void RotateRight()
-        {
-            TryRotate(1.0f);
-        }
+    }
+
+    public void RotateLeft()
+    {
+        TryRotate(-1.0f);
+    }
+    public void RotateRight()
+    {
+        TryRotate(1.0f);
     }
 
     // OnRotate comes from the InputActions action defined Rotate
