@@ -52,17 +52,21 @@ public class MainMenuController : MonoBehaviour
 
     public void PlayGame()
     {
-        AudioController.Instance.PlayMenuClick();
         Debug.LogFormat("If play button is not working, is the first level right after menu?");
         if (GameManager.Instance.LastBuildIndex.HasValue)
         {
+            // TODO this should use LevelTransitioner which should handle audio
             SceneManager.LoadSceneAsync(GameManager.Instance.LastBuildIndex.Value, LoadSceneMode.Single);
         }
         else
         {
             LevelTransitioner.NextLevel();
-
         }
+    }
+
+    public void ToLevelSelector()
+    {
+        LevelTransitioner.ToLevelSelector();
     }
 
     public void QuitGame()

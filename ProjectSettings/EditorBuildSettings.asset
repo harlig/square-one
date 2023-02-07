@@ -62,6 +62,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UI/Game End.unity
     guid: 30c72ad4c38e83f4abd66b258144b6d5
+  - enabled: 1
+    path: Assets/Scenes/UI/Level Selector.unity
+    guid: c3ec2c8b00b044bcc8dba5f559f3c7bd
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 1fd9c43601414d44eb9f17f9dfc3c6f1,
       type: 2}

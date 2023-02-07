@@ -49,4 +49,16 @@ public class LevelTransitioner : MonoBehaviour
         }
         NextLevel();
     }
+
+    public static void ToLevelSelector()
+    {
+        AudioController.Instance.PlayMenuClick();
+        SceneManager.LoadSceneAsync("Level Selector", LoadSceneMode.Single);
+    }
+
+    public static void ToIceLevel1()
+    {
+        AudioController.Instance.PlayMenuClick();
+        SceneManager.LoadSceneAsync("Ice Level 1", LoadSceneMode.Single);
+    }
 }
