@@ -120,19 +120,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9171358321317192390}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LevelTransitioner, Assembly-CSharp
-        m_MethodName: ToIceLevel1
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &9171358321486515922
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,7 +187,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 03900d61c862346ffa1f6b7be2c8f4c4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6b66a9c47e0834d77948f35b7eec60c3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -330,7 +318,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ice Level 1
+  m_text: Level Not Found!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d62c085a88d889c4eb21ae857870eccb, type: 2}
   m_sharedMaterial: {fileID: -8789182835835866853, guid: d62c085a88d889c4eb21ae857870eccb,

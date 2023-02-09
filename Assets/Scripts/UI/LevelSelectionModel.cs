@@ -12,8 +12,13 @@ public class LevelSelectionModel : MonoBehaviour
 
     public void SetLevelSelectFields(string levelName)
     {
+        // TODO what if level doesn't exist?
+
         levelImage.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>($"Images/{levelName}");
         levelText.text = levelName;
-        toLevelButton.onClick.AddListener(() => LevelTransitioner.ToIceLevel1());
+
+        // TODO is this safe?
+        toLevelButton.onClick.RemoveAllListeners();
+        toLevelButton.onClick.AddListener(() => LevelTransitioner.ToNamedScene(levelName));
     }
 }

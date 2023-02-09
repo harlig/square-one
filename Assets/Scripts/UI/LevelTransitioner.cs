@@ -61,4 +61,10 @@ public class LevelTransitioner : MonoBehaviour
         AudioController.Instance.PlayMenuClick();
         SceneManager.LoadSceneAsync("Ice Level 1", LoadSceneMode.Single);
     }
+
+    public static void ToNamedScene(string sceneName)
+    {
+        AudioController.Instance.PlayMenuClick();
+        SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+    }
 }
