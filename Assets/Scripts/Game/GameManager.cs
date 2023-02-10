@@ -127,6 +127,34 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        public void SaveLevelData(LevelSaveData levelSaveData)
+        {
+            LevelSaveData existingLevelSaveData = null;
+
+            // if this is a higher score than what we've already achieved, save it as high score for this level
+            if (Instance.allLevelsSaveData.levelNameToSaveData.ContainsKey(levelSaveData.name))
+            {
+                existingLevelSaveData = Instance.allLevelsSaveData.levelNameToSaveData[levelSaveData.name];
+            }
+
+            if (existingLevelSaveData == null || levelSaveData.numStars > existingLevelSaveData.numStars)
+            {
+                Debug.LogFormat("New high score for the level named {0} with a score of {1}", levelSaveData.name, levelSaveData.numStars);
+                Instance.allLevelsSaveData.levelNameToSaveData[levelSaveData.name] = levelSaveData;
+            }
+            else
+            {
+                Debug.LogFormat("NOT a new high score for the level named {0} with a score of {1}", levelSaveData.name, levelSaveData.numStars);
+            }
+            var asJson = JsonConvert.SerializeObject(Instance.allLevelsSaveData);
+
+            Debug.Log($"Wrote some json {asJson}");
+
+            using var stream = File.Open(Instance.LEVEL_DATA_FILE_SAVE_LOCATION, FileMode.Create);
+            using var writer = new BinaryWriter(stream, Encoding.UTF8, false);
+            writer.Write(asJson);
+        }
+
         public void DeleteSaveData()
         {
             if (File.Exists(Instance.LEVEL_DATA_FILE_SAVE_LOCATION))

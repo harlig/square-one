@@ -208,26 +208,8 @@ public abstract class LevelManager : MonoBehaviour
 
         Debug.Log("Writing a save file");
 
-        // if this is a higher score than what we've already achieved, save it as high score for this level
         GameManager.AllLevelsSaveData.LevelSaveData levelSaveData = new(GetType().Name, numStars);
-        if (!GameManager.Instance.allLevelsSaveData.levelNameToSaveData.ContainsKey(levelSaveData.name) || GameManager.Instance.allLevelsSaveData.levelNameToSaveData[levelSaveData.name].numStars < numStars)
-        {
-            Debug.LogFormat("New high score for the level named {0} with a score of {1}", levelSaveData.name, levelSaveData.numStars);
-            GameManager.Instance.allLevelsSaveData.levelNameToSaveData[levelSaveData.name] = levelSaveData;
-        }
-        else
-        {
-            Debug.LogFormat("NOT a new high score for the level named {0} with a score of {1}", levelSaveData.name, levelSaveData.numStars);
-        }
-        var asJson = JsonConvert.SerializeObject(GameManager.Instance.allLevelsSaveData);
-
-        Debug.Log($"Wrote some json {asJson}");
-
-        using (var stream = File.Open(GameManager.Instance.LEVEL_DATA_FILE_SAVE_LOCATION, FileMode.Create))
-        {
-            using var writer = new BinaryWriter(stream, Encoding.UTF8, false);
-            writer.Write(asJson);
-        }
+        GameManager.Instance.allLevelsSaveData.SaveLevelData(levelSaveData);
 
         SetTerminalGameState(levelUIElements.GetSuccessElements());
         AudioController.Instance.PlayWinAudio();
