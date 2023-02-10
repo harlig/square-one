@@ -112,6 +112,7 @@ public class LevelSeletorController : MonoBehaviour
         levelSelectorGroup.GetComponent<LevelSelectionModel>().AddOnClickListener(() =>
         {
             Debug.Log($"Time to spawn stuff in this group with size {levelsInGroup.Count}");
+            AudioController.Instance.PlayMenuClick();
 
             // delete all existing selectors in the menu
 
@@ -124,6 +125,7 @@ public class LevelSeletorController : MonoBehaviour
             backButton.onClick.RemoveAllListeners();
             backButton.onClick.AddListener(() =>
             {
+                AudioController.Instance.PlayMenuClick();
                 levelSelectionGroupMenu.SetActive(true);
                 levelSelectionMenu.SetActive(false);
                 foreach (Transform levelSelectionMenuChild in levelSelectionMenu.transform)
