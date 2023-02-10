@@ -12,15 +12,29 @@ public class LevelSelectionModel : MonoBehaviour
     [SerializeField] Button toLevelButton;
     [SerializeField] TextMeshProUGUI starsAchievedText;
 
-    private string levelName;
-
     public void SetLevelSelectFields(string levelName)
     {
         // TODO what if level doesn't exist?
 
         levelImage.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>($"Images/{levelName}");
-        this.levelName = levelName;
         levelNameText.text = levelName;
+
+        string levelSaveDataName = GameManager.AllLevelsSaveData.LevelSaveData.GetLevelSaveNameFromLevelName(levelName);
+        if (GameManager.Instance.allLevelsSaveData.levelNameToSaveData.ContainsKey(levelSaveDataName))
+        {
+            var prevBest = GameManager.Instance.allLevelsSaveData.levelNameToSaveData[levelSaveDataName].numStars;
+
+            string starsText;
+            if (prevBest == 1)
+            {
+                starsText = "1 star";
+            }
+            else
+            {
+                starsText = $"{prevBest} stars";
+            }
+            starsAchievedText.text = starsText;
+        }
 
         // TODO is this safe?
         toLevelButton.onClick.RemoveAllListeners();

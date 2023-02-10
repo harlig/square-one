@@ -125,6 +125,12 @@ public class GameManager : MonoBehaviour
                 this.name = name;
                 this.numStars = numStars;
             }
+
+            public static string GetLevelSaveNameFromLevelName(string levelName)
+            {
+                // just replace spaces with nothing, should be fine for now
+                return levelName.Replace(" ", "");
+            }
         }
 
         public void SaveLevelData(LevelSaveData levelSaveData)
