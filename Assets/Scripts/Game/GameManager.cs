@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +13,7 @@ public class GameManager : MonoBehaviour
     public static readonly float DefaultVolume = 0.5f;
 
     public int? LastBuildIndex = null;
-    public static string LEVEL_DATA_FILE_SAVE_LOCATION;
+    public string LEVEL_DATA_FILE_SAVE_LOCATION;
 
 #pragma warning disable IDE0051
     void Awake()
@@ -78,5 +82,63 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        Debug.Log("trying to get some saved data");
+        if (File.Exists(LEVEL_DATA_FILE_SAVE_LOCATION))
+        {
+            Debug.Log("Holy shit we have saved data");
+            using var stream = File.Open(LEVEL_DATA_FILE_SAVE_LOCATION, FileMode.Open);
+            using var reader = new BinaryReader(stream, Encoding.UTF8, false);
+            var fileContents = reader.ReadString();
+            Debug.Log($"We have data!! {fileContents}");
+            allLevelsSaveData = JsonConvert.DeserializeObject<AllLevelsSaveData>(fileContents);
+        }
+        else
+        {
+            Debug.Log("No data exists here, let's make new stuff");
+            allLevelsSaveData = new();
+        }
+    }
+
     public bool CompassEnabled { get; set; } = true;
+
+    public AllLevelsSaveData allLevelsSaveData;
+
+    public class AllLevelsSaveData
+    {
+        public Dictionary<string, LevelSaveData> levelNameToSaveData;
+
+        public AllLevelsSaveData()
+        {
+            levelNameToSaveData = new();
+        }
+
+        public class LevelSaveData
+        {
+            // fields must be public to properly get serialized to JSON
+            public string name;
+            public int numStars;
+
+            public LevelSaveData(string name, int numStars)
+            {
+                this.name = name;
+                this.numStars = numStars;
+            }
+        }
+
+        public void DeleteSaveData()
+        {
+            if (File.Exists(Instance.LEVEL_DATA_FILE_SAVE_LOCATION))
+            {
+                File.Delete(Instance.LEVEL_DATA_FILE_SAVE_LOCATION);
+                Debug.Log("Deleted save data!");
+            }
+            else
+            {
+                Debug.Log("No save data exists!");
+            }
+            levelNameToSaveData = new();
+        }
+    }
 }

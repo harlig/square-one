@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
@@ -60,9 +59,9 @@ public abstract class LevelManager : MonoBehaviour
 
 
         // this is not an ideal time for this but we need to make sure the level UI elements have been awakened, so can't do this in OnEnable
-        if (allLevelsSaveData.levelNameToSaveData.ContainsKey(GetType().Name))
+        if (GameManager.Instance.allLevelsSaveData.levelNameToSaveData.ContainsKey(GetType().Name))
         {
-            var prevBest = allLevelsSaveData.levelNameToSaveData[GetType().Name].numStars;
+            var prevBest = GameManager.Instance.allLevelsSaveData.levelNameToSaveData[GetType().Name].numStars;
 
             string starsText;
             if (prevBest == 1)
@@ -158,22 +157,6 @@ public abstract class LevelManager : MonoBehaviour
         PlayerController.OnMoveStart += OnPlayerMoveStart;
         PlayerController.OnSingleMoveFinish += OnPlayerMoveFinish;
         PlayerController.OnMoveFullyCompleted += OnPlayerMoveFullyCompleted;
-
-        Debug.Log("trying to get some saved data");
-        if (File.Exists(GameManager.LEVEL_DATA_FILE_SAVE_LOCATION))
-        {
-            Debug.Log("Holy shit we have saved data");
-            using var stream = File.Open(GameManager.LEVEL_DATA_FILE_SAVE_LOCATION, FileMode.Open);
-            using var reader = new BinaryReader(stream, Encoding.UTF8, false);
-            var fileContents = reader.ReadString();
-            Debug.Log($"We have data!! {fileContents}");
-            allLevelsSaveData = JsonConvert.DeserializeObject<AllLevelsSaveData>(fileContents);
-        }
-        else
-        {
-            Debug.Log("No data exists here, let's make new stuff");
-            allLevelsSaveData = new();
-        }
     }
 
     // make sure to deregister at disable time
@@ -218,31 +201,6 @@ public abstract class LevelManager : MonoBehaviour
         }
     }
 
-    AllLevelsSaveData allLevelsSaveData;
-
-    class AllLevelsSaveData
-    {
-        public Dictionary<string, LevelSaveData> levelNameToSaveData;
-
-        public AllLevelsSaveData()
-        {
-            levelNameToSaveData = new();
-        }
-
-        public class LevelSaveData
-        {
-            // fields must be public to properly get serialized to JSON
-            public string name;
-            public int numStars;
-
-            public LevelSaveData(string name, int numStars)
-            {
-                this.name = name;
-                this.numStars = numStars;
-            }
-        }
-    }
-
     private void OnLevelSuccess()
     {
         int numStars = GetStarsForVictory(playerController.GetMoveCount());
@@ -251,21 +209,21 @@ public abstract class LevelManager : MonoBehaviour
         Debug.Log("Writing a save file");
 
         // if this is a higher score than what we've already achieved, save it as high score for this level
-        AllLevelsSaveData.LevelSaveData levelSaveData = new(GetType().Name, numStars);
-        if (!allLevelsSaveData.levelNameToSaveData.ContainsKey(levelSaveData.name) || allLevelsSaveData.levelNameToSaveData[levelSaveData.name].numStars < numStars)
+        GameManager.AllLevelsSaveData.LevelSaveData levelSaveData = new(GetType().Name, numStars);
+        if (!GameManager.Instance.allLevelsSaveData.levelNameToSaveData.ContainsKey(levelSaveData.name) || GameManager.Instance.allLevelsSaveData.levelNameToSaveData[levelSaveData.name].numStars < numStars)
         {
             Debug.LogFormat("New high score for the level named {0} with a score of {1}", levelSaveData.name, levelSaveData.numStars);
-            allLevelsSaveData.levelNameToSaveData[levelSaveData.name] = levelSaveData;
+            GameManager.Instance.allLevelsSaveData.levelNameToSaveData[levelSaveData.name] = levelSaveData;
         }
         else
         {
             Debug.LogFormat("NOT a new high score for the level named {0} with a score of {1}", levelSaveData.name, levelSaveData.numStars);
         }
-        var asJson = JsonConvert.SerializeObject(allLevelsSaveData);
+        var asJson = JsonConvert.SerializeObject(GameManager.Instance.allLevelsSaveData);
 
         Debug.Log($"Wrote some json {asJson}");
 
-        using (var stream = File.Open(GameManager.LEVEL_DATA_FILE_SAVE_LOCATION, FileMode.Create))
+        using (var stream = File.Open(GameManager.Instance.LEVEL_DATA_FILE_SAVE_LOCATION, FileMode.Create))
         {
             using var writer = new BinaryWriter(stream, Encoding.UTF8, false);
             writer.Write(asJson);

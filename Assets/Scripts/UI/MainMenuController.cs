@@ -114,16 +114,7 @@ public class MainMenuController : MonoBehaviour
 
     public void DeleteSaveData()
     {
-        if (File.Exists(GameManager.LEVEL_DATA_FILE_SAVE_LOCATION))
-        {
-            File.Delete(GameManager.LEVEL_DATA_FILE_SAVE_LOCATION);
-            Debug.Log("Deleted save data!");
-        }
-        else
-        {
-            Debug.Log("No save data exists!");
-        }
-
+        GameManager.Instance.allLevelsSaveData.DeleteSaveData();
         GameManager.Instance.LastBuildIndex = null;
         SetActiveMenu();
     }
