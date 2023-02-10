@@ -132,15 +132,15 @@ public class GameManager : MonoBehaviour
             LevelSaveData existingLevelSaveData = null;
 
             // if this is a higher score than what we've already achieved, save it as high score for this level
-            if (Instance.allLevelsSaveData.levelNameToSaveData.ContainsKey(levelSaveData.name))
+            if (levelNameToSaveData.ContainsKey(levelSaveData.name))
             {
-                existingLevelSaveData = Instance.allLevelsSaveData.levelNameToSaveData[levelSaveData.name];
+                existingLevelSaveData = levelNameToSaveData[levelSaveData.name];
             }
 
             if (existingLevelSaveData == null || levelSaveData.numStars > existingLevelSaveData.numStars)
             {
                 Debug.LogFormat("New high score for the level named {0} with a score of {1}", levelSaveData.name, levelSaveData.numStars);
-                Instance.allLevelsSaveData.levelNameToSaveData[levelSaveData.name] = levelSaveData;
+                levelNameToSaveData[levelSaveData.name] = levelSaveData;
             }
             else
             {
