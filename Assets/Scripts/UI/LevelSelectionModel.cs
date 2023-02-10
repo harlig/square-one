@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class LevelSelectionModel : MonoBehaviour
@@ -19,6 +20,10 @@ public class LevelSelectionModel : MonoBehaviour
 
         // TODO is this safe?
         toLevelButton.onClick.RemoveAllListeners();
-        toLevelButton.onClick.AddListener(() => LevelTransitioner.ToNamedScene(levelName));
+    }
+
+    public void AddOnClickListener(UnityAction onClickEvent)
+    {
+        toLevelButton.onClick.AddListener(onClickEvent);
     }
 }
