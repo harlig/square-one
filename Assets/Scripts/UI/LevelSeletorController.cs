@@ -103,8 +103,8 @@ public class LevelSeletorController : MonoBehaviour
         float height = originalHeight * newSizeRelativeToOldSize;
 
         // TODO compute y anchor position
-        rectTransform.anchorMin = new Vector2(xAnchorMin, 0.3f);
-        rectTransform.anchorMax = new Vector2(xAnchorMin + width, 0.3f + height);
+        rectTransform.anchorMin = new Vector2(xAnchorMin, 0.1f);
+        rectTransform.anchorMax = new Vector2(xAnchorMin + width, 0.1f + height);
 
         rectTransform.anchoredPosition = Vector2.zero;
         levelSelectorGroup.GetComponent<LevelSelectionModel>().SetLevelSelectFields(groupName);
@@ -161,8 +161,8 @@ public class LevelSeletorController : MonoBehaviour
         float height = originalHeight * newSizeRelativeToOldSize;
 
         // TODO compute y anchor position
-        rectTransform.anchorMin = new Vector2(xAnchorMin, 0.6f);
-        rectTransform.anchorMax = new Vector2(xAnchorMin + width, 0.6f + height);
+        rectTransform.anchorMin = new Vector2(xAnchorMin, 0.4f);
+        rectTransform.anchorMax = new Vector2(xAnchorMin + width, 0.4f + height);
 
         rectTransform.anchoredPosition = Vector2.zero;
         levelSelector.GetComponent<LevelSelectionModel>().SetLevelSelectFields(levelName);
