@@ -23,18 +23,10 @@ public class LevelSeletorController : MonoBehaviour
         backButton.onClick.RemoveAllListeners();
         backButton.onClick.AddListener(() => LevelTransitioner.ToMenu());
 
-        // num levels - 1 because padding after last one is taken care of by border distance
-
         var levelScenes = GetLevelScenes();
 
-        SpawnLevelSelectorGroupings(levelScenes, 5);
-
         // TODO handle multiple rows
-        // for (int ndx = 0; ndx < levelScenes.Count; ndx++)
-        // {
-        //     string levelName = levelScenes[ndx];
-        //     SpawnLevelSelector(width, levelName, ndx, levelSelectionMenu);
-        // }
+        SpawnLevelSelectorGroupings(levelScenes, NUM_LEVELS_PER_ROW);
     }
 
     private List<string> GetLevelScenes()
@@ -54,11 +46,16 @@ public class LevelSeletorController : MonoBehaviour
         return levelScenes;
     }
 
+    // TODO lots of shared logic between these methods, clean them up bud
     private void SpawnLevelSelectorGroupings(List<string> levelScenes, int numLevelsPerGrouping)
     {
         int numGroupings = (int)Mathf.Ceil(levelScenes.Count / (float)numLevelsPerGrouping);
         // num levels - 1 because padding after last one is taken care of by border distance
         float width = (X_BORDER_DISTANCE - ((numGroupings - 1) * X_PADDING)) / numGroupings;
+
+        int thisRow = 0;
+        // TODO we also need to know max number of rows to properly compute
+        int numTotalRows = 1;
 
         int numGroupsCreated = 0;
         List<string> levelsForThisGroup = new();
@@ -72,18 +69,24 @@ public class LevelSeletorController : MonoBehaviour
             if ((ndx + 1) % numLevelsPerGrouping == 0 || ndx == levelScenes.Count - 1)
             {
                 // instantiate a level selection prefab, set its name to "levels x - y", set its onClick to disable the grouping page and show the level selection prefab
-                SpawnLevelSelectorGrouping(width, startGroupNdx, ndx, numGroupsCreated, levelsForThisGroup);
+                SpawnLevelSelectorGrouping(width, startGroupNdx, ndx, numGroupsCreated, (thisRow + 1) / (float)(numTotalRows + 1), levelsForThisGroup);
 
                 levelsForThisGroup = new();
                 numGroupsCreated++;
                 startGroupNdx = endGroupNdx = ndx + 1;
+            }
+
+            // once we've hit the max number of groups per row, increment to new row
+            if (numGroupsCreated != 0 && numGroupsCreated % NUM_LEVELS_PER_ROW == 0)
+            {
+                thisRow++;
             }
         }
 
         levelSelectionGroupMenu.SetActive(true);
     }
 
-    private void SpawnLevelSelectorGrouping(float width, int startGroupNdx, int endGroupNdx, int xOffset, List<string> levelsInGroup)
+    private void SpawnLevelSelectorGrouping(float width, int startGroupNdx, int endGroupNdx, int xOffset, float yCenterpoint, List<string> levelsInGroup)
     {
         string groupName = $"Levels {startGroupNdx + 1} - {endGroupNdx + 1}";
         Debug.Log($"Time to spawn {groupName}");
@@ -102,9 +105,10 @@ public class LevelSeletorController : MonoBehaviour
 
         float height = originalHeight * newSizeRelativeToOldSize;
 
-        // TODO compute y anchor position
-        rectTransform.anchorMin = new Vector2(xAnchorMin, 0.1f);
-        rectTransform.anchorMax = new Vector2(xAnchorMin + width, 0.1f + height);
+        float yAnchorMin = yCenterpoint - (height / 2);
+
+        rectTransform.anchorMin = new Vector2(xAnchorMin, yAnchorMin);
+        rectTransform.anchorMax = new Vector2(xAnchorMin + width, yAnchorMin + height);
 
         rectTransform.anchoredPosition = Vector2.zero;
         levelSelectorGroup.GetComponent<LevelSelectionModel>().SetLevelSelectFields(groupName);
@@ -114,12 +118,14 @@ public class LevelSeletorController : MonoBehaviour
             Debug.Log($"Time to spawn stuff in this group with size {levelsInGroup.Count}");
             AudioController.Instance.PlayMenuClick();
 
-            // delete all existing selectors in the menu
+            int thisRow = 0;
+            // TODO we also need to know max number of rows to properly compute
+            int numTotalRows = 1;
 
             for (int ndx = 0; ndx < levelsInGroup.Count; ndx++)
             {
                 Debug.Log($"Spawning this: {levelsInGroup[ndx]}");
-                SpawnLevelSelector(levelsInGroup[ndx], ndx, levelSelectionMenu);
+                SpawnLevelSelector(levelsInGroup[ndx], ndx, (thisRow + 1) / (float)(numTotalRows + 1), levelSelectionMenu);
             }
 
             backButton.onClick.RemoveAllListeners();
@@ -128,6 +134,8 @@ public class LevelSeletorController : MonoBehaviour
                 AudioController.Instance.PlayMenuClick();
                 levelSelectionGroupMenu.SetActive(true);
                 levelSelectionMenu.SetActive(false);
+
+                // delete all existing selectors in the menu
                 foreach (Transform levelSelectionMenuChild in levelSelectionMenu.transform)
                 {
                     Destroy(levelSelectionMenuChild.gameObject);
@@ -141,7 +149,7 @@ public class LevelSeletorController : MonoBehaviour
         });
     }
 
-    private void SpawnLevelSelector(string levelName, int xOffset, GameObject parent)
+    private void SpawnLevelSelector(string levelName, int xOffset, float yCenterpoint, GameObject parent)
     {
         float width = (X_BORDER_DISTANCE - ((NUM_LEVELS_PER_ROW - 1) * X_PADDING)) / NUM_LEVELS_PER_ROW;
         Debug.Log($"Time to spawn {levelName}");
@@ -160,9 +168,10 @@ public class LevelSeletorController : MonoBehaviour
 
         float height = originalHeight * newSizeRelativeToOldSize;
 
-        // TODO compute y anchor position
-        rectTransform.anchorMin = new Vector2(xAnchorMin, 0.4f);
-        rectTransform.anchorMax = new Vector2(xAnchorMin + width, 0.4f + height);
+        float yAnchorMin = yCenterpoint - (height / 2);
+
+        rectTransform.anchorMin = new Vector2(xAnchorMin, yAnchorMin);
+        rectTransform.anchorMax = new Vector2(xAnchorMin + width, yAnchorMin + height);
 
         rectTransform.anchoredPosition = Vector2.zero;
         levelSelector.GetComponent<LevelSelectionModel>().SetLevelSelectFields(levelName);
