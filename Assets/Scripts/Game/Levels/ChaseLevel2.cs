@@ -1,7 +1,6 @@
 using UnityEngine;
 
 // player has to complete tasks while keeping moving obstacle away
-// TODO this level might be too borked for final game
 public class ChaseLevel2 : LevelManager
 {
 #pragma warning disable IDE0051
