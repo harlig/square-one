@@ -114,6 +114,15 @@ public class GameManager : MonoBehaviour
             levelNameToSaveData = new();
         }
 
+        public int? GetStarsForLevel(string levelName)
+        {
+            if (levelNameToSaveData.ContainsKey(levelName))
+            {
+                return levelNameToSaveData[levelName].numStars;
+            }
+            return null;
+        }
+
         public class LevelSaveData
         {
             // fields must be public to properly get serialized to JSON

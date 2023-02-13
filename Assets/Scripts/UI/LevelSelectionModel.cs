@@ -19,25 +19,22 @@ public class LevelSelectionModel : MonoBehaviour
         levelImage.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>($"Images/{levelName}");
         levelNameText.text = levelName;
 
-        string levelSaveDataName = GameManager.AllLevelsSaveData.LevelSaveData.GetLevelSaveNameFromLevelName(levelName);
-        if (GameManager.Instance.allLevelsSaveData.levelNameToSaveData.ContainsKey(levelSaveDataName))
-        {
-            var prevBest = GameManager.Instance.allLevelsSaveData.levelNameToSaveData[levelSaveDataName].numStars;
-
-            string starsText;
-            if (prevBest == 1)
-            {
-                starsText = "1 star";
-            }
-            else
-            {
-                starsText = $"{prevBest} stars";
-            }
-            starsAchievedText.text = starsText;
-        }
-
         // TODO is this safe?
         toLevelButton.onClick.RemoveAllListeners();
+    }
+
+    public void SetStarsText(int starsAchieved)
+    {
+        string starsText;
+        if (starsAchieved == 1)
+        {
+            starsText = "1 star";
+        }
+        else
+        {
+            starsText = $"{starsAchieved} stars";
+        }
+        starsAchievedText.text = starsText;
     }
 
     public void AddOnClickListener(UnityAction onClickEvent)

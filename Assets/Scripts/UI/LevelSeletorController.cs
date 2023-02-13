@@ -113,6 +113,17 @@ public class LevelSeletorController : MonoBehaviour
         rectTransform.anchoredPosition = Vector2.zero;
         levelSelectorGroup.GetComponent<LevelSelectionModel>().SetLevelSelectFields(groupName);
 
+        int totalStarsForGroup = 0;
+        foreach (string levelName in levelsInGroup)
+        {
+            int? starsForLevel = GameManager.Instance.allLevelsSaveData.GetStarsForLevel(GameManager.AllLevelsSaveData.LevelSaveData.GetLevelSaveNameFromLevelName(levelName));
+            if (starsForLevel.HasValue)
+            {
+                totalStarsForGroup += starsForLevel.Value;
+            }
+        }
+        levelSelectorGroup.GetComponent<LevelSelectionModel>().SetStarsText(totalStarsForGroup);
+
         levelSelectorGroup.GetComponent<LevelSelectionModel>().AddOnClickListener(() =>
         {
             Debug.Log($"Time to spawn stuff in this group with size {levelsInGroup.Count}");
@@ -174,6 +185,15 @@ public class LevelSeletorController : MonoBehaviour
         rectTransform.anchorMax = new Vector2(xAnchorMin + width, yAnchorMin + height);
 
         rectTransform.anchoredPosition = Vector2.zero;
+
+        string levelSaveDataName = GameManager.AllLevelsSaveData.LevelSaveData.GetLevelSaveNameFromLevelName(levelName);
+
+        levelSelector.GetComponent<LevelSelectionModel>().SetLevelSelectFields(levelName);
+        int? prevBestStars = GameManager.Instance.allLevelsSaveData.GetStarsForLevel(levelSaveDataName);
+        if (prevBestStars.HasValue)
+        {
+            levelSelector.GetComponent<LevelSelectionModel>().SetStarsText(prevBestStars.Value);
+        }
         levelSelector.GetComponent<LevelSelectionModel>().SetLevelSelectFields(levelName);
         levelSelector.GetComponent<LevelSelectionModel>().AddOnClickListener(() => LevelTransitioner.ToNamedScene(levelName));
     }
