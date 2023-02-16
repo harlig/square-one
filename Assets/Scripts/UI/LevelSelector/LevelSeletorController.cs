@@ -121,18 +121,8 @@ public class LevelSeletorController : MonoBehaviour
 
         rectTransform.anchoredPosition = Vector2.zero;
         var levelSelectionModel = levelSelectorGroup.GetComponent<GroupLevelSelectionModel>();
-        levelSelectionModel.SetLevelSelectFields(groupName);
-
-        int totalStarsForGroup = 0;
-        foreach (string levelName in levelsInGroup)
-        {
-            int? starsForLevel = GameManager.Instance.allLevelsSaveData.GetStarsForLevel(GameManager.AllLevelsSaveData.LevelSaveData.GetLevelSaveNameFromLevelName(levelName));
-            if (starsForLevel.HasValue)
-            {
-                totalStarsForGroup += starsForLevel.Value;
-            }
-        }
-        levelSelectionModel.SetStarsAchieved(totalStarsForGroup);
+        levelSelectionModel.SetLevelSelectFields(groupName, levelsInGroup);
+        levelSelectionModel.SetUnlocked(isUnlocked, MIN_STARS_FROM_PREV_GROUP_TO_UNLOCK_THIS_GROUP);
 
         levelSelectionModel.AddOnClickListener(() =>
         {
@@ -169,11 +159,6 @@ public class LevelSeletorController : MonoBehaviour
             singleLevelSelectionMenu.SetActive(true);
         });
 
-        if (!isUnlocked)
-        {
-            levelSelectionModel.DisableButton(MIN_STARS_FROM_PREV_GROUP_TO_UNLOCK_THIS_GROUP);
-        }
-
         return levelSelectionModel;
     }
 
@@ -203,15 +188,7 @@ public class LevelSeletorController : MonoBehaviour
 
         rectTransform.anchoredPosition = Vector2.zero;
 
-        string levelSaveDataName = GameManager.AllLevelsSaveData.LevelSaveData.GetLevelSaveNameFromLevelName(levelName);
-
         var levelSelectionModel = levelSelector.GetComponent<SingleLevelSelectionModel>();
-        levelSelectionModel.SetLevelSelectFields(levelName);
-        int? prevBestStars = GameManager.Instance.allLevelsSaveData.GetStarsForLevel(levelSaveDataName);
-        if (prevBestStars.HasValue)
-        {
-            levelSelectionModel.SetStarsAchieved(prevBestStars.Value);
-        }
         levelSelectionModel.SetLevelSelectFields(levelName);
         levelSelectionModel.AddOnClickListener(() => LevelTransitioner.ToNamedScene(levelName));
 

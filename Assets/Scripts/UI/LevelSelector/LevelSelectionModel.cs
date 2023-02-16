@@ -3,16 +3,20 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class LevelSelectionModel : MonoBehaviour
+public abstract class LevelSelectionModel : MonoBehaviour
 {
     [SerializeField] GameObject levelImage;
     [SerializeField] TextMeshProUGUI levelNameText;
     [SerializeField] protected Button toLevelButton;
     [SerializeField] protected TextMeshProUGUI starsAchievedText;
-    public int StarsAchieved { get; private set; }
+    protected string levelName;
+    public int StarsAchieved { get; protected set; }
 
-    public void SetLevelSelectFields(string levelName)
+    protected abstract void SetStarsAchieved();
+
+    protected void SetupBasicLevelSelectFields(string levelName)
     {
+        this.levelName = levelName;
         // TODO what if level doesn't exist?
 
         levelImage.GetComponent<Image>().overrideSprite = Resources.Load<Sprite>($"Images/{levelName}");
@@ -22,7 +26,12 @@ public class LevelSelectionModel : MonoBehaviour
         toLevelButton.onClick.RemoveAllListeners();
     }
 
-    public void SetStarsAchieved(int starsAchieved)
+    public void AddOnClickListener(UnityAction onClickEvent)
+    {
+        toLevelButton.onClick.AddListener(onClickEvent);
+    }
+
+    protected void SetStarsAchieved(int starsAchieved)
     {
         StarsAchieved = starsAchieved;
 
@@ -36,10 +45,6 @@ public class LevelSelectionModel : MonoBehaviour
             starsText = $"{starsAchieved} stars";
         }
         starsAchievedText.text = starsText;
-    }
 
-    public void AddOnClickListener(UnityAction onClickEvent)
-    {
-        toLevelButton.onClick.AddListener(onClickEvent);
     }
 }
