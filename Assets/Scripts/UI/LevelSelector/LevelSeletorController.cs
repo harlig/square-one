@@ -105,21 +105,8 @@ public class LevelSeletorController : MonoBehaviour
         levelSelectorGroup.name = groupName;
 
         var rectTransform = levelSelectorGroup.GetComponent<RectTransform>();
+        SetRectTransformComponents(rectTransform, xOffset, width, yCenterpoint);
 
-        float originalWidth = rectTransform.anchorMax.x - rectTransform.anchorMin.x;
-        float originalHeight = rectTransform.anchorMax.y - rectTransform.anchorMin.y;
-
-        float xAnchorMin = X_PADDING + (xOffset * width) + (xOffset * X_PADDING);
-        float newSizeRelativeToOldSize = width / originalWidth;
-
-        float height = originalHeight * newSizeRelativeToOldSize;
-
-        float yAnchorMin = yCenterpoint - (height / 2);
-
-        rectTransform.anchorMin = new Vector2(xAnchorMin, yAnchorMin);
-        rectTransform.anchorMax = new Vector2(xAnchorMin + width, yAnchorMin + height);
-
-        rectTransform.anchoredPosition = Vector2.zero;
         var levelSelectionModel = levelSelectorGroup.GetComponent<GroupLevelSelectionModel>();
         levelSelectionModel.SetLevelSelectFields(groupName, levelsInGroup, isUnlocked, MIN_STARS_FROM_PREV_GROUP_TO_UNLOCK_THIS_GROUP);
 
@@ -163,7 +150,6 @@ public class LevelSeletorController : MonoBehaviour
 
     private SingleLevelSelectionModel SpawnLevelSelector(string levelName, int xOffset, float yCenterpoint, GameObject parent)
     {
-        float width = (X_BORDER_DISTANCE - ((NUM_LEVELS_PER_ROW - 1) * X_PADDING)) / NUM_LEVELS_PER_ROW;
         Debug.Log($"Time to spawn {levelName}");
         // spawn LevelSelectionModels
         GameObject levelSelector = Instantiate(singleLevelSelectionPrefab, Vector3.zero, Quaternion.identity, parent.transform);
@@ -171,7 +157,18 @@ public class LevelSeletorController : MonoBehaviour
         levelSelector.name = levelName;
 
         var rectTransform = levelSelector.GetComponent<RectTransform>();
+        float width = (X_BORDER_DISTANCE - ((NUM_LEVELS_PER_ROW - 1) * X_PADDING)) / NUM_LEVELS_PER_ROW;
+        SetRectTransformComponents(rectTransform, xOffset, width, yCenterpoint);
 
+        var levelSelectionModel = levelSelector.GetComponent<SingleLevelSelectionModel>();
+        levelSelectionModel.SetLevelSelectFields(levelName);
+        levelSelectionModel.AddOnClickListener(() => LevelTransitioner.ToNamedScene(levelName));
+
+        return levelSelectionModel;
+    }
+
+    private void SetRectTransformComponents(RectTransform rectTransform, int xOffset, float width, float yCenterpoint)
+    {
         float originalWidth = rectTransform.anchorMax.x - rectTransform.anchorMin.x;
         float originalHeight = rectTransform.anchorMax.y - rectTransform.anchorMin.y;
 
@@ -187,10 +184,5 @@ public class LevelSeletorController : MonoBehaviour
 
         rectTransform.anchoredPosition = Vector2.zero;
 
-        var levelSelectionModel = levelSelector.GetComponent<SingleLevelSelectionModel>();
-        levelSelectionModel.SetLevelSelectFields(levelName);
-        levelSelectionModel.AddOnClickListener(() => LevelTransitioner.ToNamedScene(levelName));
-
-        return levelSelectionModel;
     }
 }
