@@ -1,14 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class GroupLevelSelectionModel : LevelSelectionModel
 {
-    public void SetLevelSelectFields(string levelName, List<string> levelsInGroup)
+    public void SetLevelSelectFields(string levelName, List<string> levelsInGroup, bool isUnlocked, int starsRequiredToUnlock)
     {
         SetupBasicLevelSelectFields(levelName);
         LevelsInGroup = levelsInGroup;
         SetStarsAchieved();
+        SetUnlocked(isUnlocked, starsRequiredToUnlock);
     }
 
     public void DisableButton(int prevGroupStarsAchievedToUnlock)
@@ -33,7 +32,7 @@ public class GroupLevelSelectionModel : LevelSelectionModel
         SetStarsAchieved(totalStarsForGroup);
     }
 
-    public void SetUnlocked(bool isUnlocked, int starsRequired)
+    private void SetUnlocked(bool isUnlocked, int starsRequired)
     {
         if (!isUnlocked)
         {

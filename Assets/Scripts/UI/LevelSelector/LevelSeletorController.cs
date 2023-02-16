@@ -121,8 +121,7 @@ public class LevelSeletorController : MonoBehaviour
 
         rectTransform.anchoredPosition = Vector2.zero;
         var levelSelectionModel = levelSelectorGroup.GetComponent<GroupLevelSelectionModel>();
-        levelSelectionModel.SetLevelSelectFields(groupName, levelsInGroup);
-        levelSelectionModel.SetUnlocked(isUnlocked, MIN_STARS_FROM_PREV_GROUP_TO_UNLOCK_THIS_GROUP);
+        levelSelectionModel.SetLevelSelectFields(groupName, levelsInGroup, isUnlocked, MIN_STARS_FROM_PREV_GROUP_TO_UNLOCK_THIS_GROUP);
 
         levelSelectionModel.AddOnClickListener(() =>
         {
