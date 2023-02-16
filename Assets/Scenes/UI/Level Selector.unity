@@ -915,10 +915,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3404f7015f0241a2a068e7f37a3a6c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelSelectionPrefab: {fileID: 9171358321899644534, guid: 4e947ad4c2d244e058c0cbdc6d2bb563,
+  groupLevelSelectionPrefab: {fileID: 6529085997952572888, guid: 6df438e383a7540449f117885ef6c762,
     type: 3}
-  levelSelectionGroupMenu: {fileID: 1637031338}
-  levelSelectionMenu: {fileID: 1043761060}
+  singleLevelSelectionPrefab: {fileID: 6488478706716098775, guid: c38bf4015494d497db4d79929baa6e83,
+    type: 3}
+  groupLevelSelectionMenu: {fileID: 1637031338}
+  singleLevelSelectionMenu: {fileID: 1043761060}
   backButton: {fileID: 951752251}
 --- !u!1 &1623327596
 GameObject:

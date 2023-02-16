@@ -7,8 +7,8 @@ public class LevelSelectionModel : MonoBehaviour
 {
     [SerializeField] GameObject levelImage;
     [SerializeField] TextMeshProUGUI levelNameText;
-    [SerializeField] Button toLevelButton;
-    [SerializeField] TextMeshProUGUI starsAchievedText;
+    [SerializeField] protected Button toLevelButton;
+    [SerializeField] protected TextMeshProUGUI starsAchievedText;
     public int StarsAchieved { get; private set; }
 
     public void SetLevelSelectFields(string levelName)
@@ -41,11 +41,5 @@ public class LevelSelectionModel : MonoBehaviour
     public void AddOnClickListener(UnityAction onClickEvent)
     {
         toLevelButton.onClick.AddListener(onClickEvent);
-    }
-
-    public void DisableButton(int prevGroupStarsAchievedToUnlock)
-    {
-        toLevelButton.interactable = false;
-        starsAchievedText.text = $"Get {prevGroupStarsAchievedToUnlock} stars in the previous group to unlock";
     }
 }

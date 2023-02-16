@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class LevelSeletorController : MonoBehaviour
 {
-    [SerializeField] GameObject levelSelectionPrefab;
-    [SerializeField] GameObject levelSelectionGroupMenu;
-    [SerializeField] GameObject levelSelectionMenu;
+    [SerializeField] GameObject groupLevelSelectionPrefab;
+    [SerializeField] GameObject singleLevelSelectionPrefab;
+    [SerializeField] GameObject groupLevelSelectionMenu;
+    [SerializeField] GameObject singleLevelSelectionMenu;
     [SerializeField] Button backButton;
 
     private static readonly float X_PADDING = 0.05f;
@@ -20,8 +21,8 @@ public class LevelSeletorController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        levelSelectionGroupMenu.SetActive(false);
-        levelSelectionMenu.SetActive(false);
+        groupLevelSelectionMenu.SetActive(false);
+        singleLevelSelectionMenu.SetActive(false);
         backButton.onClick.RemoveAllListeners();
         backButton.onClick.AddListener(() => LevelTransitioner.ToMenu());
 
@@ -91,15 +92,15 @@ public class LevelSeletorController : MonoBehaviour
             }
         }
 
-        levelSelectionGroupMenu.SetActive(true);
+        groupLevelSelectionMenu.SetActive(true);
     }
 
-    private LevelSelectionModel SpawnLevelSelectorGrouping(float width, int startGroupNdx, int endGroupNdx, int xOffset, float yCenterpoint, List<string> levelsInGroup, bool isUnlocked)
+    private GroupLevelSelectionModel SpawnLevelSelectorGrouping(float width, int startGroupNdx, int endGroupNdx, int xOffset, float yCenterpoint, List<string> levelsInGroup, bool isUnlocked)
     {
         string groupName = $"Levels {startGroupNdx + 1} - {endGroupNdx + 1}";
         Debug.Log($"Time to spawn {groupName}");
         // spawn LevelSelectionModels
-        GameObject levelSelectorGroup = Instantiate(levelSelectionPrefab, Vector3.zero, Quaternion.identity, levelSelectionGroupMenu.transform);
+        GameObject levelSelectorGroup = Instantiate(groupLevelSelectionPrefab, Vector3.zero, Quaternion.identity, groupLevelSelectionMenu.transform);
         levelSelectorGroup.transform.localPosition = Vector3.zero;
         levelSelectorGroup.name = groupName;
 
@@ -119,7 +120,7 @@ public class LevelSeletorController : MonoBehaviour
         rectTransform.anchorMax = new Vector2(xAnchorMin + width, yAnchorMin + height);
 
         rectTransform.anchoredPosition = Vector2.zero;
-        var levelSelectionModel = levelSelectorGroup.GetComponent<LevelSelectionModel>();
+        var levelSelectionModel = levelSelectorGroup.GetComponent<GroupLevelSelectionModel>();
         levelSelectionModel.SetLevelSelectFields(groupName);
 
         int totalStarsForGroup = 0;
@@ -145,18 +146,18 @@ public class LevelSeletorController : MonoBehaviour
             for (int ndx = 0; ndx < levelsInGroup.Count; ndx++)
             {
                 Debug.Log($"Spawning this: {levelsInGroup[ndx]}");
-                SpawnLevelSelector(levelsInGroup[ndx], ndx, (thisRow + 1) / (float)(numTotalRows + 1), levelSelectionMenu);
+                SpawnLevelSelector(levelsInGroup[ndx], ndx, (thisRow + 1) / (float)(numTotalRows + 1), singleLevelSelectionMenu);
             }
 
             backButton.onClick.RemoveAllListeners();
             backButton.onClick.AddListener(() =>
             {
                 AudioController.Instance.PlayMenuClick();
-                levelSelectionGroupMenu.SetActive(true);
-                levelSelectionMenu.SetActive(false);
+                groupLevelSelectionMenu.SetActive(true);
+                singleLevelSelectionMenu.SetActive(false);
 
                 // delete all existing selectors in the menu
-                foreach (Transform levelSelectionMenuChild in levelSelectionMenu.transform)
+                foreach (Transform levelSelectionMenuChild in singleLevelSelectionMenu.transform)
                 {
                     Destroy(levelSelectionMenuChild.gameObject);
                 }
@@ -164,8 +165,8 @@ public class LevelSeletorController : MonoBehaviour
                 backButton.onClick.AddListener(() => LevelTransitioner.ToMenu());
             });
 
-            levelSelectionGroupMenu.SetActive(false);
-            levelSelectionMenu.SetActive(true);
+            groupLevelSelectionMenu.SetActive(false);
+            singleLevelSelectionMenu.SetActive(true);
         });
 
         if (!isUnlocked)
@@ -176,12 +177,12 @@ public class LevelSeletorController : MonoBehaviour
         return levelSelectionModel;
     }
 
-    private LevelSelectionModel SpawnLevelSelector(string levelName, int xOffset, float yCenterpoint, GameObject parent)
+    private SingleLevelSelectionModel SpawnLevelSelector(string levelName, int xOffset, float yCenterpoint, GameObject parent)
     {
         float width = (X_BORDER_DISTANCE - ((NUM_LEVELS_PER_ROW - 1) * X_PADDING)) / NUM_LEVELS_PER_ROW;
         Debug.Log($"Time to spawn {levelName}");
         // spawn LevelSelectionModels
-        GameObject levelSelector = Instantiate(levelSelectionPrefab, Vector3.zero, Quaternion.identity, parent.transform);
+        GameObject levelSelector = Instantiate(singleLevelSelectionPrefab, Vector3.zero, Quaternion.identity, parent.transform);
         levelSelector.transform.localPosition = Vector3.zero;
         levelSelector.name = levelName;
 
@@ -204,7 +205,7 @@ public class LevelSeletorController : MonoBehaviour
 
         string levelSaveDataName = GameManager.AllLevelsSaveData.LevelSaveData.GetLevelSaveNameFromLevelName(levelName);
 
-        var levelSelectionModel = levelSelector.GetComponent<LevelSelectionModel>();
+        var levelSelectionModel = levelSelector.GetComponent<SingleLevelSelectionModel>();
         levelSelectionModel.SetLevelSelectFields(levelName);
         int? prevBestStars = GameManager.Instance.allLevelsSaveData.GetStarsForLevel(levelSaveDataName);
         if (prevBestStars.HasValue)
