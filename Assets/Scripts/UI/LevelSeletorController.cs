@@ -170,7 +170,7 @@ public class LevelSeletorController : MonoBehaviour
 
         if (!isUnlocked)
         {
-            levelSelectionModel.DisableButton();
+            levelSelectionModel.DisableButton(MIN_STARS_FROM_PREV_GROUP_TO_UNLOCK_THIS_GROUP);
         }
 
         return levelSelectionModel;

@@ -43,8 +43,9 @@ public class LevelSelectionModel : MonoBehaviour
         toLevelButton.onClick.AddListener(onClickEvent);
     }
 
-    public void DisableButton()
+    public void DisableButton(int prevGroupStarsAchievedToUnlock)
     {
         toLevelButton.interactable = false;
+        starsAchievedText.text = $"Get {prevGroupStarsAchievedToUnlock} stars in the previous group to unlock";
     }
 }
