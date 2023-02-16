@@ -15,6 +15,8 @@ public class LevelSeletorController : MonoBehaviour
 
     private static readonly int NUM_LEVELS_PER_ROW = 5;
 
+    private static readonly int MIN_STARS_FROM_PREV_GROUP_TO_UNLOCK_THIS_GROUP = 10;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,9 +59,9 @@ public class LevelSeletorController : MonoBehaviour
         // TODO we also need to know max number of rows to properly compute
         int numTotalRows = 1;
 
-        int numGroupsCreated = 0;
         List<string> levelsForThisGroup = new();
         int startGroupNdx = 0, endGroupNdx = 0;
+        List<LevelSelectionModel> createdGroups = new();
 
         for (int ndx = 0; ndx < levelScenes.Count; ndx++)
         {
@@ -68,16 +70,22 @@ public class LevelSeletorController : MonoBehaviour
             // create the grouping every numLevelsPerGrouping and for last group
             if ((ndx + 1) % numLevelsPerGrouping == 0 || ndx == levelScenes.Count - 1)
             {
+                bool isGroupUnlocked = true;
+                if (createdGroups.Count != 0 && createdGroups[^1].StarsAchieved < MIN_STARS_FROM_PREV_GROUP_TO_UNLOCK_THIS_GROUP)
+                {
+                    isGroupUnlocked = false;
+                }
+
                 // instantiate a level selection prefab, set its name to "levels x - y", set its onClick to disable the grouping page and show the level selection prefab
-                SpawnLevelSelectorGrouping(width, startGroupNdx, ndx, numGroupsCreated, (thisRow + 1) / (float)(numTotalRows + 1), levelsForThisGroup);
+                var createdGroup = SpawnLevelSelectorGrouping(width, startGroupNdx, ndx, createdGroups.Count, (thisRow + 1) / (float)(numTotalRows + 1), levelsForThisGroup, isGroupUnlocked);
 
                 levelsForThisGroup = new();
-                numGroupsCreated++;
+                createdGroups.Add(createdGroup);
                 startGroupNdx = endGroupNdx = ndx + 1;
             }
 
             // once we've hit the max number of groups per row, increment to new row
-            if (numGroupsCreated != 0 && numGroupsCreated % NUM_LEVELS_PER_ROW == 0)
+            if (createdGroups.Count != 0 && createdGroups.Count % NUM_LEVELS_PER_ROW == 0)
             {
                 thisRow++;
             }
@@ -86,7 +94,7 @@ public class LevelSeletorController : MonoBehaviour
         levelSelectionGroupMenu.SetActive(true);
     }
 
-    private void SpawnLevelSelectorGrouping(float width, int startGroupNdx, int endGroupNdx, int xOffset, float yCenterpoint, List<string> levelsInGroup)
+    private LevelSelectionModel SpawnLevelSelectorGrouping(float width, int startGroupNdx, int endGroupNdx, int xOffset, float yCenterpoint, List<string> levelsInGroup, bool isUnlocked)
     {
         string groupName = $"Levels {startGroupNdx + 1} - {endGroupNdx + 1}";
         Debug.Log($"Time to spawn {groupName}");
@@ -111,7 +119,8 @@ public class LevelSeletorController : MonoBehaviour
         rectTransform.anchorMax = new Vector2(xAnchorMin + width, yAnchorMin + height);
 
         rectTransform.anchoredPosition = Vector2.zero;
-        levelSelectorGroup.GetComponent<LevelSelectionModel>().SetLevelSelectFields(groupName);
+        var levelSelectionModel = levelSelectorGroup.GetComponent<LevelSelectionModel>();
+        levelSelectionModel.SetLevelSelectFields(groupName);
 
         int totalStarsForGroup = 0;
         foreach (string levelName in levelsInGroup)
@@ -122,9 +131,9 @@ public class LevelSeletorController : MonoBehaviour
                 totalStarsForGroup += starsForLevel.Value;
             }
         }
-        levelSelectorGroup.GetComponent<LevelSelectionModel>().SetStarsText(totalStarsForGroup);
+        levelSelectionModel.SetStarsAchieved(totalStarsForGroup);
 
-        levelSelectorGroup.GetComponent<LevelSelectionModel>().AddOnClickListener(() =>
+        levelSelectionModel.AddOnClickListener(() =>
         {
             Debug.Log($"Time to spawn stuff in this group with size {levelsInGroup.Count}");
             AudioController.Instance.PlayMenuClick();
@@ -158,9 +167,16 @@ public class LevelSeletorController : MonoBehaviour
             levelSelectionGroupMenu.SetActive(false);
             levelSelectionMenu.SetActive(true);
         });
+
+        if (!isUnlocked)
+        {
+            levelSelectionModel.DisableButton();
+        }
+
+        return levelSelectionModel;
     }
 
-    private void SpawnLevelSelector(string levelName, int xOffset, float yCenterpoint, GameObject parent)
+    private LevelSelectionModel SpawnLevelSelector(string levelName, int xOffset, float yCenterpoint, GameObject parent)
     {
         float width = (X_BORDER_DISTANCE - ((NUM_LEVELS_PER_ROW - 1) * X_PADDING)) / NUM_LEVELS_PER_ROW;
         Debug.Log($"Time to spawn {levelName}");
@@ -188,13 +204,16 @@ public class LevelSeletorController : MonoBehaviour
 
         string levelSaveDataName = GameManager.AllLevelsSaveData.LevelSaveData.GetLevelSaveNameFromLevelName(levelName);
 
-        levelSelector.GetComponent<LevelSelectionModel>().SetLevelSelectFields(levelName);
+        var levelSelectionModel = levelSelector.GetComponent<LevelSelectionModel>();
+        levelSelectionModel.SetLevelSelectFields(levelName);
         int? prevBestStars = GameManager.Instance.allLevelsSaveData.GetStarsForLevel(levelSaveDataName);
         if (prevBestStars.HasValue)
         {
-            levelSelector.GetComponent<LevelSelectionModel>().SetStarsText(prevBestStars.Value);
+            levelSelectionModel.SetStarsAchieved(prevBestStars.Value);
         }
-        levelSelector.GetComponent<LevelSelectionModel>().SetLevelSelectFields(levelName);
-        levelSelector.GetComponent<LevelSelectionModel>().AddOnClickListener(() => LevelTransitioner.ToNamedScene(levelName));
+        levelSelectionModel.SetLevelSelectFields(levelName);
+        levelSelectionModel.AddOnClickListener(() => LevelTransitioner.ToNamedScene(levelName));
+
+        return levelSelectionModel;
     }
 }

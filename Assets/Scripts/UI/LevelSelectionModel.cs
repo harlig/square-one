@@ -9,6 +9,7 @@ public class LevelSelectionModel : MonoBehaviour
     [SerializeField] TextMeshProUGUI levelNameText;
     [SerializeField] Button toLevelButton;
     [SerializeField] TextMeshProUGUI starsAchievedText;
+    public int StarsAchieved { get; private set; }
 
     public void SetLevelSelectFields(string levelName)
     {
@@ -21,8 +22,10 @@ public class LevelSelectionModel : MonoBehaviour
         toLevelButton.onClick.RemoveAllListeners();
     }
 
-    public void SetStarsText(int starsAchieved)
+    public void SetStarsAchieved(int starsAchieved)
     {
+        StarsAchieved = starsAchieved;
+
         string starsText;
         if (starsAchieved == 1)
         {
@@ -38,5 +41,10 @@ public class LevelSelectionModel : MonoBehaviour
     public void AddOnClickListener(UnityAction onClickEvent)
     {
         toLevelButton.onClick.AddListener(onClickEvent);
+    }
+
+    public void DisableButton()
+    {
+        toLevelButton.interactable = false;
     }
 }
