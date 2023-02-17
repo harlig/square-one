@@ -12,13 +12,28 @@ public class GridController : Singleton<GridController>
     [SerializeField] private GameObject waypointPrefab;
 #pragma warning disable IDE0044
 
-    private List<List<TileController>> gridRows;
+    private List<List<GridSpace>> gridRows;
     private Color startingColor;
     private GameObject _obstacleGameObject;
     private HashSet<Vector2Int> stationaryObstaclePositions = new();
     // TODO need to keep track of moving obstacles too
     private OrderedDictionary movingObstaclePositionToControllerMap = new();
     private List<WaypointController> waypointControllers = new();
+
+    private class GridSpace
+    {
+        public TileController TileController { get; private set; }
+
+        public GridSpace(TileController tileController)
+        {
+            TileController = tileController;
+        }
+
+        public bool HasTile()
+        {
+            return TileController != null;
+        }
+    }
 
     public bool TileWillMovePlayer(int x, int y)
     {
@@ -29,11 +44,11 @@ public class GridController : Singleton<GridController>
 
     public void SetupGrid(int xSize, int ySize)
     {
-        List<List<TileController>> rows = new();
+        List<List<GridSpace>> rows = new();
 
         for (int x = 0; x < xSize; x++)
         {
-            List<TileController> thisRow = new();
+            List<GridSpace> thisRow = new();
             GameObject xRowObj = new(string.Format("X{0}", x));
             for (int y = 0; y < ySize; y++)
             {
@@ -44,11 +59,13 @@ public class GridController : Singleton<GridController>
                 tile.name = string.Format("Y{0} - Paint", y);
                 tile.transform.parent = xRowObj.transform;
 
-                thisRow.Add(tile.GetComponent<TileController>());
+                var tileController = tile.GetComponent<TileController>();
+
+                thisRow.Add(new GridSpace(tileController));
 
                 if (startingColor == null)
                 {
-                    startingColor = thisRow[0].GetComponent<MeshRenderer>().material.color;
+                    startingColor = tileController.GetComponent<MeshRenderer>().material.color;
                 }
 
             }
@@ -73,7 +90,7 @@ public class GridController : Singleton<GridController>
             IceTile iceTile = tile.GetComponent<IceTile>();
             iceTile.WhenSteppedOn += steppedOnAction;
 
-            gridRows[x][y] = iceTile;
+            gridRows[x][y] = new GridSpace(iceTile);
             return iceTile;
         }
 
@@ -191,7 +208,12 @@ public class GridController : Singleton<GridController>
         {
             return null;
         }
-        return gridRows[position.x][position.y];
+        GridSpace gridSpace = gridRows[position.x][position.y];
+        if (gridSpace.HasTile())
+        {
+            return gridSpace.TileController;
+        }
+        return null;
     }
 
     public Color? TileColorAtLocation(Vector2Int position)
@@ -219,8 +241,9 @@ public class GridController : Singleton<GridController>
     public bool PaintTileAtLocation(int x, int y, Color color)
     {
         if (!PaintTileExists(x, y)) { return false; }
+        if (!gridRows[x][y].HasTile()) { return false; }
 
-        ((PaintTile)gridRows[x][y]).Paint(color);
+        ((PaintTile)gridRows[x][y].TileController).Paint(color);
         return true;
     }
 
