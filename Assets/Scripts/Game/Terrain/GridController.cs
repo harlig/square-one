@@ -224,22 +224,6 @@ public class GridController : Singleton<GridController>
         return true;
     }
 
-    public bool PaintLastColorForTileAtLocation(Vector2Int position)
-    {
-        return PaintLastColorForTileAtLocation(position.x, position.y);
-    }
-
-    /**
-    Returns bool indicating if a tile at this location was painted
-    */
-    public bool PaintLastColorForTileAtLocation(int x, int y)
-    {
-        if (!PaintTileExists(x, y)) { return false; }
-
-        ((PaintTile)gridRows[x][y]).PaintLastColor();
-        return true;
-    }
-
     private bool PaintTileExists(int x, int y)
     {
         if (!IsWithinGrid(x, y))
@@ -304,47 +288,6 @@ public class GridController : Singleton<GridController>
         {
             waypointController.gameObject.SetActive(false);
         }
-    }
-
-    public List<Vector2Int> PaintTilesAdjacentToLocation(Vector2 position, Color color)
-    {
-        return PaintTilesAdjacentToLocation((int)position.x, (int)position.y, new() { color });
-    }
-
-    public List<Vector2Int> PaintTilesAdjacentToLocation(Vector2 position, List<Color> colors)
-    {
-        return PaintTilesAdjacentToLocation((int)position.x, (int)position.y, colors);
-    }
-
-    public List<Vector2Int> PaintTilesAdjacentToLocation(int x, int y, List<Color> colors)
-    {
-        Vector2Int[] possibleLocations = new[]{
-            new Vector2Int(x-1,y),
-            new Vector2Int(x+1,y),
-            new Vector2Int(x,y-1),
-            new Vector2Int(x,y+1)
-        };
-
-        List<Vector2Int> paintedTiles = new();
-        for (int ndx = 0; ndx < possibleLocations.Length; ndx++)
-        {
-            Vector2Int location = possibleLocations[ndx];
-            Color color;
-            if (ndx >= colors.Count)
-            {
-                color = colors[ndx];
-            }
-            else
-            {
-                color = colors[ndx];
-            }
-
-            if (PaintTileAtLocation(location, color))
-            {
-                paintedTiles.Add(location);
-            }
-        }
-        return paintedTiles;
     }
 
     public bool IsWithinGrid(Vector2Int position)
