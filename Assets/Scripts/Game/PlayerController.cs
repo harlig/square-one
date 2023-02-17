@@ -333,6 +333,11 @@ public class PlayerController : Singleton<PlayerController>
         return currentPosition;
     }
 
+    public float GetHeight()
+    {
+        return transform.localPosition.y;
+    }
+
     /**
         Update the player's known location after it has moved via something other than player;
         e.g. something else (obstacle) interacting with player and causing player to move.

@@ -152,6 +152,10 @@ public class LevelStateManager
         {
             TransitionState(GameState.FAILED);
         }
+        if (playerController.GetHeight() < -1.0f)
+        {
+            TransitionState(GameState.FAILED);
+        }
     }
 
     public void SetFailedState()
