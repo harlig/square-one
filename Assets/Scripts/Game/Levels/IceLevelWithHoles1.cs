@@ -30,6 +30,9 @@ public class IceLevelWithHoles1 : LevelManager
         gridController.SpawnIceTile(3, 0, OnIceTileSteppedOn);
 
         gridController.RemoveTileAtLocation(new Vector2Int(1, 1));
+        gridController.RemoveTileAtLocation(new Vector2Int(1, 2));
+        gridController.RemoveTileAtLocation(new Vector2Int(2, 1));
+        gridController.RemoveTileAtLocation(new Vector2Int(2, 0));
     }
 
 #pragma warning restore IDE0051
