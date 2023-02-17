@@ -247,6 +247,9 @@ public class PlayerController : Singleton<PlayerController>
             moveCount++;
         }
 
+        // snap player position. do I want this?
+        playerInstanceGameObject.transform.localPosition = new Vector3(currentPosition.x, playerInstanceGameObject.transform.localPosition.y, currentPosition.y);
+
         OnMoveFullyCompleted?.Invoke(currentPosition, moveHappenedAndShouldBeCount);
 
         forcedStopMoving = false;

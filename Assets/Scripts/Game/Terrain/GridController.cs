@@ -24,9 +24,18 @@ public class GridController : Singleton<GridController>
     {
         public TileController TileController { get; private set; }
 
-        public GridSpace(TileController tileController)
+        public static GridSpace Empty()
         {
-            TileController = tileController;
+            return new GridSpace();
+        }
+
+        public static GridSpace FromTileController(TileController tileController)
+        {
+            var gridSpace = new GridSpace
+            {
+                TileController = tileController
+            };
+            return gridSpace;
         }
 
         public bool HasTile()
@@ -61,7 +70,7 @@ public class GridController : Singleton<GridController>
 
                 var tileController = tile.GetComponent<TileController>();
 
-                thisRow.Add(new GridSpace(tileController));
+                thisRow.Add(GridSpace.FromTileController(tileController));
 
                 if (startingColor == null)
                 {
@@ -90,7 +99,7 @@ public class GridController : Singleton<GridController>
             IceTile iceTile = tile.GetComponent<IceTile>();
             iceTile.WhenSteppedOn += steppedOnAction;
 
-            gridRows[x][y] = new GridSpace(iceTile);
+            gridRows[x][y] = GridSpace.FromTileController(iceTile);
             return iceTile;
         }
 
@@ -114,6 +123,15 @@ public class GridController : Singleton<GridController>
             }
         }
         return iceTilesCreated;
+    }
+
+    public void RemoveTileAtLocation(Vector2Int position)
+    {
+        if (IsWithinGrid(position) && gridRows[position.x][position.y].HasTile())
+        {
+            TileAtLocation(position).GetTile().SetActive(false);
+            gridRows[position.x][position.y] = GridSpace.Empty();
+        }
     }
 
     public ObstacleController AddStationaryObstacleAtPosition(int x, int y)
