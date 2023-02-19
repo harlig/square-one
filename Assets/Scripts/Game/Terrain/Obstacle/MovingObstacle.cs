@@ -16,6 +16,11 @@ public class MovingObstacle : ObstacleController
     private Func<HashSet<Vector2Int>> getCurrentStationaryObstacles;
     private bool aggressive = true;
 
+    private void Start()
+    {
+        GetComponent<Rigidbody>().isKinematic = false;
+    }
+
     public void StartPatrolling(Vector2Int patrolPosition, Func<HashSet<Vector2Int>> getCurrentStationaryObstaclesAction)
     {
         spawnPosition = GetPositionAsVector2Int();

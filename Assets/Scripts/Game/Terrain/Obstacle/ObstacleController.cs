@@ -12,11 +12,11 @@ public class ObstacleController : MonoBehaviour
 
 #pragma warning disable IDE0051
     private void Awake()
+#pragma warning restore IDE0051
     {
         // no need for any before/after roll actions right now
         Cube = new(this, 1.0f, () => { }, (_, _, _) => { });
     }
-#pragma warning restore IDE0051
 
     public Vector2Int GetPositionAsVector2Int()
     {

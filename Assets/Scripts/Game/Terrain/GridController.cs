@@ -127,10 +127,15 @@ public class GridController : Singleton<GridController>
 
     public void RemoveTileAtLocation(Vector2Int position)
     {
-        if (IsWithinGrid(position) && gridRows[position.x][position.y].HasTile())
+        RemoveTileAtLocation(position.x, position.y);
+    }
+
+    public void RemoveTileAtLocation(int x, int y)
+    {
+        if (IsWithinGrid(x, y) && gridRows[x][y].HasTile())
         {
-            TileAtLocation(position).GetTile().SetActive(false);
-            gridRows[position.x][position.y] = GridSpace.Empty();
+            TileAtLocation(x, y).GetTile().SetActive(false);
+            gridRows[x][y] = GridSpace.Empty();
         }
     }
 
