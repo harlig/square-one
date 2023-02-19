@@ -60,11 +60,11 @@ public class MainMenuController : MonoBehaviour
         }
         else
         {
-            LevelTransitioner.NextLevel();
+            ToLevelSelector();
         }
     }
 
-    public void ToLevelSelector()
+    private void ToLevelSelector()
     {
         LevelTransitioner.ToLevelSelector();
     }
