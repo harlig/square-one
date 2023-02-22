@@ -33,6 +33,7 @@ public class IceLevelWithHoles1 : LevelManager
         gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 1, OnIceTileSteppedOn);
         gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 2, OnIceTileSteppedOn);
         gridController.SpawnIceTile(gridSizeX - 3, gridSizeY - 2, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(gridSizeX - 4, gridSizeY - 3, OnIceTileSteppedOn);
         gridController.SpawnIceTile(gridSizeX - 1, 3, OnIceTileSteppedOn);
         gridController.SpawnIceTile(gridSizeX - 1, 4, OnIceTileSteppedOn);
         gridController.SpawnIceTilesAroundPosition(gridSizeX - 1, 1, OnIceTileSteppedOn);

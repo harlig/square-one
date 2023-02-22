@@ -212,6 +212,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         playerInstanceGameObject.transform.localPosition = originalPosition;
         Cube.ResetPhysics();
+        currentPosition = GetRawCurrentPosition();
     }
 
     void BeforeRollActions()
@@ -382,6 +383,13 @@ public class PlayerController : Singleton<PlayerController>
     {
         Cube.FinishMovingThenStopMovement();
         forcedStopMoving = true;
+    }
+
+    public void ResetMovement()
+    {
+        StopMoving();
+        ResetPosition();
+        StartMoving();
     }
 
     public void StopMoving()
