@@ -27,11 +27,15 @@ public class LevelStateManager
     private GameState currentState;
     private readonly List<Action> actions;
 
+    // TODO this is against the rules lol
+    public static LevelStateManager Instance { get; private set; }
+
     /*
         Constructor that takes no default parameters
     */
     public LevelStateManager(PlayerController player, GridController grid)
     {
+        Instance = this;
         playerController = player;
         gridController = grid;
 
@@ -149,10 +153,6 @@ public class LevelStateManager
     {
         Vector2Int playerPos = playerController.GetCurrentPosition();
         if (!gridController.IsWithinGrid(playerPos))
-        {
-            TransitionState(GameState.FAILED);
-        }
-        if (playerController.GetHeight() < -1.0f)
         {
             TransitionState(GameState.FAILED);
         }

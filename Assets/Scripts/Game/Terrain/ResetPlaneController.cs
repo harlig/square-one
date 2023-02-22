@@ -11,6 +11,7 @@ public class ResetPlaneController : Singleton<ResetPlaneController>
             other.gameObject.SetActive(false);
             return;
         }
+        LevelStateManager.Instance.SetFailedState();
         other.gameObject.GetComponent<PlayerController>().ResetPosition();
     }
 #pragma warning restore IDE0051
