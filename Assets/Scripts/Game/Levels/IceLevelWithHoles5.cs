@@ -6,16 +6,16 @@ public class IceLevelWithHoles5 : LevelManager
     void Start()
 #pragma warning restore IDE0051
     {
-        gridSizeX = gridSizeY = 6;
-        turnLimit = 30;
+        gridSizeX = gridSizeY = 7;
+        turnLimit = 35;
 
-        SetupLevel(2, 3);
+        SetupLevel();
 
         Waypoint[] waypointsInOrder = new[] {
+            Waypoint.Of(1, 0),
+            Waypoint.Of(gridSizeX-1, 1),
             Waypoint.Of(gridSizeX-2, gridSizeY-1),
-            Waypoint.Of(0, 1),
-            Waypoint.Of(0, gridSizeY-1),
-            Waypoint.Of(gridSizeX-1, 0),
+            Waypoint.Of(1, gridSizeY-2),
             Waypoint.Of(squareOne.x, squareOne.y),
         };
 
@@ -24,16 +24,28 @@ public class IceLevelWithHoles5 : LevelManager
         SetTurnLimit(turnLimit);
         gsm.ManageGameState();
 
-        gridController.SpawnIceTile(2, 1, OnIceTileSteppedOn);
-        gridController.SpawnIceTile(gridSizeX - 1, 1, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(0, 1, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(0, 3, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(0, 4, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(1, gridSizeY - 1, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(3, 1, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(3, 2, OnIceTileSteppedOn);
         gridController.SpawnIceTile(3, 3, OnIceTileSteppedOn);
-        gridController.SpawnIceTile(0, gridSizeY - 2, OnIceTileSteppedOn);
-        gridController.SpawnIceTile(gridSizeX - 1, gridSizeY - 2, OnIceTileSteppedOn);
-        gridController.SpawnIceTile(2, gridSizeY - 1, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(2, 3, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 1, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(gridSizeX - 2, gridSizeY - 2, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(gridSizeX - 3, gridSizeY - 2, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(gridSizeX - 4, gridSizeY - 3, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(gridSizeX - 1, 3, OnIceTileSteppedOn);
+        gridController.SpawnIceTile(gridSizeX - 1, 4, OnIceTileSteppedOn);
+        gridController.SpawnIceTilesAroundPosition(gridSizeX - 1, 1, OnIceTileSteppedOn);
 
-        gridController.RemoveTileAtLocation(1, 2);
-        gridController.RemoveTileAtLocation(3, 2);
-        gridController.RemoveTileAtLocation(1, 4);
-        gridController.RemoveTileAtLocation(3, 4);
+        gridController.RemoveTileAtLocation(new Vector2Int(1, 1));
+        gridController.RemoveTileAtLocation(new Vector2Int(1, 2));
+        gridController.RemoveTileAtLocation(new Vector2Int(2, 1));
+        gridController.RemoveTileAtLocation(new Vector2Int(2, 0));
+        gridController.RemoveTileAtLocation(new Vector2Int(2, 5));
+        gridController.RemoveTileAtLocation(new Vector2Int(5, 4));
+        gridController.RemoveTileAtLocation(new Vector2Int(4, 4));
     }
 }
