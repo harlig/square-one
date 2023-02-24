@@ -36,6 +36,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Game/Ice Level With Holes 3.unity
     guid: 3ad1da5987c1644f98988f0250267046
   - enabled: 1
+    path: Assets/Scenes/Game/Ice Level With Holes 4.unity
+    guid: c8158acf579b74341b328fbd26ac6505
+  - enabled: 1
+    path: Assets/Scenes/Game/Ice Level With Holes 5.unity
+    guid: 3bc8f8e516928458bb02fa1ccebab9bb
+  - enabled: 1
     path: Assets/Scenes/Game/Ice Level 2.unity
     guid: 7fff3d7be1b1b9b4a88bc34af0d59f36
   - enabled: 1
