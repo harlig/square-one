@@ -74,7 +74,7 @@ public abstract class LevelManager : MonoBehaviour
             }
             Debug.LogFormat("Level UI Elements: {0}", levelUIElements);
             levelUIElements.SetPreviousBestStarsText($"Prev best: {starsText}");
-            levelUIElements.EnablePreviousBestStarsText();
+            // levelUIElements.EnablePreviousBestStarsText();
         }
     }
 
